@@ -1,0 +1,193 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Wiki interface</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="jquery.jeditable.js"></script>
+</head>
+	<body>
+		<div class="wrapper">
+			<div class="left">
+				<h1>
+					How to make a Dollar Ninja Star
+				</h1>
+				<iframe width="500" height="315" src="http://www.youtube.com/embed/VmuG6RpPRnc" frameborder="0" allowfullscreen></iframe>
+				<div class="instr">
+					<div id="instr_text">
+						Help create an outline for this video by adding/editing subheadings as you watch
+					</div>
+					<div id="arrow"><img src="arrow.svg" type="image/svg+xml" /></div>
+				</div>
+				<a id="example_link" href="example.html">See an example outline</a>
+			</div>
+			<div class="right">
+				<div class="wiki_wrap">
+					<div class="wiki_head">
+						<span>Outline</span>
+						<button type="button" class="addButton">Add subhead</button>
+					</div>
+					<ul id="sortable">
+					    <li class="movable"><span contenteditable="true" class="sub">Subhead 1</span><button type="button" class="delButton">Delete</button></li>
+					    <li class="frozen">1. Gather materials (2 bills)</li>
+					    <li class="frozen">2. Fold dollar bill in half</li>
+					    <li class="frozen">3. Fold dollar in half again (length-wise)</li>
+					    <li class="frozen">4. Open it up, and fold one end up along center crease</li>
+					    <li class="frozen">5. Fold the other end down following the center crease</li>
+					    <li class="frozen">6. Flip over</li>
+					    <li class="frozen">7. Fold end down next to vertical line</li>
+					    <li class="movable"><span contenteditable="true" class="sub">Subhead 2</span><button type="button" class="delButton">Delete</button></li>
+					    <li class="frozen">8. Do the same to the other side</li>
+					    <li class="frozen">9. Flip over</li>
+					    <li class="frozen">10. Fold remaining flap over</li>
+					    <li class="frozen">11. Fold small outer corner in</li>
+					    <li class="frozen">12. Hide flap behind existing edge</li>
+					    <li class="frozen">13. Repeat with other side</li>
+					    <li class="frozen">14. Fold edges in to center to create rhombus</li>
+					    <li class="frozen">15. Create another one of these</li>
+					    <li class="frozen">16. Put centers on top of each other</li>
+					    <li class="frozen">17. Fold the edges in to the center in succession</li>
+					    <li class="frozen">18. Tuck final edge into flap of the first one you folded</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<style media="screen" type="text/css">
+	body {
+		margin-left: 30px;
+		font-family: Arial;
+		margin-top: 20px;
+	}
+
+	.info_head {
+		font-family: Arial;
+		font-size: 24pt;
+	}
+
+	.info_text {
+		font-family: Arial;
+		font-size: 16 pt;
+		margin-bottom: 10px;
+	}
+
+	.vid {
+		margin-bottom: 20px;
+	}
+
+	.ques {
+		margin: 30px;
+	}
+
+	.left {
+		float: left;
+		width: 500px;
+	}
+
+	.right {
+		/*float: right;*/
+		margin-left: 550px;
+
+	}
+
+	.wiki_wrap {
+		background-color: #D0CFD4;
+		margin-top: 20px;
+		width: 450px;
+		
+	}
+
+	.wiki_head {
+		padding: 10px;
+		font-size: 16pt;
+		margin-bottom: 20px;
+	}
+
+	#sortable { 
+		list-style-type: none; 
+		margin: 0; 
+		padding: 0; 
+		zoom: 1; 
+	}
+  	#sortable li { 
+  		margin: 0 5px 5px 5px; 
+  		padding: 3px; 
+  		width: 90%; }	
+
+  	.movable {
+  		color: white;
+  		font-size: 14pt;
+  		background-color: black;
+  	}
+
+  	.addButton {
+  		float:right;
+  	}
+  	.delButton {
+  		float:right;
+  	}
+
+  	#instr_text {
+  		font-size: 18pt;
+  		margin-left: 30px;
+  		margin-top: 30px;
+  		float: left;
+  		width: 350px;
+  		text-align: right;
+  	}
+
+  	#arrow {
+  		float: right;
+  	}
+
+  	#example_link {
+  		position: relative;
+  		display: block;
+  		margin-top: 10px;
+  		float: left;
+  		margin-left: 150px;
+
+  	}
+
+</style>
+
+<script type="text/javascript">
+	$(function() {
+		enableEvents();
+		
+		$("body").on('click', '.movable', function(e) {
+    		e.preventDefault();
+    		$("#sortable").sortable("destroy");
+    		$(this).children()[0].focus();
+    	});
+
+		$("body").on('click', '.delButton', function(e) {
+			console.log($(this).parent())
+			$($(this).parent()).remove()
+		});
+
+		$("body").on('click', '.addButton', function(e) {
+			e.preventDefault();
+			var text = 'New subhead'
+			var $li = $("<li class='movable'><span contenteditable='true' class='sub'>New subhead</span><button type='button' class='delButton'>Delete</button></li>");
+			$("#sortable").prepend($li);
+    		enableEvents();
+		});
+
+		$("body").on('blur', '.movable', function(e) {
+			$("#sortable").sortable({cancel:".frozen"})
+		})
+
+		$(document).keypress(function(e) {
+		    if(e.which == 13) {
+		        $("#sortable").sortable({cancel:".frozen"})
+		    }
+		});
+  	});
+
+  	function enableEvents() {
+  		$("#sortable").sortable({cancel:".frozen"})
+  	}
+</script>
