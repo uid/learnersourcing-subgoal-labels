@@ -1,0 +1,192 @@
+body {
+	margin: 50px;
+	font-family: tahoma;
+  background-image: url('light_wool.png');
+  background-repeat:repeat;
+}
+
+#video_title {
+  font-size: 18pt;
+  font-weight: normal;
+  margin-top: 40px;
+  color: white;
+  background-color: #646B73;
+  padding: 15px;
+  width: 1000;
+}
+
+#wiki_title {
+  font-size: 14pt;
+}
+
+h2 {
+	font-size: 16pt;
+}
+
+.info_head {
+	font-family: Arial;
+	font-size: 24pt;
+}
+
+.info_text {
+	font-family: Arial;
+	font-size: 16 pt;
+	margin-bottom: 10px;
+}
+
+.vid {
+	margin-bottom: 20px;
+}
+
+.ques {
+	margin: 30px;
+}
+
+.content_wrapper {
+  margin-top: 30px;
+  /*margin-left: 50px;*/
+}
+
+.left {
+	float: left;
+	width: 400px;
+}
+
+.right {
+	margin-left: 500px;
+}
+
+#inp_box {
+  height:150px;
+}
+
+.wiki_wrap {
+  /*border: 1px solid black;*/
+	/*margin-top: 20px;*/
+	width: 400px;	
+  margin-left: 30px;	
+}
+
+.wiki_head {
+	/*padding: 10px;*/
+	font-size: 16pt;
+	margin-bottom: 20px;
+	/*padding-top: 20px;*/
+	padding-bottom: 20px;
+	padding-left: 20px;
+	border-bottom: 1px solid black;
+}
+
+#sortable { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+	zoom: 1; 
+	padding-bottom: 20px;
+}
+
+#sortable li { 
+	margin: 0 5px 5px 5px; 
+	padding: 3px; 
+	width: 95%; 	
+}	
+
+.permButton {
+  float: right;
+}
+
+button {
+	/*background-color: #646B73;*/
+	background: none;
+	color: #646B73;
+	border: none;
+	font-size: 10pt;
+  padding: 8px;
+}
+
+.ppButton {
+  /*margin-left: 5px;*/
+  padding-left: 0px;
+}
+
+.submitButton {
+  /*float: none;*/
+  margin-right: 0px;
+}
+
+.dq_input input {
+	width: 250px;
+}
+
+.q_input {
+	height: 30px;
+	font-size: 12pt;
+}
+
+.movable:hover {
+	cursor: hand;
+}
+
+.frozen:hover {
+	cursor: hand;
+	/*color: #646B73;*/
+	color: white;
+}
+
+button:hover {
+	cursor: hand;
+}
+
+.sub {
+  background-color: #59BDE8;
+  color: white;
+	font-size: 12pt;
+	display: inline-block;
+	width: 67%;
+	padding: 8px;
+	outline: none;
+}
+
+#player {
+  margin-top: 40px;
+}
+
+.frozen {
+	text-indent: -5px;
+  padding-left: 10px;
+  font-size: 10pt;
+  /*padding-left: 1.5em;*/
+  /*text-indent:-1.5em;*/
+}
+
+.submitButton {
+	margin-right: 10px;
+}
+
+.dq_help {
+	margin-top: 40px;
+	width: 400px;
+	/*float: right;*/
+}
+
+.dq_instr {
+	margin-top: 40px;
+	width: 400px;
+}
+
+.dq_help_text {
+	font-size: 18px;
+	color: #59BDE8;
+	padding-top: 60px;
+}
+
+.saveButton {
+	display:none;
+}
+
+.editText {
+  display: inline-block;
+  width: 70%;
+  color: black;
+  font-size: 12pt;
+}
