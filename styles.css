@@ -129,8 +129,8 @@ button {
 
 .frozen:hover {
 	cursor: hand;
-	/*color: #646B73;*/
-	color: white;
+	color: #646B73;
+	/*color: white;*/
 }
 
 button:hover {
