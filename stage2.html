@@ -35,16 +35,24 @@
 						<button type="button" class="solidButton progressButton">Save Outline</button>
 					</div>
 					<div id="inp_box">
-						<div class="dq_input">
+						<div class="dq_input_2">
 							<h2>
-								What was the overall goal of the video section you just watched?
+								Which of the following best describes the video section you just watched?
 							</h2>
 							<p>
-								e.g. Mix the dry ingredients
+								Choose the best answer or add your own.
 							</p>
-							<span><input type="textarea" class="q_input" tabindex=1></span>
-							<button type="button" class="submitButton" tabindex=2>Submit</button><span>
-							<button type="button" class="ppButton" tabindex=3>There wasn't one</button></span>
+							<div class="mult_choice_options">
+								<input type="radio" name="step1" class="q_choice"><label>Option 1</label></input><br>
+								<input type="radio" name="step1" class="q_choice"><label>Option 2</label></input><br>
+								<input type="radio" name="step1" class="q_choice"><label>Option 3</label></input><br>
+								<input type="radio" name="step1" class="q_choice"><label>Option 4</label></input><br>
+								<input type="radio" name="step1" class="q_choice"><input type="text" class="q_input"></input><br>
+								<input type="radio" name="step1" class="q_input">None apply</input><br>
+							</div>
+							<button type="button" class="submitButton" tabindex=2>Submit</button>
+							<button type="button" class="cancelButton" tabindex=2>Cancel</button>
+							<div id="test"></div>
 						</div>
 						<div class="dq_help">
 							<div class="dq_help_text">
@@ -66,8 +74,8 @@
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	<script src="test.js"></script>
-	<script src="stage1_subgoals.js"></script>
-	<script src="stage1_events.js"></script>
+	<script src="test_stage2.js"></script>
+	<script src="stage2_subgoals.js"></script>
+	<script src="stage2_events.js"></script>
 	
 </html>

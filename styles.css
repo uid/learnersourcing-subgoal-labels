@@ -49,7 +49,9 @@ h2 {
 
 .left {
 	float: left;
-	width: 400px;
+	/*width: 420px;*/
+	height: 700px;
+	overflow:scroll;
 }
 
 .right {
@@ -58,7 +60,7 @@ h2 {
 }
 
 #inp_box {
-  height:150px;
+  /*height:150px;*/
 }
 
 .wiki_wrap {
@@ -125,6 +127,10 @@ button {
 	font-size: 12pt;
 }
 
+.q_input_3 {
+
+}
+
 .movable:hover {
 	cursor: hand;
 }
@@ -148,19 +154,19 @@ button:hover {
 
 #player {
   margin-top: 40px;
+  padding-top: 10px;
+  position: relative;
 }
 
 .frozen {
-	text-indent: -5px;
-  padding-left: 10px;
-  font-size: 10pt;
-  /*padding-left: 1.5em;*/
-  /*text-indent:-1.5em;*/
+	text-indent: -25px;
+ 	padding-left: 10px;
+ 	font-size: 10pt;
 }
 
 .frozen:hover {
 	cursor: hand;
-	color: #646B73;
+	color: #59BDE8;
 	/*color: white;*/
 }
 
@@ -182,7 +188,7 @@ button:hover {
 .dq_help_text {
 	font-size: 18px;
 	color: #59BDE8;
-	padding-top: 60px;
+	/*padding-top: 60px;*/
 }
 
 .saveButton {
@@ -194,4 +200,134 @@ button:hover {
   width: 70%;
   color: black;
   font-size: 12pt;
+}
+
+img {
+	width: 700px;
+	text-align: center;
+	margin-left: 150px;
+}
+
+.tutorial_image {
+	padding: 20px;
+}
+
+.title_bar {
+	font-size: 40pt;
+	color: white;
+	background-color: #59BDE8;
+	width: 1000;
+	/*height: 300px;*/
+	margin: 20px;
+	text-align: center;
+	padding: 30px;
+	padding-top: 100px;
+	padding-bottom: 100px;
+}
+
+.sub_info {
+	font-size: 30pt;
+	color: #59BDE8;
+	width: 1000;
+	/*height: 100px;*/
+	margin: 20px;
+	text-align: center;
+	padding: 30px;
+	padding-top: 100px;
+	padding-bottom: 100px;
+}
+
+#help_link {
+	margin-left: 100px;
+}
+
+#help_link:hover {
+	color: #59BDE8;
+	cursor: hand;
+}
+
+#page_title {
+
+}
+
+#page_title:hover {
+	color: #59BDE8;
+	cursor: hand;
+}
+
+.time_marker {
+	padding-right: 5px;
+	color: white;
+	font-weight: bold;
+	/*font-size: 12pt;*/
+}
+
+.q_choice {
+	margin: 5px;
+}
+
+.q_none {
+	margin: 5px;
+}
+
+.q_repeat {
+	margin: 5px;
+}
+
+.ind_step {
+	/*margin: 20px;*/
+	display: inline;
+}
+
+.step_label {
+	/*margin: 20px;*/
+	font-style: bold;
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.sub_label {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	font-size: 16pt;
+	/*margin-left: 20px;*/
+}
+
+.steps_list {
+	margin-bottom: 10px;
+	padding-left: 20px;
+	font-size: 9pt;
+}
+
+.sub_instr {
+	font-style: italic;
+}
+
+.static_box {
+	/*border-color: Navy;*/
+	/*border-width: 2px;*/
+	/*border-style: solid;*/
+	/*margin-bottom: 10px;*/
+}
+
+.sub_label {
+	color: #59BDE8;
+}
+
+.mult_choice_options {
+	margin:15px;
+	margin-top: 25px;
+}
+
+.solidButton {
+	background-color: #646B73;
+	color:white;
+	font-size: 12pt;
+	padding: 10px;
+	border: none;
+}
+
+.solidButton:hover {
+	background-color: #D6D6D6;
+	border: none;
 }

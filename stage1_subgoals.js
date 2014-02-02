@@ -9,7 +9,7 @@ load_video_title(video_data.video_title)
 
 function generate_steps(steps) {
     for (step in steps) {
-        new_step = "<li class='frozen' id='"+step+"'>"+steps[step]+"</li>"
+        new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span>"+steps[step]+"</li>"
         $(".video_steps").append(new_step);
     }
 }
@@ -63,6 +63,8 @@ function pauseVideo() {
 var temp = 0;
 function checkVideo() {
 	var t = Math.floor(player.getCurrentTime());
+	console.log(t)
+	verticalTimeline(t)
 	if (t%30==0 && t != 0 && t-temp>1) {
 		player.pauseVideo();
 		temp = t;
@@ -74,9 +76,22 @@ function checkVideo() {
 	}
 }
 
+function verticalTimeline(t) {
+	num_steps = Object.keys(step_times).length
+	for (i = 1; i < num_steps; i++) {
+		step = 'step'+i
+		if (t==step_times[step]) {
+			$(".time_marker").css("color", "white")
+			$($("#"+step).children()[0]).css("color", "red");
+		}
+	}
+}
+
 function askQuestion(t) {
+	$("#player").hide()
 	ceiling = t
 	floor = t-30.0
+	$(".frozen").css("color", "black")
 	for (step in step_times) {
 		if (step_times[step]<ceiling && step_times[step]>floor) {
 			$("#"+step).css("color", "#59BDE8");
@@ -105,6 +120,7 @@ function submitSubgoal() {
 	$('.q_input').val('');
 	player.playVideo();
 	$('.dq_input').hide();
+	$("#player").show()
 	$('.dq_help').show();
 	setTimeout(checkVideo, 1000);
 }
@@ -123,20 +139,29 @@ $("body").on('click', '.ppButton', function(e) {
 	player.playVideo();
 	$('.dq_input').hide();
 	$('.dq_help').show();
+	$("#player").show()
 	// $('.dq_instr').hide();
 	setTimeout(checkVideo, 1000);
 });
 
 $("body").on('click', '.frozen', function(e) {
-	console.log($(this).attr("id"))
+	// $(this).siblings().css('font-weight', 'normal')
+	// $(this).css('font-weight', 'bold')
 	step = $(this).attr("id")
 	time = video_data.step_times[step]
-	console.log(time)
+
+	$(".frozen").css("color", "black")
+	$(".time_marker").css("color", "white")
+	$($(this).children()[0]).css("color", "red")
+
+	var t = Math.floor(player.getCurrentTime());
+	verticalTimeline(t)
+
 	player.seekTo(time)
 });
 
 $("body").on('click', 'span.sub', function(e) {
-	console.log(this)
+	// console.log(this)
 	el = $($(this).parent()).next()
 	// console.log(this)
 	step = $(el).attr("id")
