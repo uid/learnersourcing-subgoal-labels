@@ -1,0 +1,78 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Video tutorials</title>    
+ 	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/styles.css' %}" />
+</head>
+	<body>
+		<div class="wrapper">
+			<div id="toolbar">
+				<span id="page_title">
+					< All tutorial videos
+				</span>
+				<span id="help_link">
+					How to use this site
+				</span>
+			</div>
+			<h1 id="video_title">
+
+			</h1>
+			<div class="content_wrapper">
+				<div class="left">
+					<div class="wiki_wrap">
+						<div class="wiki_head">
+							<span id="wiki_title">Wiki Video Outline</span>
+							<button type="button" class="addButton permButton">Add section title</button>
+						</div>
+						<ul id="sortable" class="video_steps">
+
+						</ul>
+					</div>
+				</div>
+
+				<div class="right">
+					<div id="save_progress">
+						<button type="button" class="solidButton progressButton">Save Outline</button>
+					</div>
+					<div id="inp_box">
+						<div class="dq_input_2">
+							<h2>
+								Which of the following best describes the video section you just watched?
+							</h2>
+							<p>
+								Choose the best answer or add your own.
+							</p>
+							<div class="mult_choice_options">
+								<input type="radio" name="step1" class="q_choice"><label>Option 1</label></input><br>
+								<input type="radio" name="step1" class="q_choice"><label>Option 2</label></input><br>
+								<input type="radio" name="step1" class="q_choice"><label>Option 3</label></input><br>
+								<input type="radio" name="step1" class="q_choice"><label>Option 4</label></input><br>
+								<input type="radio" name="step1" class="q_choice"><input type="text" class="q_input"></input><br>
+								<input type="radio" name="step1" class="q_input">None apply</input><br>
+							</div>
+							<button type="button" class="submitButton" tabindex=2>Submit</button>
+							<button type="button" class="cancelButton" tabindex=2>Cancel</button>
+							<div id="test"></div>
+						</div>
+						<div class="dq_help">
+							<div class="dq_help_text">
+								Feel free to edit or move around the section titles if they don't look right.
+							</div>
+						</div>
+						<div class="dq_instr">
+							<div class="dq_help_text">
+								Periodically throughout this video, you'll be asked to summarize what you just watched.
+							</div>
+						</div>
+					</div>
+					<div id="player"></div>
+				</div>
+			</div>
+		</div>
+
+		
+	</body>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+</html>

@@ -1,0 +1,92 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Video tutorials</title>    
+ 	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/styles.css' %}" />
+</head>
+	<body>
+		<div class="wrapper">
+			<div id="toolbar">
+				<span id="page_title">
+					< All tutorial videos
+				</span>
+				<span id="help_link">
+					How to use this site
+				</span>
+			</div>
+			<h1 id="video_title">
+
+			</h1>
+			<div class="content_wrapper">
+				<div class="left">
+					<div class="wiki_wrap">
+						<div class="wiki_head">
+							<span id="wiki_title">Wiki Video Outline</span>
+							<button type="button" class="addButton permButton">Add section title</button>
+						</div>
+						<ul id="sortable" class="video_steps">
+
+						</ul>
+					</div>
+				</div>
+
+				<div class="right">
+					<div id="save_progress">
+						<button type="button" class="solidButton progressButton">Save Outline</button>
+					</div>
+					<div id="inp_box">
+						<div class="dq_input_3">
+							<h2>
+								Does the below section title accurately summarize the steps?
+							</h2>
+<!-- 							<p class="sub_instr">
+								Feel free to add your own or decide that none apply. Subheadings for the wiki outline should be consistent!
+							</p>
+							<p class="sub_instr">
+								The subheading should be actionable, i.e. "Mix the dry ingredients" instead of "Dry ingredients".
+							</p> -->
+							<div class="static_box">
+								<p class="sub_label">
+
+								</p>
+								<div class="steps_list">
+									<!-- <div>HELLO!!</div> -->
+									<!-- <div>WEEEEEE</div> -->
+								</div>
+							</div>
+							<div class="mult_choice_options">
+								<!-- <div>HELLO!!</div> -->
+								<!-- <div>WEEEEEE</div> -->
+							</div>
+							
+							<button type="button" class="submitButton" tabindex=2>Submit</button>
+							<button type="button" class="cancelButton" tabindex=2>Cancel</button>
+							<div id="test"></div>
+						</div>
+						<div class="dq_help">
+							<div class="dq_help_text">
+								Feel free to edit or move around the section titles if they don't look right.
+							</div>
+						</div>
+						<div class="dq_instr">
+							<div class="dq_help_text">
+								Periodically throughout this video, you'll be asked to summarize what you just watched.
+							</div>
+						</div>
+					</div>
+					<div id="player"></div>
+				</div>
+			</div>
+		</div>
+
+		
+	</body>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script src="{% static 'subgoal/js/test_stage3.js' %}"></script>
+	<script src="{% static 'subgoal/js/stage3_subgoals.js' %}"></script>
+	<script src="{% static 'subgoal/js/stage3_events.js' %}"></script>	
+
+	
+</html>
