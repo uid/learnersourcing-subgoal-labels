@@ -208,6 +208,13 @@ img {
 	margin-left: 150px;
 }
 
+img.video_thumb {
+	width: 120px;
+	margin-left: 15px;
+	/*text-align: center;*/
+	float: left;
+}
+
 .tutorial_image {
 	padding: 20px;
 }
@@ -330,4 +337,58 @@ img {
 .solidButton:hover {
 	background-color: #D6D6D6;
 	border: none;
+}
+
+#splash_page_title {
+	font-size: 24pt;
+	color: #59BDE8;
+	padding-bottom: 50px;
+}
+
+.splash_page_subtitle {
+	font-size: 18pt;
+	/*margin-top: 20px;*/
+	/*margin-bottom: 20px;*/
+	/*width: 500px;*/
+	/*position: absolute;*/
+	/*display: block;*/
+	clear:left;
+	color: #646B73;
+}
+
+.video_link {
+	float: left;
+	margin: 20px;
+	/*background-color: gray;*/
+	/*padding: 20px;*/
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	color: #59BDE8;
+}
+
+.video_link_title {
+	margin-bottom: 10px;
+}
+
+.videos_wrapper {
+	width: 700px;
+}
+
+.video_link_description {
+	font-size: 10pt;
+	margin-left: 15px;
+	/*text-align: center;*/
+}
+
+.video_link_length {
+	font-size: 10pt;
+	margin-left: 15px;
+	margin-bottom: 10px;
+	/*text-align: center;*/
+
 }
