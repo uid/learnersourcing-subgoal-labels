@@ -1,0 +1,312 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Directed Questions</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="jquery.jeditable.js"></script>
+</head>
+	<body>
+		<div class="wrapper">
+			<div class="left">
+				<h1>
+					Pizza Margherita- Italian recipe
+				</h1>
+				<div id="player"></div>
+				<div class="dq_input">
+					<h2>
+						What was the overall goal of the video section you just watched?
+					</h2>
+					<p>
+						e.g. Mix the dry ingredients
+					</p>
+					<span><input type="text" class="q_input"></span>
+					<span><button type="button" class="submitButton">Submit</button></span>
+					<button type="button" class="ppButton">There wasn't one</button>
+					<div id="test"></div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="wiki_wrap">
+					<div class="wiki_head">
+						<span>Study guide</span>
+						<button type="button" class="addButton">Add subhead</button>
+					</div>
+					<ul id="sortable">
+					    <li class="frozen" id="step1">1. Gather ingredients</li>
+					    <li class="frozen" id="step2">2. Cut mozzarella into cubes</li>
+					    <li class="frozen" id="step3">3. Season the puree</li>
+					    <li class="frozen" id="step4">4. Add a bit of olive oil to the puree</li>
+					    <li class="frozen" id="step5">5. Add a pinch of salt</li>
+					    <li class="frozen" id="step6">6. Stir together</li>
+					    <li class="frozen" id="step7">7. Spread a bit of oil over the pan</li>
+					    <li class="frozen" id="step8">8. Take a quarter of pizza dough</li>
+					    <li class="frozen" id="step9">9. Form a ball</li>
+					    <li class="frozen" id="step10">10. Spread dough evenly onto pan</li>
+					    <li class="frozen" id="step11">11. Add puree sauce</li>
+					    <li class="frozen" id="step12">12. Add mozzarella</li>
+					    <li class="frozen" id="step13">13. Optionally, add a turn of olive oil on top</li>
+					    <li class="frozen" id="step14">14. Bake pizza 15-20 minutes at 400F</li>
+					    <li class="frozen" id="step15">15. Lay a few basil leaves in the center of the pizza</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		
+	</body>
+</html>
+
+<style media="screen" type="text/css">
+	body {
+		margin-left: 30px;
+		font-family: Arial;
+		margin-top: 20px;
+	}
+
+	h2 {
+		font-size: 16pt;
+	}
+
+	.info_head {
+		font-family: Arial;
+		font-size: 24pt;
+	}
+
+	.info_text {
+		font-family: Arial;
+		font-size: 16 pt;
+		margin-bottom: 10px;
+	}
+
+	.vid {
+		margin-bottom: 20px;
+	}
+
+	.ques {
+		margin: 30px;
+	}
+
+	.left {
+		float: left;
+		width: 500px;
+	}
+
+	.right {
+		/*float: right;*/
+		margin-left: 550px;
+
+	}
+
+	.wiki_wrap {
+		background-color: #D0CFD4;
+		margin-top: 20px;
+		width: 400px;
+		
+	}
+
+	.wiki_head {
+		padding: 10px;
+		font-size: 16pt;
+		margin-bottom: 20px;
+	}
+
+	#sortable { 
+		list-style-type: none; 
+		margin: 0; 
+		padding: 0; 
+		zoom: 1; }
+  	#sortable li { 
+  		margin: 0 5px 5px 5px; 
+  		padding: 3px; 
+  		width: 90%; }	
+
+  	.movable {
+  		color: white;
+  		font-size: 14pt;
+  		background-color: black;
+  	}
+
+  	.addButton {
+  		float:right;
+  	}
+  	.delButton {
+  		float:right;
+  	}
+
+  	.dq_input input {
+  		width: 250px;
+  	}
+
+</style>
+
+<script>
+	
+	step_times = {
+		"step0" : 0.0,
+		"step1" : 31.0,
+		"step2" : 62.0,
+		"step3" : 66.0,
+		"step4" : 78.0,
+		"step5" : 83.0,
+		"step6" : 86.0,
+		"step7" : 91.0,
+		"step8" : 97.0,
+		"step9" : 103.0,
+		"step10" : 109.0,
+		"step11" : 118.0,
+		"step12" : 137.0,
+		"step13" : 154.0,
+		"step14" : 161.0,
+		"step15" : 178.0
+	}
+
+
+	var tag = document.createElement('script');
+  	tag.src = "http://www.youtube.com/iframe_api";
+  	var firstScriptTag = document.getElementsByTagName('script')[0];
+  	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  	// 3. This function creates an <iframe> (and YouTube player)
+  	//    after the API code downloads.
+  	var player;
+  	function onYouTubeIframeAPIReady() {
+	    player = new YT.Player('player', {
+	    	width: '500',
+	    	height: '315',
+	    	videoId: 'G-TmVtU1Fx8',
+	        enablejsapi: '1',
+	        events: {
+	          'onReady': onPlayerReady,
+	          'onStateChange': onPlayerStateChange
+	        }
+	    });
+	}
+
+	function onPlayerReady(event) {
+        event.target.playVideo();
+        checkVideo();
+    }
+
+    var stop_time = false;
+    function onPlayerStateChange(event) {
+       	// if (event.data == YT.PlayerState.PLAYING && !done) {
+        // 	// if (player.getCurrentTime()%3000 == 0) {
+        // 	// 	console.log("WE REACHED ONE")
+        // 	// }
+        // }
+        setTimeout(checkVideo, 1000);
+    }
+
+    function stopVideo() {
+    	player.stopVideo();
+    }
+
+    function pauseVideo() {
+    	player.pauseVideo();
+    }
+
+    function checkVideo() {
+    	var t = Math.floor(player.getCurrentTime());
+    	// console.log("CHECKING VIDEO")
+    	if (t%30==0 && t != 0) {
+    		player.pauseVideo();
+    		askQuestion();
+    	} else if (player.getPlayerState()==0) {
+    		askQuestion();
+    	} else {
+    		setTimeout(checkVideo, 1000);
+    	}
+    }
+
+    function askQuestion() {
+    	$('.dq_input').show();
+    }
+
+    function placeSubtitle(subtitle, time) {
+    	for (var i = 0; i < Object.keys(step_times).length - 1; i++) {
+    		if (time > step_times[Object.keys(step_times)[i]] && time < step_times[Object.keys(step_times)[i+1]]) {
+    			$('#'+Object.keys(step_times)[i+1]).before($(subtitle))
+    		}
+    	}
+    }
+
+    $("body").on('click', '.submitButton', function(e) {
+		var inp_text = $('.q_input').val();
+		var $li = $("<li class='movable'><span class='sub'>"+inp_text+"</span><button type='button' class='delButton'>Delete</button></li>");
+		placeSubtitle($li, player.getCurrentTime())
+		// $("#sortable").prepend($li);
+		$('.q_input').val('');
+		// console.log("WEEEE")
+		player.playVideo();
+		$('.dq_input').hide();
+		setTimeout(checkVideo, 1000);
+
+	});
+
+	$("body").on('click', '.ppButton', function(e) {
+		player.playVideo();
+		$('.dq_input').hide();
+		setTimeout(checkVideo, 1000);
+	});
+
+   	$(document).ready(function() {
+     	
+
+		$('.dq_input').hide();
+
+     	
+		
+    });
+</script>
+
+<script type="text/javascript">
+	$(function() {
+    	// $(".movable").mousedown(function(e) {
+    	// 	e.preventDefault();
+    	// 	$("#sortable").sortable({
+     //  			cancel: ".frozen"
+     //  		});
+    	// });
+		enableEvents();
+		
+    	// $(".movable").click(function(e) {
+    	// 	e.preventDefault();
+    	// 	$("#sortable").sortable("destroy");
+    	// });
+
+		// $(".editButton").click(function() {
+		// 	$("#sortable").sortable("destroy");
+		// 	var subHtml = $($(this).siblings()[0]).text()
+		// 	var editableElement = $("<textarea />")
+		// 	editableElement.val(subHtml)
+		// 	$($(this).siblings()[0]).replaceWith(editableElement)
+		// });
+
+		$("body").on('click', '.delButton', function(e) {
+			$($(this).parent()).remove()
+		});
+
+		$("body").on('click', '.addButton', function(e) {
+			e.preventDefault();
+			var text = 'New subtitle'
+			var $li = $("<li class='movable'><span class='sub'>New subtitle</span><button type='button' class='delButton'>Delete</button></li>");
+			$("#sortable").prepend($li);
+    		enableEvents();
+		});
+
+		
+
+		
+  	});
+
+  	function enableEvents() {
+  		$("#sortable").sortable({cancel:".frozen"})
+  		$('.sub').editable(function(value, settings) {
+			return(value);
+		}, {
+			type: 'textarea',
+			submit : 'OK',
+		});
+  	}
+</script>

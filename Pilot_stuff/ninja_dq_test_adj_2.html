@@ -1,0 +1,446 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Directed Questions</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> -->
+ 	<!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script> -->
+</head>
+	<body>
+		<div class="wrapper">
+			<div class="left">
+				<h1>
+					How to make a Dollar Ninja Star
+				</h1>
+				<div id="player"></div>
+				<div class="dq_input">
+					<h2>
+						What was the overall goal of the video section you just watched?
+					</h2>
+					<p>
+						e.g. Mix the dry ingredients
+					</p>
+					<span><input type="text" class="q_input" tabindex=1></span>
+					<span><button type="button" class="ppButton" tabindex=3>There wasn't one</button></span>
+					<button type="button" class="submitButton" tabindex=2>Submit</button>
+					<div id="test"></div>
+				</div>
+				<div class="dq_help">
+					<div class="dq_help_text">
+						Feel free to edit or move around the subheadings if they don't look right.
+					</div>
+				</div>
+				<div class="dq_instr">
+					<div class="dq_help_text">
+						Periodically throughout this video, you'll be asked to summarize what you just watched.
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="wiki_wrap">
+					<div class="wiki_head">
+						<span>Video Outline</span>
+						<button type="button" class="addButton">Add subhead</button>
+					</div>
+					<ul id="sortable">
+					    <li class="frozen" id="step1">1. Gather materials (2 bills)</li>
+					    <li class="frozen" id="step2">2. Fold dollar bill in half</li>
+					    <li class="frozen" id="step3">3. Fold dollar in half again (length-wise)</li>
+					    <li class="frozen" id="step4">4. Open it up, and fold one end up along center crease</li>
+					    <li class="frozen" id="step5">5. Fold the other end down following the center crease</li>
+					    <li class="frozen" id="step6">6. Flip over</li>
+					    <li class="frozen" id="step7">7. Fold end down next to vertical line</li>
+					    <li class="frozen" id="step8">8. Do the same to the other side</li>
+					    <li class="frozen" id="step9">9. Flip over</li>
+					    <li class="frozen" id="step10">10. Fold remaining flap over</li>
+					    <li class="frozen" id="step11">11. Fold small outer corner in</li>
+					    <li class="frozen" id="step12">12. Hide flap behind existing edge</li>
+					    <li class="frozen" id="step13">13. Repeat with other side</li>
+					    <li class="frozen" id="step14">14. Fold edges in to center to create rhombus</li>
+					    <li class="frozen" id="step15">15. Create another one of these</li>
+					    <li class="frozen" id="step16">16. Put centers on top of each other</li>
+					    <li class="frozen" id="step17">17. Fold the edges in to the center in succession</li>
+					    <li class="frozen" id="step18">18. Tuck final edge into flap of the first one you folded</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		
+	</body>
+</html>
+
+<style media="screen" type="text/css">
+	body {
+		margin-left: 30px;
+		font-family: Arial;
+		margin-top: 20px;
+	}
+
+	h2 {
+		font-size: 16pt;
+	}
+
+	.info_head {
+		font-family: Arial;
+		font-size: 24pt;
+	}
+
+	.info_text {
+		font-family: Arial;
+		font-size: 16 pt;
+		margin-bottom: 10px;
+	}
+
+	.vid {
+		margin-bottom: 20px;
+	}
+
+	.ques {
+		margin: 30px;
+	}
+
+	.left {
+		float: left;
+		width: 500px;
+	}
+
+	.right {
+		/*float: right;*/
+		margin-left: 550px;
+
+	}
+
+	.wiki_wrap {
+		/*background-color: #D0CFD4;*/
+		background-color: #E6EDFC;
+		margin-top: 20px;
+		width: 500px;		
+	}
+
+	.wiki_head {
+		padding: 10px;
+		font-size: 16pt;
+		margin-bottom: 20px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		padding-left: 20px;
+		border-bottom: 2px solid black;
+	}
+
+	#sortable { 
+		list-style-type: none; 
+		margin: 0; 
+		padding: 0; 
+		zoom: 1; 
+		padding-bottom: 20px;
+	}
+
+  	#sortable li { 
+  		margin: 0 5px 5px 5px; 
+  		padding: 3px; 
+  		width: 95%; 
+  		
+  	}	
+
+/*  	.movable {
+  		color: black;
+  		background-color: #7B7A7D;
+  		height: 30px;
+  	}*/
+
+  	.subhead {
+  		color: black;
+  		background-color: #7B7A7D;
+  		height: 30px;
+  	}
+
+  	.addButton {
+  		float:right;
+  		background-color: black;
+  		color: white;
+  		border: none;
+  		font-size: 12pt;
+  	}
+
+  	button {
+  		float:right;
+  		background-color: black;
+  		color: white;
+  		border: none;
+  		font-size: 12pt;
+  	}
+
+  	.delButton {
+  		float:right;
+  		background-color: black;
+  		color: white;
+  		border: none;
+  		font-size: 12pt;
+  		/*margin-top: 12px;*/
+  	}
+
+  	.dq_input input {
+  		width: 250px;
+  	}
+
+  	.movable:hover {
+  		cursor: hand;
+  	}
+
+  	.sub:hover {
+  		/*cursor: text;*/
+  	}
+
+  	.sub {
+
+  		/*border: 1px solid black;*/
+  		/*background-color: white;*/
+  		
+  		border-width: 1px;
+  		border-style: dotted;
+  		border-color: gray;
+  		/*border: 1px dotted gray;*/
+  		background-color: #E6E6E6;
+
+  		font-size: 12pt;
+  		/*margin-top: 10px;*/
+  		display: inline-block;
+  		width: 70%;
+  		/*height: 20px;*/
+  		padding: 4px;
+  		/*margin-top: 10px;*/
+  		/*padding-left: 8px;*/
+  		box-shadow: none !important;
+  		outline: none;
+  	}
+
+  	.frozen {
+  		text-indent: 20px;
+  	}
+
+  	.submitButton {
+  		margin-right: 10px;
+  	}
+
+  	.dq_help {
+  		margin-top: 40px;
+  		width: 400px;
+  		float: right;
+  	}
+
+  	.dq_instr {
+  		margin-top: 40px;
+  		width: 400px;
+  		float: right;
+  	}
+
+  	.dq_help_text {
+  		font-size: 20px;
+  		color: #1F57DB;
+  	}
+
+  	.saveButton {
+  		display:none;
+  	}
+
+</style>
+
+<script>
+	
+	step_times = {
+		"step0" : 0.0,
+		"step1" : 6.0,
+		"step2" : 16.0,
+		"step3" : 26.0,
+		"step4" : 38.0,
+		"step5" : 48.0,
+		"step6" : 59.0,
+		"step7" : 62.0,
+		"step8" : 72.0,
+		"step9" : 89.0,
+		"step10" : 94.0,
+		"step11" : 100.0,
+		"step12" : 108.0,
+		"step13" : 116.0,
+		"step14" : 139.0,
+		"step15" : 145.0,
+		"step16" : 152.0,
+		"step17" : 156.0,
+		"step18" : 166.0
+	}
+
+
+	var tag = document.createElement('script');
+  	tag.src = "http://www.youtube.com/iframe_api";
+  	var firstScriptTag = document.getElementsByTagName('script')[0];
+  	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  	// 3. This function creates an <iframe> (and YouTube player)
+  	//    after the API code downloads.
+  	var player;
+  	function onYouTubeIframeAPIReady() {
+	    player = new YT.Player('player', {
+	    	width: '500',
+	    	height: '315',
+	    	videoId: 'VmuG6RpPRnc',
+	        enablejsapi: '1',
+	        events: {
+	          'onReady': onPlayerReady,
+	          'onStateChange': onPlayerStateChange
+	        }
+	    });
+	}
+
+	function onPlayerReady(event) {
+        event.target.playVideo();
+        checkVideo();
+    }
+
+    var stop_time = false;
+    function onPlayerStateChange(event) {
+        setTimeout(checkVideo, 1000);
+    }
+
+    function stopVideo() {
+    	player.stopVideo();
+    }
+
+    function pauseVideo() {
+    	player.pauseVideo();
+    }
+
+    var temp = 0;
+    function checkVideo() {
+    	var t = Math.floor(player.getCurrentTime());
+    	if (t%30==0 && t != 0 && t-temp>1) {
+    		player.pauseVideo();
+			temp = t;
+			askQuestion();
+    	} else if (player.getPlayerState()==0) {
+    		askQuestion();
+    	} else {
+    		setTimeout(checkVideo, 1000);
+    	}
+    }
+
+    function askQuestion() {
+    	$('.dq_input').show();
+    	$('.dq_help').hide();
+    	$('.dq_instr').hide();
+    }
+
+    function placeSubtitle(subtitle, time) {
+    	// console.log(time)
+    	for (var i = 0; i < Object.keys(step_times).length - 1; i++) {
+    		if (time > step_times[Object.keys(step_times)[i]] && time < step_times[Object.keys(step_times)[i+1]]) {
+    			$('#'+Object.keys(step_times)[i+1]).before($(subtitle))
+    		}
+    	}
+    }
+
+    function submitSubgoal() {
+    	console.log("submit clicked")
+		var inp_text = $('.q_input').val();
+		var $li = $("<li class='movable'><span contenteditable='true' class='sub'>"+inp_text+"</span><button type='button' class='delButton'>Delete</button><button type='button' class='editButton'>Edit</button><button type='button' class='saveButton'>Save</button></li>");
+		time = player.getCurrentTime()-30;
+		// console.log(time)
+		placeSubtitle($li, time)
+		// $("#sortable").prepend($li);
+		$('.q_input').val('');
+		// console.log("WEEEE")
+		player.playVideo();
+		$('.dq_input').hide();
+		$('.dq_help').show();
+		setTimeout(checkVideo, 1000);
+    }
+
+	$("body").on('keypress', '.q_input', function(e) {
+		if (e.which == 13) {
+			submitSubgoal();
+		}
+	});	
+
+    $("body").on('click', '.submitButton', function(e) {
+    	submitSubgoal();
+	});
+
+	$("body").on('click', '.ppButton', function(e) {
+		player.playVideo();
+		$('.dq_input').hide();
+		$('.dq_help').show();
+		// $('.dq_instr').hide();
+		setTimeout(checkVideo, 1000);
+	});
+
+   	$(document).ready(function() {
+		$('.dq_input').hide();
+		$('.dq_help').hide();
+    });
+</script>
+
+<script type="text/javascript">
+	$(function() {
+		enableEvents();
+		
+		$("body").on('click', '.movable', function(e) {
+    		e.preventDefault();
+    		$("#sortable").sortable("destroy");
+    		$(this).children()[0].focus();
+    		// $(this).select();
+    	});
+
+		$("body").on('blur', '.movable', function(e) {
+			$("#sortable").sortable({cancel:".frozen"})
+		})
+
+		$(document).keypress(function(e) {
+		    if(e.which == 13) {
+		        $("#sortable").sortable({cancel:".frozen"})
+		    }
+		});
+
+		$("body").on('click', '.delButton', function(e) {
+			$($(this).parent()).remove()
+		});
+
+		$("body").on('click', '.editButton', function(e) {
+			console.log("edit clicked")
+			// console.log($(this).siblings())
+
+			$($(this).siblings()[0]).css('background-color', 'white');
+			$($(this).siblings()[0]).css('border-style', 'solid');
+			$($(this).siblings()[0]).css('border-color', 'black');
+
+			$($(this).parent()).trigger('click')
+    		$(this).toggle();
+    		$($(this).siblings()[2]).toggle();
+		});
+
+		$("body").on('click', '.saveButton', function(e) {
+			console.log("save clicked")
+
+			$($(this).siblings()[0]).css('background-color', '#E6E6E6');
+			$($(this).siblings()[0]).css('border-style', 'dotted');
+			$($(this).siblings()[0]).css('border-color', 'gray');
+
+			//THIS ISN'T WORKING :( :( :(
+			$($(this).parent()).trigger('blur')
+    		$(this).toggle();
+    		$($(this).siblings()[2]).toggle();
+		});
+
+		$("body").on('click', '.addButton', function(e) {
+			e.preventDefault();
+			var text = 'New subtitle'
+			var $li = $("<li class='movable'><span contenteditable='true' class='sub'>New subhead</span><button type='button' class='delButton'>Delete</button><button type='button' class='editButton'>Edit</button><button type='button' class='saveButton'>Save</button></li>");
+			$("#sortable").prepend($li);
+    		enableEvents();
+		});	
+  	});
+
+  	function enableEvents() {
+  		$("#sortable").sortable({cancel:".frozen"})
+  	}
+</script>
