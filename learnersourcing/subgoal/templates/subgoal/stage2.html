@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Video tutorials</title>    
-	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/styles.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
 </head>
 	<body>
 		<div class="wrapper">
@@ -34,9 +34,9 @@
 				</div>
 
 				<div class="right">
-					<div id="save_progress">
+<!-- 					<div id="save_progress">
 						<button type="button" class="solidButton progressButton">Save Outline</button>
-					</div>
+					</div> -->
 					<div id="inp_box">
 						<div class="dq_input_2">
 							<h2>
@@ -50,7 +50,7 @@
 								<input type="radio" name="step1" class="q_choice"><label>Option 2</label></input><br>
 								<input type="radio" name="step1" class="q_choice"><label>Option 3</label></input><br>
 								<input type="radio" name="step1" class="q_choice"><label>Option 4</label></input><br>
-								<input type="radio" name="step1" class="q_choice"><input type="text" class="q_input"></input><br>
+								<input type="radio" name="step1" class="q_choice">I have a better answer: <input type="text" class="q_input"></input><br>
 								<input type="radio" name="step1" class="q_input">None apply</input><br>
 							</div>
 							<button type="button" class="submitButton" tabindex=2>Submit</button>
@@ -77,4 +77,17 @@
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script src="{% static 'subgoal/js/test_stage2.js' %}"></script>
+ 	<script>
+		var video_json = JSON.stringify({{video|safe}});
+		var video = JSON.parse(video_json)[0];
+		console.log(video, video["title"], video["id"]);
+		// load_video_title(video_data.video_title)
+		var step_times = video_data.step_times;
+		var youtube_id = video["youtube_id"];
+		// video_id = video_data.video_id		
+ 	</script>
+
+	<script src="{% static 'subgoal/js/stage2_subgoals.js' %}"></script>
+	<script src="{% static 'subgoal/js/stage1_events.js' %}"></script> 	
 </html>

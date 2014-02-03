@@ -3,7 +3,7 @@
 // });
 
 generate_steps(video_data.video_steps)
-load_video_title(video_data.video_title)
+load_video_title(video["title"])
 add_subgoals(video_data.subgoals)
 pre_groups = group_subgoals(video_data.subgoals, video_data.video_steps)
 subgoal_groups = pre_groups[0]
@@ -48,7 +48,12 @@ function generate_steps(steps) {
 
 function add_subgoals(subgoals) {
 	for (sub in subgoals) {
-		new_subgoal = "<li class='movable'><span contenteditable='true' class='sub "+sub+"'>"+subgoals[sub]['text']+"</span><button type='button' class='editButton'>Edit</button><button type='button' class='saveButton'>Save</button><button type='button' class='delButton'>Delete</button></li>"
+		new_subgoal = "<li class='movable'><span contenteditable='true' class='sub "+sub+"'>"+
+			subgoals[sub]['text'] + "</span>" + 
+			"<button type='button' class='delButton permButton'>Delete</button>" +
+			"<button type='button' class='editButton permButton'>Edit</button>" +
+			"<button type='button' class='saveButton permButton'>Save</button>" +
+			"</li>"
 		first_step = subgoals[sub]['steps'][0]
 		$("#"+first_step).before(new_subgoal)
 		// console.log(subgoals[sub]['steps'][0])
@@ -72,7 +77,7 @@ var tag = document.createElement('script');
     player = new YT.Player('player', {
     	width: '500',
     	height: '315',
-    	videoId: video_id,
+    	videoId: youtube_id,
         enablejsapi: '1',
         events: {
           'onReady': onPlayerReady,

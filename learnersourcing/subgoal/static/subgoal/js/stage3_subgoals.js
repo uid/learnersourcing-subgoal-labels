@@ -3,7 +3,7 @@
 // });
 
 generate_steps(video_data.video_steps)
-load_video_title(video_data.video_title)
+load_video_title(video["title"])
 add_subgoals(video_data.subgoals)
 subgoals = video_data.subgoals
 pre_groups = group_subgoals(video_data.subgoals, video_data.video_steps)
@@ -75,7 +75,7 @@ var tag = document.createElement('script');
     player = new YT.Player('player', {
     	width: '500',
     	height: '315',
-    	videoId: video_id,
+    	videoId: youtube_id,
         enablejsapi: '1',
         events: {
           'onReady': onPlayerReady,

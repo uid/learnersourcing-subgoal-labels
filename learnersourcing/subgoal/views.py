@@ -55,7 +55,21 @@ def stage2(request, video_id):
 
 def stage3(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
-	return render(request, 'subgoal/stage3.html', {'video': video})
+	subgoals = Subgoal.objects.filter(video=video_id)
+	steps = Step.objects.filter(video=video_id)
+	print unicode(len(subgoals)) + " subgoals: "
+	print subgoals
+	print unicode(len(steps)) + " steps: "
+	print steps
+	return render(
+		request, 
+		'subgoal/stage3.html', 
+		{
+			'video': model_to_json([video]),
+			'subgoals': model_to_json(subgoals),
+			'steps': model_to_json(steps)
+		}
+	)
 
 
 def subgoal_create(request):
