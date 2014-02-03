@@ -6,7 +6,7 @@ from subgoal.models import Video, Step, Subgoal, Learner
 from django.db import IntegrityError
 
 def index(request):
-    return HttpResponse("splash page.")
+    return render(request, "subgoal/splash_page.html")
 
 
 def stage1(request, video_id):
