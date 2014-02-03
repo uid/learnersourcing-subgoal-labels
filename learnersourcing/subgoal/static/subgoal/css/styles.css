@@ -1,7 +1,7 @@
 body {
 	margin: 50px;
 	font-family: tahoma;
-  background-image: url('light_wool.png');
+  background-image: url('../img/light_wool.png');
   background-repeat:repeat;
 }
 
@@ -359,10 +359,14 @@ img.video_thumb {
 .video_link {
 	float: left;
 	margin: 20px;
-	width: 250px;
+	width: 240px;
 	position:relative;
 	/*background-color: gray;*/
-	/*padding: 20px;*/
+	padding: 10px;
+}
+
+.video_link:hover {
+	background-color: #D6D6D6;
 }
 
 a {
@@ -378,7 +382,7 @@ a:hover {
 }
 
 .videos_wrapper {
-	width: 900px;
+	width: 1000px;
 }
 
 .video_link_description {
