@@ -1,8 +1,10 @@
+{% load staticfiles %}
+{% csrf_token %}
+
 <html>
 <head>
     <meta charset="utf-8" />
     <title>Video tutorials</title>    
-	{% load staticfiles %}
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
 </head>
 
@@ -17,9 +19,7 @@
 					How to use this site
 				</span>
 			</div>
-			<h1 id="video_title">
-
-			</h1>
+			<h1 id="video_title"></h1>
 			<div class="content_wrapper">
 				<div class="left">
 					<div class="wiki_wrap">
@@ -34,16 +34,16 @@
 				</div>
 
 				<div class="right">
-					<div id="save_progress">
+					<!-- <div id="save_progress">
 						<button type="button" class="solidButton progressButton">Save Outline</button>
-					</div>
+					</div> -->
 					<div id="inp_box">
 						<div class="dq_input">
 							<h2>
 								What was the overall goal of the video section you just watched?
 							</h2>
 							<p>
-								e.g. Mix the dry ingredients
+								e.g., Mix the dry ingredients
 							</p>
 							<span><input type="textarea" class="q_input" tabindex=1></span>
 							<button type="button" class="submitButton" tabindex=2>Submit</button><span>
@@ -70,6 +70,16 @@
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<script src="{% static 'subgoal/js/test.js' %}"></script>
+ 	<script>
+		var video_json = JSON.stringify({{video|safe}});
+		var video = JSON.parse(video_json)[0];
+		console.log(video, video["title"], video["id"]);
+		// load_video_title(video_data.video_title)
+		var step_times = video_data.step_times;
+		var youtube_id = video["youtube_id"];
+		// video_id = video_data.video_id		
+ 	</script>
+
 	<script src="{% static 'subgoal/js/stage1_subgoals.js' %}"></script>
 	<script src="{% static 'subgoal/js/stage1_events.js' %}"></script>
 	

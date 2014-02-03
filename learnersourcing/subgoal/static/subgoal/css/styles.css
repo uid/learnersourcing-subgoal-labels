@@ -1,8 +1,8 @@
 body {
 	margin: 50px;
 	font-family: tahoma;
-  background-image: url('light_wool.png');
-  background-repeat:repeat;
+  	background-image: url('../img/light_wool.png');
+  	background-repeat:repeat;
 }
 
 #video_title {

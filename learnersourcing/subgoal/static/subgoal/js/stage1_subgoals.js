@@ -2,11 +2,6 @@
 //     alert(data.video_id);
 // });
 
-generate_steps(video_data.video_steps)
-load_video_title(video_data.video_title)
-
-
-
 function generate_steps(steps) {
     for (step in steps) {
         new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span>"+steps[step]+"</li>"
@@ -18,8 +13,7 @@ function load_video_title(title) {
     $("#video_title").append(title)
 }
 
-step_times = video_data.step_times
-video_id = video_data.video_id
+
 
 var tag = document.createElement('script');
 	tag.src = "https://www.youtube.com/iframe_api";
@@ -33,7 +27,7 @@ var tag = document.createElement('script');
     player = new YT.Player('player', {
     	width: '500',
     	height: '315',
-    	videoId: video_id,
+    	videoId: youtube_id,
         enablejsapi: '1',
         events: {
           'onReady': onPlayerReady,
@@ -63,7 +57,7 @@ function pauseVideo() {
 var temp = 0;
 function checkVideo() {
 	var t = Math.floor(player.getCurrentTime());
-	console.log(t)
+	// console.log(t)
 	verticalTimeline(t)
 	if (t%30==0 && t != 0 && t-temp>1) {
 		player.pauseVideo();
@@ -113,8 +107,13 @@ function placeSubtitle(subtitle, time) {
 function submitSubgoal() {
 	$(".frozen").css("color", "black")
 	var inp_text = $('.q_input').val();
-	var $li = $("<li class='movable'><span class='sub'>"+inp_text+"</span><button type='button' class='delButton permButton'>Delete</button><button type='button' class='editButton permButton'>Edit</button><button type='button' class='saveButton permButton'>Save</button></li>");
 	time = player.getCurrentTime()-30;
+
+	// frontend update
+	var $li = $("<li class='movable subgoal'><span class='sub'>"+inp_text+"</span>" + 
+		"<button type='button' class='delButton permButton'>Delete</button>" + 
+		"<button type='button' class='editButton permButton'>Edit</button>" + 
+		"<button type='button' class='saveButton permButton'>Save</button></li>");
 	$li.fadeIn(1000)
 	placeSubtitle($li, time)
 	$('.q_input').val('');
@@ -123,6 +122,32 @@ function submitSubgoal() {
 	$("#player").show()
 	$('.dq_help').show();
 	setTimeout(checkVideo, 1000);
+
+
+	// backend update
+	$.ajax({
+		type: "POST",
+		url: "/subgoal/create/",
+		data: {
+			// to avoid 403 forbidden error in Django+Ajax POST calls
+			// https://racingtadpole.com/blog/django-ajax-and-jquery/
+			csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+			// note: this is Django object ID, not Youtube ID.
+			video_id: video["id"], 
+			time: time,
+			label: inp_text,
+			// hard-coded for now since there's no login
+			// TODO: add the current user's info
+			learner_id: 1
+		},
+	}).done(function(data){
+		console.log("success:", data["success"]);
+		$li.attr("data-subgoal-id", data["subgoal_id"]);
+		// TODO: do something for failure
+	}).fail(function(){
+		console.log("ajax failed");
+	}).always(function(){
+	});	
 }
 
 $("body").on('keypress', '.q_input', function(e) {
@@ -175,4 +200,7 @@ $("body").on('click', 'span.sub', function(e) {
 $(document).ready(function() {
 	$('.dq_input').hide();
 	$('.dq_help').hide();
+	generate_steps(video_data.video_steps);
+	load_video_title(video["title"]);
 });
+
