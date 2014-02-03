@@ -28,6 +28,7 @@ class Video(models.Model):
 	added_at = models.DateTimeField(auto_now_add=True)
 	learner = models.ForeignKey(Learner)
 	youtube_id = models.CharField(max_length=16, null=True, blank=True)
+	is_used = models.BooleanField(default=True)
 
 	def __unicode__(self):
 		return self.slug

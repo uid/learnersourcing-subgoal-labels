@@ -48,12 +48,12 @@ function generate_steps(steps) {
 
 function add_subgoals(subgoals) {
 	for (sub in subgoals) {
-		new_subgoal = "<li class='movable'><span contenteditable='true' class='sub "+sub+"'>"+
+		new_subgoal = "<li class='movable subgoal'><span contenteditable='true' class='sub "+sub+"'>"+
 			subgoals[sub]['text'] + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" +
 			"<button type='button' class='editButton permButton'>Edit</button>" +
 			"<button type='button' class='saveButton permButton'>Save</button>" +
-			"</li>"
+			"</li>";
 		first_step = subgoals[sub]['steps'][0]
 		$("#"+first_step).before(new_subgoal)
 		// console.log(subgoals[sub]['steps'][0])

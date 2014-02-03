@@ -16,7 +16,14 @@ def model_to_json(instances):
 
 
 def index(request):
-    return render(request, "subgoal/splash_page.html")
+	videos = Video.objects.all()
+	return render(
+    	request, 
+    	"subgoal/splash_page.html",
+    	{
+    		'videos': model_to_json(videos)
+    	}
+    )
 
 
 def stage1(request, video_id):

@@ -240,6 +240,11 @@
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script>
+		var videos_json = JSON.stringify({{videos|safe}});
+		var videos = JSON.parse(videos_json);
+		console.log(videos);
+ 	</script> 	
  	<script src="{% static 'subgoal/js/splash_page.js' %}"></script>
 	
 </html>

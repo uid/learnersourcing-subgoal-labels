@@ -82,6 +82,12 @@
 		var video_json = JSON.stringify({{video|safe}});
 		var video = JSON.parse(video_json)[0];
 		console.log(video, video["title"], video["id"]);
+
+		var subgoals_json = JSON.stringify({{subgoals|safe}});
+		var subgoals = JSON.parse(subgoals_json);
+		for (var i=0; i<subgoals.leng)
+		console.log(subgoals);
+
 		// load_video_title(video_data.video_title)
 		var step_times = video_data.step_times;
 		var youtube_id = video["youtube_id"];
