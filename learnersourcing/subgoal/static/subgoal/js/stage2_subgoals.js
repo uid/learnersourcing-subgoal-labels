@@ -56,7 +56,6 @@ function checkVideo() {
 		step = step_from_time(t)
 		subs = subgoal_groups[step];
 		step_index = Object.keys(time_groups).indexOf(step)
-		// window.stepTime = time_groups[step]
 		window.stepTime = step_times[rel_steps[step_index-1]]		
 		console.log(subgoal_groups)
 		console.log(step)
@@ -66,7 +65,6 @@ function checkVideo() {
 		player.pauseVideo();
 		temp = t;
 		subs = subgoal_groups['end'];
-		// window.stepTime = time_groups[step]
 		step_index = Object.keys(time_groups).length
 		window.stepTime = step_times[rel_steps[step_index-1]]
 		askQuestion(subs)
