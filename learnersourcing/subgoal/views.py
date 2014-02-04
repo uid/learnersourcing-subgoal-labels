@@ -27,6 +27,8 @@ def index(request):
 
 
 def stage1(request, video_id):
+	print 'stage1 here'
+	print video_id
 	video = get_object_or_404(Video, pk=video_id)
 	steps = Step.objects.filter(video=video_id)
 	print unicode(len(steps)) + " steps: "
@@ -193,6 +195,7 @@ def subgoal_vote(request):
 	return HttpResponse(json, mimetype='application/json')
 
 
+
 # Protocol for routing to correct stage
 
 # Route to stage 1:
@@ -213,6 +216,9 @@ def subgoal_vote(request):
 #		Take majority for each subgoal group or random
 # 	Else
 #		Route to stage 2 (and show original ones)
+
+def video_router(request, video_id):
+	return HttpResponseRedirect('/stage1/'+video_id)
 
 
 

@@ -106,6 +106,9 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_COOKIE_HTTPONLY = True
+
 ROOT_URLCONF = 'learnersourcing.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
