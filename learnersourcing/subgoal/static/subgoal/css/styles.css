@@ -118,6 +118,10 @@ button {
   margin-right: 0px;
 }
 
+.dq_input, .dq_input_2 {
+	display: none;
+}
+
 .dq_input input {
 	width: 250px;
 }

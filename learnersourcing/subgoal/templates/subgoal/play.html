@@ -25,7 +25,7 @@
 					<div class="wiki_wrap">
 						<div class="wiki_head">
 							<span id="wiki_title">Wiki Video Outline</span>
-							<button type="button" class="addButton permButton">Add section title</button>
+							<button type="button" class="addButton permButton">Add a label</button>
 						</div>
 						<ul id="sortable" class="video_steps">
 
@@ -37,7 +37,19 @@
 <!-- 					<div id="save_progress">
 						<button type="button" class="solidButton progressButton">Save Outline</button>
 					</div> -->
+
 					<div id="inp_box">
+						<div class="dq_input">
+							<h2>
+								What was the overall goal of the video section you just watched?
+							</h2>
+							<p>
+								e.g., Mix the dry ingredients
+							</p>
+							<span><input type="textarea" class="q_input" tabindex=1></span>
+							<button type="button" class="submitButton" tabindex=2>Submit</button><span>
+							<button type="button" class="ppButton" tabindex=3>There wasn't one</button></span>
+						</div>
 						<div class="dq_input_2">
 							<h2>
 								Which of the following best describes the video section you just watched?
@@ -59,7 +71,7 @@
 						</div>
 						<div class="dq_help">
 							<div class="dq_help_text">
-								Feel free to edit or move around the section titles if they don't look right.
+								Feel free to edit or move around the labels if they don't look right.
 							</div>
 						</div>
 						<div class="dq_instr">
@@ -77,10 +89,13 @@
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="{% static 'subgoal/js/experiment.js' %}"></script>
  	<script src="{% static 'subgoal/js/helper.js' %}"></script>
 	<!-- // <script src="{% static 'subgoal/js/test_stage2.js' %}"></script> -->
  	<script>
- 		var stage = 2;
+ 		var stage = 1; 
+
+
 		var video_json = JSON.stringify({{video|safe}});
 		var video = JSON.parse(video_json)[0];
 		var youtube_id = video["youtube_id"];
@@ -125,11 +140,14 @@
 
 		generate_steps(video_steps);
 		load_video_title(video["title"]);
-		add_subgoals(formatted_subgoals, step_times);
+		// add_subgoals(formatted_subgoals, step_times);
 		var pre_groups = group_subgoals(formatted_subgoals, video_steps, step_times);
 		var subgoal_groups = pre_groups[0];
 		var time_groups = pre_groups[1];
-		var rel_steps = pre_groups[2]
+		var rel_steps = pre_groups[2];
+
+		if (!(Experiment.isStepShown))
+			$(".frozen").hide();
  	</script>
 
 	<script src="{% static 'subgoal/js/play_subgoals.js' %}"></script>

@@ -51,7 +51,7 @@ function checkVideo() {
 		temp = t;
 		askQuestion(t);
 	} else if (player.getPlayerState()==0) {
-		askQuestion();
+		askQuestion(t);
 	} else {
 		setTimeout(checkVideo, 1000);
 	}

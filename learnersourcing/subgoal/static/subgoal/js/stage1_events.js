@@ -94,7 +94,7 @@ $(function() {
 
 	$("body").on('click', '.addButton', function(e) {
 		e.preventDefault();
-		var $li = $("<li class='movable subgoal'><span class='sub'>New section title</span>" + 
+		var $li = $("<li class='movable subgoal'><span class='sub'>New label</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" + 
 			"<button type='button' class='editButton permButton'>Edit</button>" + 
 			"<button type='button' class='saveButton permButton'>Save</button></li>");
@@ -111,7 +111,7 @@ $(function() {
 				stage: stage,
 				video_id: video["id"], 
 				time: 0,
-				label: "New section title",
+				label: "New label",
 				// hard-coded for now since there's no login
 				// TODO: add the current user's info
 				learner_id: 1
