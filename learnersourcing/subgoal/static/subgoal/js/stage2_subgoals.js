@@ -55,7 +55,9 @@ function checkVideo() {
 		temp = t;
 		step = step_from_time(t)
 		subs = subgoal_groups[step];
-		window.stepTime = time_groups[step]
+		step_index = Object.keys(group_times).indexOf(step)
+		// window.stepTime = time_groups[step]
+		window.stepTime = step_times[rel_steps[step_index-1]]		
 		console.log(subgoal_groups)
 		console.log(step)
 		askQuestion(subs)
@@ -64,7 +66,9 @@ function checkVideo() {
 		player.pauseVideo();
 		temp = t;
 		subs = subgoal_groups['end'];
-		window.stepTime = time_groups[step]
+		// window.stepTime = time_groups[step]
+		step_index = Object.keys(group_times).length
+		window.stepTime = step_times[rel_steps[step_index-1]]
 		askQuestion(subs)
 	} else {
 		setTimeout(checkVideo, 1000);
@@ -144,9 +148,9 @@ function submitSubgoal() {
 		console.log('here', time)
 		var inp_text = $('input[name=step1]:radio:checked + input').val()
 		var $li = $("<li class='movable subgoal'><span contenteditable='true' class='sub'>" + inp_text + "</span>" + 
-			"<button type='button' class='delButton'>Delete</button>" + 
-			"<button type='button' class='editButton'>Edit</button>" + 
-			"<button type='button' class='saveButton'>Save</button></li>");
+			"<button type='button' class='delButton permButton'>Delete</button>" + 
+			"<button type='button' class='editButton permButton'>Edit</button>" + 
+			"<button type='button' class='saveButton permButton'>Save</button></li>");
 		$li.fadeIn(1000)
 		// OLD: possibly a bug
 		// placeSubtitle($li, window.stepTime - 1)

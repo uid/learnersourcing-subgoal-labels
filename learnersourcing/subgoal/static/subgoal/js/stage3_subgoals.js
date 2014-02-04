@@ -2,59 +2,49 @@
 //     alert(data.video_id);
 // });
 
-generate_steps(video_data.video_steps)
-load_video_title(video["title"])
-add_subgoals(video_data.subgoals)
-subgoals = video_data.subgoals
-pre_groups = group_subgoals(video_data.subgoals, video_data.video_steps)
-subgoal_groups = pre_groups[0]
-time_groups = pre_groups[1]
-rel_steps = pre_groups[2]
+// function group_subgoals(subgoals, steps) {
+// 	group_times = {}
+// 	temp_step = 'step0'
+// 	prev_subgoals = new Array()
+// 	rel_steps = new Array()
+// 	for (step in steps) {
+// 		cur_subgoals = new Array()
+// 		for (sub in subgoals) {
+// 			if (subgoals[sub]['steps'][0] == step) {
+// 				cur_subgoals.push(sub)
+// 				temp_step = step
+// 			}
+// 		}
+// 		if (rel_steps.indexOf(temp_step) < 0) {
+// 			rel_steps.push(temp_step)
+// 			group_times[temp_step] = cur_subgoals
+// 		}
+// 	}
+// 	rel_steps.push('end')
 
+// 	actual_groups = {}
+// 	for (i = 1; i < rel_steps.length; i++) {
+// 		actual_groups[rel_steps[i]] = group_times[Object.keys(group_times)[i-1]]
+// 	}
 
-function group_subgoals(subgoals, steps) {
-	group_times = {}
-	temp_step = 'step0'
-	prev_subgoals = new Array()
-	rel_steps = new Array()
-	for (step in steps) {
-		cur_subgoals = new Array()
-		for (sub in subgoals) {
-			if (subgoals[sub]['steps'][0] == step) {
-				cur_subgoals.push(sub)
-				temp_step = step
-			}
-		}
-		if (rel_steps.indexOf(temp_step) < 0) {
-			rel_steps.push(temp_step)
-			group_times[temp_step] = cur_subgoals
-		}
-	}
-	rel_steps.push('end')
+// 	// console.log(actual_groups)
+// 	// console.log(group_times)
+// 	return [actual_groups, group_times, rel_steps]
+// }
 
-	actual_groups = {}
-	for (i = 1; i < rel_steps.length; i++) {
-		actual_groups[rel_steps[i]] = group_times[Object.keys(group_times)[i-1]]
-	}
-
-	// console.log(actual_groups)
-	// console.log(group_times)
-	return [actual_groups, group_times, rel_steps]
-}
-
-function add_subgoals(subgoals) {
-	for (sub in subgoals) {
-		new_subgoal = "<li class='movable subgoal'>" + 
-			"<span contenteditable='true' class='sub " + sub + "'>" + subgoals[sub]['text'] + "</span>" + 
-			"<button type='button' class='delButton permButton'>Delete</button>" +
-			"<button type='button' class='editButton permButton'>Edit</button>" +
-			"<button type='button' class='saveButton permButton'>Save</button>" +
-			"</li>";
-		first_step = subgoals[sub]['steps'][0]
-		$("#"+first_step).before(new_subgoal)
-		// console.log(subgoals[sub]['steps'][0])
-	}
-}
+// function add_subgoals(subgoals) {
+// 	for (sub in subgoals) {
+// 		new_subgoal = "<li class='movable subgoal'>" + 
+// 			"<span contenteditable='true' class='sub " + sub + "'>" + subgoals[sub]['text'] + "</span>" + 
+// 			"<button type='button' class='delButton permButton'>Delete</button>" +
+// 			"<button type='button' class='editButton permButton'>Edit</button>" +
+// 			"<button type='button' class='saveButton permButton'>Save</button>" +
+// 			"</li>";
+// 		first_step = subgoals[sub]['steps'][0]
+// 		$("#"+first_step).before(new_subgoal)
+// 		// console.log(subgoals[sub]['steps'][0])
+// 	}
+// }
 
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -80,7 +70,7 @@ function onPlayerReady(event) {
     checkVideo();
 }
 
-var stop_time = false;
+// var stop_time = false;
 function onPlayerStateChange(event) {
     setTimeout(checkVideo, 1000);
 }
@@ -180,9 +170,9 @@ function askThirdQuestion(steps, sub) {
 	}
 	$(".sub_label").append("Subhead: "+subval)
 
-	$(".mult_choice_options").append("<input type='radio' name='step1' class='q_input_3'><label>This section title applies</label></input><br>")
+	$(".mult_choice_options").append("<input type='radio' name='step1' value='yes' class='q_input_3'><label>This section title applies</label></input><br>")
 	
-	$(".mult_choice_options").append("<input type='radio' name='step1' class='q_choice q_new'><label>Replace: </label><input type='text' class='q_input_3 q_text_inp'></input><br><input type='radio' name='step1' class='q_input_3'><label>There should be nothing here</label></input><br>")
+	$(".mult_choice_options").append("<input type='radio' name='step1' value='new' class='q_choice q_new'><label>Replace: </label><input type='text' class='q_input_3 q_text_inp'></input><br><input type='radio' name='step1' value='nothing' class='q_input_3'><label>There should be nothing here</label></input><br>")
 	$('.dq_input_3').fadeIn(500);
 	$('.dq_help').hide();
 	$('.dq_instr').hide();
@@ -207,7 +197,10 @@ function submitSubgoal() {
 		inp_text = $('.q_text_inp').val()
 		console.log(inp_text)
 		console.log("submitting")
-		var $li = $("<li class='movable'><span contenteditable='true' class='sub'>"+inp_text+"</span><button type='button' class='delButton'>Delete</button><button type='button' class='editButton'>Edit</button><button type='button' class='saveButton'>Save</button></li>");
+		var $li = $("<li class='movable'><span contenteditable='true' class='sub'>"+inp_text+"</span>" + 
+			"<button type='button' class='delButton permButton'>Delete</button>" + 
+			"<button type='button' class='editButton permButton'>Edit</button>" + 
+			"<button type='button' class='saveButton permButton'>Save</button></li>");
 		placeSubtitle($li, window.stepTime-1)
 	} else if (text == "This section title applies") {
 

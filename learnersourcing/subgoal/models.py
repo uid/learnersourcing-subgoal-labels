@@ -67,7 +67,7 @@ class Subgoal(models.Model):
 	# thumbnail_before
 	# thumbnail_after
 	added_at = models.DateTimeField(auto_now_add=True)
-	# is it a valid one?
+	# is it a picked one to display in stage 3?
 	is_final = models.BooleanField(default=False)
 	# state: "created", "updated", "moved", "deleted"
 	# only storing the latest, but multiple states can exist at the same time.

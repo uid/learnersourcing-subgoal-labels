@@ -11,7 +11,7 @@
 		<div class="wrapper">
 			<div id="toolbar">
 				<span id="page_title">
-					< All tutorial videos
+					<a href="{% url 'index' %}">< All tutorial videos</a>
 				</span>
 				<span id="help_link">
 					How to use this site
@@ -129,6 +129,7 @@
 		var pre_groups = group_subgoals(formatted_subgoals, video_steps, step_times);
 		var subgoal_groups = pre_groups[0];
 		var time_groups = pre_groups[1];
+		var rel_steps = pre_groups[2]
  	</script>
 
 	<script src="{% static 'subgoal/js/stage2_subgoals.js' %}"></script>
