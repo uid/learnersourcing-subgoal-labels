@@ -26,9 +26,26 @@ def index(request):
     )
 
 
+def play(request, video_id):
+	video = get_object_or_404(Video, pk=video_id)
+	subgoals = Subgoal.objects.filter(video=video_id).exclude(state="deleted")
+	steps = Step.objects.filter(video=video_id)
+	print unicode(len(subgoals)) + " subgoals: "
+	print subgoals
+	print unicode(len(steps)) + " steps: "
+	print steps
+	return render(
+		request, 
+		'subgoal/play.html', 
+		{
+			'video': model_to_json([video]),
+			'subgoals': model_to_json(subgoals),
+			'steps': model_to_json(steps)
+		}
+	)
+
+
 def stage1(request, video_id):
-	print 'stage1 here'
-	print video_id
 	video = get_object_or_404(Video, pk=video_id)
 	steps = Step.objects.filter(video=video_id)
 	print unicode(len(steps)) + " steps: "
