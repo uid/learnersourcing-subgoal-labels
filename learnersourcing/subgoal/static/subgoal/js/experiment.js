@@ -9,7 +9,7 @@ var Experiment = function() {
 	var isQuestionRandom = false;
 
 	// flag for showing individual steps
-	var isStepShown = false;
+	var isStepShown = true;
 
 	// coin flip function that returns true or false randomly
 	function coinFlip() {

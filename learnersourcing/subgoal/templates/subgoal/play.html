@@ -146,8 +146,11 @@
 		var time_groups = pre_groups[1];
 		var rel_steps = pre_groups[2];
 
+		console.log(getParameterByName("step"), getParameterByName("random2"), getParameterByName("random")==1);
+		Experiment.isQuestionRandom = getParameterByName("random")==1 ? true : false;
+		Experiment.isStepShown = getParameterByName("step")==1 ? true : false;
 		if (!(Experiment.isStepShown))
-			$(".frozen").hide();
+			$(".frozen").hide();		
  	</script>
 
 	<script src="{% static 'subgoal/js/play_subgoals.js' %}"></script>

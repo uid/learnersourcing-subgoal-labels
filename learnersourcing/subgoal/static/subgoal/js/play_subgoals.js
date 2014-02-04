@@ -75,6 +75,9 @@ function checkVideo() {
 		player.pauseVideo();
 		askQuestion(t);
 	} else {
+		// update every time, because users might be skipping. 
+		// retrieve the next possible interval.
+		time_to_stop = t + Experiment.questionInterval - (t % Experiment.questionInterval);
 		setTimeout(checkVideo, 1000);
 	}
 }
