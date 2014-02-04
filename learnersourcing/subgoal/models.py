@@ -72,7 +72,10 @@ class Subgoal(models.Model):
 	# state: "created", "updated", "moved", "deleted"
 	# only storing the latest, but multiple states can exist at the same time.
 	state = models.CharField(max_length=16)
-	votes = models.IntegerField(default=0)
+	upvotes_s2 = models.IntegerField(default=0)
+	downvotes_s2 = models.IntegerField(default=0)
+	upvotes_s3 = models.IntegerField(default=0)
+	downvotes_s3 = models.IntegerField(default=0)
 
 	def __unicode__(self):
 		return self.video.slug + " (" + unicode(int(round(self.time))) + ") " + self.label
@@ -90,6 +93,7 @@ class Action(models.Model):
 	action_type = models.CharField(max_length=32)
 	stage = models.IntegerField()
 	added_at = models.DateTimeField(auto_now_add=True)
+	session_id = models.CharField(max_length=200)
 
 	def __unicode__(self):
 		return self.video.slug + " (" + self.learner.username + ") " + self.action_type

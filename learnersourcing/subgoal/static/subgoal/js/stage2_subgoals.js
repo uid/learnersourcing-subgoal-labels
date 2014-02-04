@@ -55,7 +55,7 @@ function checkVideo() {
 		temp = t;
 		step = step_from_time(t)
 		subs = subgoal_groups[step];
-		step_index = Object.keys(group_times).indexOf(step)
+		step_index = Object.keys(time_groups).indexOf(step)
 		// window.stepTime = time_groups[step]
 		window.stepTime = step_times[rel_steps[step_index-1]]		
 		console.log(subgoal_groups)
@@ -67,7 +67,7 @@ function checkVideo() {
 		temp = t;
 		subs = subgoal_groups['end'];
 		// window.stepTime = time_groups[step]
-		step_index = Object.keys(group_times).length
+		step_index = Object.keys(time_groups).length
 		window.stepTime = step_times[rel_steps[step_index-1]]
 		askQuestion(subs)
 	} else {
@@ -133,6 +133,22 @@ function submitSubgoal() {
 	text = $('input[name=step1]:radio:checked + label').text()
 	sublist = $(".sub");
 	var time = 0;
+
+	// compute upvote/downvote
+	var votes = {};
+	var answer = $('input[name=step1]:radio:checked').val();
+	// add the selected valid subgoal as an upvote
+	if (answer != "new" && answer != "none" && answer != "repeat"){
+		votes[answer] = "upvotes_s2";
+	}
+	// everything else should be downvoted
+	for (sub in subs) {
+		var subgoal_id = $('.'+subs[sub]).parent().attr("data-subgoal-id");
+		if (!(subgoal_id in votes))
+			votes[subgoal_id] = "downvotes_s2";
+	}
+	console.log(votes);
+
 	// within this subgoal group, remove everything that does not match the selected item.
 	for (sub in subs) {
 		if ($('.'+subs[sub]).text() != text) {
@@ -167,7 +183,8 @@ function submitSubgoal() {
 				video_id: video["id"], 
 				time: time,
 				label: inp_text,
-				learner_id: 1
+				learner_id: 1,
+				is_vote: 1
 			},
 		}).done(function(data){
 			console.log("success:", data["success"]);
@@ -177,27 +194,30 @@ function submitSubgoal() {
 			console.log("ajax failed");
 		}).always(function(){
 		});		
-	} else {
-		// backend update
-		$.ajax({
-			type: "POST",
-			url: "/subgoal/vote/",
-			data: {
-				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-				stage: stage,
-				video_id: video["id"], 
-				answer: $('input[name=step1]:radio:checked').val(),
-				learner_id: 1
-			},
-		}).done(function(data){
-			console.log("success:", data["success"]);
-			// $li.attr("data-subgoal-id", data["subgoal_id"]);
-			// TODO: do something for failure
-		}).fail(function(){
-			console.log("ajax failed");
-		}).always(function(){
-		});				
-	}
+	} 
+
+
+	// backend update
+	$.ajax({
+		type: "POST",
+		url: "/subgoal/vote/",
+		data: {
+			csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+			stage: stage,
+			video_id: video["id"], 
+			votes: JSON.stringify(votes),
+			// answer: $('input[name=step1]:radio:checked').val(),
+			learner_id: 1
+		},
+	}).done(function(data){
+		console.log("success:", data["success"]);
+		// $li.attr("data-subgoal-id", data["subgoal_id"]);
+		// TODO: do something for failure
+	}).fail(function(){
+		console.log("ajax failed");
+	}).always(function(){
+	});				
+	
 	player.playVideo();
 	$('.dq_input_2').fadeOut(250);
 	$('.dq_help').fadeIn(500);

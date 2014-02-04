@@ -97,11 +97,13 @@ function checkVideo() {
 		temp = t;
 		step = step_from_time(t)
 		// console.log(step)
-		// console.log('step index '+Object.keys(group_times).indexOf(step))
-		step_index = Object.keys(group_times).indexOf(step)
+		// console.log('step index '+Object.keys(time_groups).indexOf(step))
+		step_index = Object.keys(time_groups).indexOf(step)
 		// console.log(rel_steps[step_index-1])
 		sub = subgoal_groups[step][0];
-		steps = subgoals[sub]['steps']
+		// steps = subgoals[sub]['steps']
+		steps = step_groups[sub];
+		console.log("STEPS", steps);
 		window.stepTime = step_times[rel_steps[step_index-1]]
 		window.cursub = sub
 		// console.log(subgoal_groups)
@@ -113,8 +115,9 @@ function checkVideo() {
 		player.pauseVideo();
 		temp = t;
 		sub = subgoal_groups['end'][0];
-		steps = subgoals[sub]['steps']
-		step_index = Object.keys(group_times).length
+		// steps = subgoals[sub]['steps']
+		steps = step_groups[sub];
+		step_index = Object.keys(time_groups).length
 		console.log(step_index)
 		console.log('time? '+step_times[rel_steps[step_index-1]])
 		window.stepTime = step_times[rel_steps[step_index-1]]
@@ -163,12 +166,12 @@ function askThirdQuestion(steps, sub) {
 	
 	$(".steps_list").append("<p class='step_label'>Steps:</p>")
 	for (step in steps) {
-		val = $($('#'+steps[step]).children()[1]).text()
-		subval = $('.'+sub).text()
-		// console.log(val)
-		$(".steps_list").append("<p class='ind_step'>"+val+"</p><br>");
+		// val = $($('#'+steps[step]).children()[1]).text()
+		var step_text = video_steps[steps[step]];
+		$(".steps_list").append("<p class='ind_step'>" + step_text + "</p><br>");
 	}
-	$(".sub_label").append("Subhead: "+subval)
+	var subgoal_text = $('.'+sub).text()
+	$(".sub_label").append("Section title: " + subgoal_text)
 
 	$(".mult_choice_options").append("<input type='radio' name='step1' value='yes' class='q_input_3'><label>This section title applies</label></input><br>")
 	

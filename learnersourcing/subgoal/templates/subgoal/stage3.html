@@ -132,6 +132,7 @@
 			formatted_subgoals["sub" + (i+1)] = subgoals[i][0];
 		}
 
+		// format data to allow subgoal-step, step-subgoal mapping
 		generate_steps(video_steps);
 		load_video_title(video["title"]);
 		add_subgoals(formatted_subgoals, step_times);
@@ -139,6 +140,9 @@
 		var subgoal_groups = pre_groups[0];
 		var time_groups = pre_groups[1];
 		var rel_steps = pre_groups[2];
+
+		var step_groups = group_steps(subgoals, video_steps, step_times);
+
  	</script>	
 	<script src="{% static 'subgoal/js/stage3_subgoals.js' %}"></script>
 	<script src="{% static 'subgoal/js/stage1_events.js' %}"></script>	

@@ -93,10 +93,23 @@ def subgoal_create(request):
 					label=request.POST['label'],
 					learner=learner,
 					state="created",
-					votes=0)
+					upvotes_s2=0,
+					downvotes_s2=0,
+					upvotes_s3=0,
+					downvotes_s3=0)
+		# only add an upvote when replacing ones from a diected question. Ignore manual addition from the Wiki panel.
+		if 'is_vote' in request.POST:
+			if request.POST['stage'] == 2:
+				subgoal.upvotes_s2 = 1
+			elif request.POST['stage'] == 3:
+				subgoal.upvotes_s3 = 1
 		subgoal.save()
 
 		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_create", stage=request.POST['stage'])
+		try:
+			action.session_id = request.session.session_key
+		except (NameError, AttributeError):
+			pass
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
@@ -118,6 +131,10 @@ def subgoal_update(request):
 		subgoal.save()
 
 		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_update", stage=request.POST['stage'])
+		try:
+			action.session_id = request.session.session_key
+		except (NameError, AttributeError):
+			pass
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
@@ -139,6 +156,10 @@ def subgoal_move(request):
 		subgoal.save()
 
 		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_move", stage=request.POST['stage'])
+		try:
+			action.session_id = request.session.session_key
+		except (NameError, AttributeError):
+			pass
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
@@ -160,6 +181,10 @@ def subgoal_delete(request):
 		subgoal.save()
 
 		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_delete", stage=request.POST['stage'])
+		try:
+			action.session_id = request.session.session_key
+		except (NameError, AttributeError):
+			pass
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
@@ -176,19 +201,29 @@ def subgoal_vote(request):
 	
 	learner = get_object_or_404(Learner, pk=learner_id)
 	if request.is_ajax():
-		# ignore none and repeat answers
-		if request.POST['answer'] != 'none' and request.POST['answer'] != 'repeat':
-			subgoal_id = request.POST['answer']		
+		# print request.POST['votes']
+		votes = simplejson.loads(request.POST['votes'])
+		print votes
+		# request.POST['votes'].getlist
+		# for (subgoal_id, vote_type) in enumerate(votes):
+		for subgoal_id in votes:
+			vote_type = votes[subgoal_id]
+			print subgoal_id, vote_type	
 			subgoal = get_object_or_404(Subgoal, pk=subgoal_id)
-			subgoal.votes = subgoal.votes + 1
+			new_vote_val = getattr(subgoal, vote_type) + 1
+			setattr(subgoal, vote_type, new_vote_val)
+			# subgoal[vote_type] = subgoal[vote_type] + 1
+			# subgoal.votes = subgoal.votes + 1
 			subgoal.state = "voted"
 			subgoal.save()
 			
 			action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_vote", stage=request.POST['stage'])
+			try:
+				action.session_id = request.session.session_key
+			except (NameError, AttributeError):
+				pass
 			action.save()
 			results = {'success': True, 'subgoal_id': subgoal.id}
-		else:
-			results = {'success': True}
 	else:
 		raise Http404	
 	json = simplejson.dumps(results)
@@ -218,7 +253,14 @@ def subgoal_vote(request):
 #		Route to stage 2 (and show original ones)
 
 def video_router(request, video_id):
-	return HttpResponseRedirect('/stage1/'+video_id)
+	video = get_object_or_404(Video, pk=video_id)
+	subgoals = Subgoal.objects.filter(video=video_id).exclude(state="deleted")
+	steps = Step.objects.filter(video=video_id)
+
+	# return HttpResponseRedirect('/stage1/'+video_id)
+	if len(subgoals) < 10:
+		return stage1(request, video_id)
+
 
 
 
