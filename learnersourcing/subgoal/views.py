@@ -27,6 +27,8 @@ def index(request):
 
 
 def stage1(request, video_id):
+	print 'stage1 here'
+	print video_id
 	video = get_object_or_404(Video, pk=video_id)
 	steps = Step.objects.filter(video=video_id)
 	print unicode(len(steps)) + " steps: "
@@ -165,6 +167,9 @@ def subgoal_delete(request):
 	json = simplejson.dumps(results)
 	return HttpResponse(json, mimetype='application/json')	
 
+def video_router(request):
+	video_id = request.POST['video_id']
+	return HttpResponseRedirect('/stage1/'+video_id)
 
 # Protocol for routing to correct stage
 
