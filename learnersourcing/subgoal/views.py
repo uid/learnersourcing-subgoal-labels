@@ -167,8 +167,7 @@ def subgoal_delete(request):
 	json = simplejson.dumps(results)
 	return HttpResponse(json, mimetype='application/json')	
 
-def video_router(request):
-	video_id = request.POST['video_id']
+def video_router(request, video_id):
 	return HttpResponseRedirect('/stage1/'+video_id)
 
 # Protocol for routing to correct stage

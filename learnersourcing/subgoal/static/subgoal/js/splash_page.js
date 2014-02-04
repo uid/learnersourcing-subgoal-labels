@@ -18,7 +18,7 @@ function create_video_divs() {
 		for (v in videos) {
 			if (videos[v].domain == domains[d]) {
 				new_video = "<div class='video_link video_id_"+videos[v].id+"' id='"+videos[v].youtube_id+"'>\
-						<div class='actual_link'><span class='empty_span'></span></div>\
+						<a class='actual_link'><span class='empty_span'></span></a>\
 						<div class='video_link_title'></div>\
 						<div class='video_link_description'></div>\
 						<div class='video_link_length'></div>\
@@ -41,6 +41,10 @@ function populate_video_divs() {
 function getYouTubeInfo(id) {
 	$('#'+id+'>img.video_thumb').attr('src', 'http://img.youtube.com/vi/'+id+'/0.jpg')
 	// $('#'+id+'>.actual_link').attr('href', 'http://www.youtube.com/watch?v='+id)
+
+	pre_id = $('#'+id).attr('class')
+	int_id = pre_id.replace('video_link video_id_', '')
+	$('#'+id+'>.actual_link').attr('href', '/router/'+int_id)
     $.ajax({
         url: "http://gdata.youtube.com/feeds/api/videos/"+id+"?v=2&alt=json",
         dataType: "jsonp",
@@ -68,32 +72,6 @@ function convert_sec_to_time(sec) {
 	var result = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
 	return result
 }
-
-//directs video to correct link
-$("body").on("click", ".empty_span", function(e) {
-	youtube_id = $($(this).parents()[1]).attr('id')
-	pre_id = $($(this).parents()[1]).attr('class')
-	id = pre_id.replace('video_link video_id_', '')
-	// console.log(id)
-	$.ajax({
-		type: "POST",
-		url: "/subgoal/router/",
-		data: {
-			csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-			video_id: id, 
-			// subgoal_id: $(this).parent().attr("data-subgoal-id"), 
-			// TODO: add the current user's info
-			learner_id: 1
-		},
-	}).done(function(data){
-		console.log("success:", data["success"]);
-		// TODO: do something for failure
-	}).fail(function(){
-		console.log("ajax failed");
-	}).always(function(){
-	});	
-});
-
 
 $(document).ready(function () {
 	create_video_divs()
