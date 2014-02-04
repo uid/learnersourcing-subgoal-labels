@@ -69,15 +69,38 @@
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	<script src="{% static 'subgoal/js/test.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/helper.js' %}"></script>
+	<!-- // <script src="{% static 'subgoal/js/test.js' %}"></script> -->
  	<script>
+ 		var stage = 1;
 		var video_json = JSON.stringify({{video|safe}});
 		var video = JSON.parse(video_json)[0];
-		console.log(video, video["title"], video["id"]);
-		// load_video_title(video_data.video_title)
-		var step_times = video_data.step_times;
 		var youtube_id = video["youtube_id"];
-		// video_id = video_data.video_id		
+		console.log(video, video["title"], video["id"]);
+
+		// read steps and sort by time
+		var steps_json = JSON.stringify({{steps|safe}});
+		var steps_unsorted = JSON.parse(steps_json);
+		var steps = [];
+		for (var i in steps_unsorted)
+      		steps.push([steps_unsorted[i], steps_unsorted[i]["time"]])
+		steps.sort(function(a, b) {return a[1] - b[1]})
+		console.log(steps);	
+
+		// format steps to make compatible with Sarah's code
+		// TODO: restructure
+		var video_steps = {}; 	// video_data.video_steps;
+		var step_times = {};	// video_data.step_times;
+		step_times["step0"] = 0.0;
+		for (var i=0; i<steps.length; i++){
+			video_steps["step" + (i+1)] = steps[i][0]["label"];
+			step_times["step" + (i+1)] = steps[i][0]["time"];
+		}
+		console.log(video_steps);
+		console.log(step_times);
+
+		generate_steps(video_steps);
+		load_video_title(video["title"]);
  	</script>
 
 	<script src="{% static 'subgoal/js/stage1_subgoals.js' %}"></script>

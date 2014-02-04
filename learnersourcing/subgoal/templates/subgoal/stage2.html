@@ -77,21 +77,58 @@
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	<script src="{% static 'subgoal/js/test_stage2.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/helper.js' %}"></script>
+	<!-- // <script src="{% static 'subgoal/js/test_stage2.js' %}"></script> -->
  	<script>
+ 		var stage = 2;
 		var video_json = JSON.stringify({{video|safe}});
 		var video = JSON.parse(video_json)[0];
+		var youtube_id = video["youtube_id"];
 		console.log(video, video["title"], video["id"]);
 
+		// read steps and sort by time
+		var steps_json = JSON.stringify({{steps|safe}});
+		var steps_unsorted = JSON.parse(steps_json);
+		var steps = [];
+		for (var i in steps_unsorted)
+      		steps.push([steps_unsorted[i], steps_unsorted[i]["time"]])
+		steps.sort(function(a, b) {return a[1] - b[1]})
+		console.log(steps);		
+
+		// read subgoals and sort by time
 		var subgoals_json = JSON.stringify({{subgoals|safe}});
-		var subgoals = JSON.parse(subgoals_json);
-		for (var i=0; i<subgoals.leng)
+		var subgoals_unsorted = JSON.parse(subgoals_json);
+		var subgoals = [];
+		for (var i in subgoals_unsorted)
+      		subgoals.push([subgoals_unsorted[i], subgoals_unsorted[i]["time"]])
+		subgoals.sort(function(a, b) {return a[1] - b[1]})
 		console.log(subgoals);
 
-		// load_video_title(video_data.video_title)
-		var step_times = video_data.step_times;
-		var youtube_id = video["youtube_id"];
-		// video_id = video_data.video_id		
+		// format steps to make compatible with Sarah's code
+		// TODO: restructure
+		var video_steps = {}; 	// video_data.video_steps;
+		var step_times = {};	// video_data.step_times;
+		step_times["step0"] = 0.0;
+		for (var i=0; i<steps.length; i++){
+			video_steps["step" + (i+1)] = steps[i][0]["label"];
+			step_times["step" + (i+1)] = steps[i][0]["time"];
+		}
+		console.log(video_steps);
+		console.log(step_times);
+
+		// format subgoals to make compatible with Sarah's code
+		// TODO: restructure
+		var formatted_subgoals = {};
+		for (var i=0; i<subgoals.length; i++){
+			formatted_subgoals["sub" + (i+1)] = subgoals[i][0];
+		}
+
+		generate_steps(video_steps);
+		load_video_title(video["title"]);
+		add_subgoals(formatted_subgoals, step_times);
+		var pre_groups = group_subgoals(formatted_subgoals, video_steps, step_times);
+		var subgoal_groups = pre_groups[0];
+		var time_groups = pre_groups[1];
  	</script>
 
 	<script src="{% static 'subgoal/js/stage2_subgoals.js' %}"></script>

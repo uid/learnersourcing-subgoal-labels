@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 	url(r'^subgoal/update/$', views.subgoal_update, name='subgoal_update'),
 	url(r'^subgoal/move/$', views.subgoal_move, name='subgoal_move'),
 	url(r'^subgoal/delete/$', views.subgoal_delete, name='subgoal_delete'),
+	url(r'^subgoal/vote/$', views.subgoal_vote, name='subgoal_vote'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

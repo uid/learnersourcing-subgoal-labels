@@ -42,13 +42,6 @@ function group_subgoals(subgoals, steps) {
 	return [actual_groups, group_times, rel_steps]
 }
 
-function generate_steps(steps) {
-    for (step in steps) {
-        new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span><span class='step_text'>"+steps[step]+"</span></li>"
-        $(".video_steps").append(new_step);
-    }
-}
-
 function add_subgoals(subgoals) {
 	for (sub in subgoals) {
 		new_subgoal = "<li class='movable subgoal'>" + 
@@ -63,20 +56,13 @@ function add_subgoals(subgoals) {
 	}
 }
 
-function load_video_title(title) {
-    $("#video_title").append(title)
-}
-
-step_times = video_data.step_times
-video_id = video_data.video_id
-
 var tag = document.createElement('script');
-	tag.src = "https://www.youtube.com/iframe_api";
-	var firstScriptTag = document.getElementsByTagName('script')[0];
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-	var player;
-	function onYouTubeIframeAPIReady() {
+var player;
+function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
     	width: '500',
     	height: '315',

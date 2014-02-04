@@ -90,13 +90,13 @@ var video_data =
 			"steps":["step7", "step8", "step9"],
 			"text":"Subgoal number 7"
 		},
-		"sub8": {
-			"steps":["step10", "step11", "step12"],
-			"text":"Subgoal number 8"
-		},
-		"sub9": {
-			"steps":["step13", "step14", "step15"],
-			"text":"Subgoal number 9"
-		}
+		// "sub8": {
+		// 	"steps":["step10", "step11", "step12"],
+		// 	"text":"Subgoal number 8"
+		// },
+		// "sub9": {
+		// 	"steps":["step13", "step14", "step15"],
+		// 	"text":"Subgoal number 9"
+		// }
 	}
 }

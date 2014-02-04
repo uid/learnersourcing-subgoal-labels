@@ -86,8 +86,10 @@
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="{% static 'subgoal/js/helper.js' %}"></script>
 	<script src="{% static 'subgoal/js/test_stage3.js' %}"></script>
  	<script>
+ 		var stage = 3;
 		var video_json = JSON.stringify({{video|safe}});
 		var video = JSON.parse(video_json)[0];
 		console.log(video, video["title"], video["id"]);

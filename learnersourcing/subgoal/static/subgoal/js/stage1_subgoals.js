@@ -2,28 +2,15 @@
 //     alert(data.video_id);
 // });
 
-function generate_steps(steps) {
-    for (step in steps) {
-        new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span>"+steps[step]+"</li>"
-        $(".video_steps").append(new_step);
-    }
-}
-
-function load_video_title(title) {
-    $("#video_title").append(title)
-}
-
-
-
 var tag = document.createElement('script');
-	tag.src = "https://www.youtube.com/iframe_api";
-	var firstScriptTag = document.getElementsByTagName('script')[0];
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-	// 3. This function creates an <iframe> (and YouTube player)
-	//    after the API code downloads.
-	var player;
-	function onYouTubeIframeAPIReady() {
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
     	width: '500',
     	height: '315',
@@ -123,7 +110,6 @@ function submitSubgoal() {
 	$('.dq_help').show();
 	setTimeout(checkVideo, 1000);
 
-
 	// backend update
 	$.ajax({
 		type: "POST",
@@ -132,6 +118,7 @@ function submitSubgoal() {
 			// to avoid 403 forbidden error in Django+Ajax POST calls
 			// https://racingtadpole.com/blog/django-ajax-and-jquery/
 			csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+			stage: stage,
 			// note: this is Django object ID, not Youtube ID.
 			video_id: video["id"], 
 			time: time,
@@ -173,7 +160,7 @@ $("body").on('click', '.frozen', function(e) {
 	// $(this).siblings().css('font-weight', 'normal')
 	// $(this).css('font-weight', 'bold')
 	step = $(this).attr("id")
-	time = video_data.step_times[step]
+	time = step_times[step]
 
 	$(".frozen").css("color", "black")
 	$(".time_marker").css("color", "white")
@@ -190,7 +177,7 @@ $("body").on('click', 'span.sub', function(e) {
 	el = $($(this).parent()).next()
 	// console.log(this)
 	step = $(el).attr("id")
-	time = video_data.step_times[step]
+	time = step_times[step]
 	player.seekTo(time)
 
 	console.log("subgoal clicked")
@@ -200,7 +187,5 @@ $("body").on('click', 'span.sub', function(e) {
 $(document).ready(function() {
 	$('.dq_input').hide();
 	$('.dq_help').hide();
-	generate_steps(video_data.video_steps);
-	load_video_title(video["title"]);
 });
 

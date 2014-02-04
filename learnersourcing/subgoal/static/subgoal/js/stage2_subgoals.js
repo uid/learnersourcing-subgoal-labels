@@ -2,78 +2,13 @@
 //     alert(data.video_id);
 // });
 
-generate_steps(video_data.video_steps)
-load_video_title(video["title"])
-add_subgoals(video_data.subgoals)
-pre_groups = group_subgoals(video_data.subgoals, video_data.video_steps)
-subgoal_groups = pre_groups[0]
-time_groups = pre_groups[1]
-
-
-function group_subgoals(subgoals, steps) {
-	group_times = {}
-	temp_step = 'step0'
-	prev_subgoals = new Array()
-	rel_steps = new Array()
-	for (step in steps) {
-		cur_subgoals = new Array()
-		for (sub in subgoals) {
-			if (subgoals[sub]['steps'][0] == step) {
-				cur_subgoals.push(sub)
-				temp_step = step
-			}
-		}
-		if (rel_steps.indexOf(temp_step) < 0) {
-			rel_steps.push(temp_step)
-			group_times[temp_step] = cur_subgoals
-		}
-	}
-	rel_steps.push('end')
-
-	actual_groups = {}
-	for (i = 1; i < rel_steps.length; i++) {
-		actual_groups[rel_steps[i]] = group_times[Object.keys(group_times)[i-1]]
-	}
-
-	console.log(actual_groups)
-	return [actual_groups, group_times]
-}
-
-function generate_steps(steps) {
-    for (step in steps) {
-        new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span>"+steps[step]+"</li>"
-        $(".video_steps").append(new_step);
-    }
-}
-
-function add_subgoals(subgoals) {
-	for (sub in subgoals) {
-		new_subgoal = "<li class='movable subgoal'><span contenteditable='true' class='sub "+sub+"'>"+
-			subgoals[sub]['text'] + "</span>" + 
-			"<button type='button' class='delButton permButton'>Delete</button>" +
-			"<button type='button' class='editButton permButton'>Edit</button>" +
-			"<button type='button' class='saveButton permButton'>Save</button>" +
-			"</li>";
-		first_step = subgoals[sub]['steps'][0]
-		$("#"+first_step).before(new_subgoal)
-		// console.log(subgoals[sub]['steps'][0])
-	}
-}
-
-function load_video_title(title) {
-    $("#video_title").append(title)
-}
-
-step_times = video_data.step_times
-video_id = video_data.video_id
-
 var tag = document.createElement('script');
-	tag.src = "https://www.youtube.com/iframe_api";
-	var firstScriptTag = document.getElementsByTagName('script')[0];
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-	var player;
-	function onYouTubeIframeAPIReady() {
+var player;
+function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
     	width: '500',
     	height: '315',
@@ -91,7 +26,7 @@ function onPlayerReady(event) {
     checkVideo();
 }
 
-var stop_time = false;
+// var stop_time = false;
 function onPlayerStateChange(event) {
     setTimeout(checkVideo, 1000);
 }
@@ -106,6 +41,7 @@ function pauseVideo() {
 
 var temp = 0;
 var subs = [];
+// is subgoal_groups ordered? if not, it might result in not stopping at the right time.
 time_to_stop = step_times[Object.keys(subgoal_groups)[0]]
 
 function checkVideo() {
@@ -168,11 +104,12 @@ function askQuestion(subs) {
 	// console.log('here')
 	$("#player").hide()
 	$(".mult_choice_options").empty('')
-	for (sub in subs) {
-		val = $('.'+subs[sub]).text()
-		$(".mult_choice_options").append("<input type='radio' name='step1' class='q_choice'><label>"+val+"</label></input><br>")
+	for (var sub in subs) {
+		var val = $('.'+subs[sub]).text();
+		var subgoal_id = $('.'+subs[sub]).parent().attr("data-subgoal-id");
+		$(".mult_choice_options").append("<input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'><label>"+val+"</label></input><br>")
 	}
-	$(".mult_choice_options").append("<input type='radio' name='step1' class='q_choice q_new'><input type='text' class='q_input'></input><br><input type='radio' name='step1' class='q_none'><label>None apply</label></input><br><input type='radio' name='step1' class='q_repeat'><label>This is a repeat</label></input><br>")
+	$(".mult_choice_options").append("<input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input'></input><br><input type='radio' name='step1' value='none' class='q_none'><label>None apply</label></input><br><input type='radio' name='step1' value='repeat' class='q_repeat'><label>This is a repeat</label></input><br>")
 	$('.dq_input_2').fadeIn(500);
 	$('.dq_help').hide();
 	$('.dq_instr').hide();
@@ -181,6 +118,7 @@ function askQuestion(subs) {
 function placeSubtitle(subtitle, time) {
 	for (var i = 0; i < Object.keys(step_times).length - 1; i++) {
 		if (time >= step_times[Object.keys(step_times)[i]] && time < step_times[Object.keys(step_times)[i+1]]) {
+			console.log("MATCH", Object.keys(step_times)[i])
 			$('#'+Object.keys(step_times)[i+1]).before($(subtitle))
 		}
 	}
@@ -190,24 +128,78 @@ function submitSubgoal() {
 	$(".frozen").css("color", "black")
 	text = $('input[name=step1]:radio:checked + label').text()
 	sublist = $(".sub");
+	var time = 0;
+	// within this subgoal group, remove everything that does not match the selected item.
 	for (sub in subs) {
 		if ($('.'+subs[sub]).text() != text) {
+			// for now, whatever's the latest in the group will get the time assigned.
+			if (isInt(formatted_subgoals[subs[sub]]["time"]))
+				time = formatted_subgoals[subs[sub]]["time"];
 			$('.'+subs[sub]).parents()[0].remove()
 		} else {
 		}
 	}
+	// when another label was inserted.
 	if (typeof $('input[name=step1]:radio:checked + input').val() !== "undefined") {
-		console.log('here')
-		inp_text = $('input[name=step1]:radio:checked + input').val()
-		var $li = $("<li class='movable'><span contenteditable='true' class='sub'>"+inp_text+"</span><button type='button' class='delButton'>Delete</button><button type='button' class='editButton'>Edit</button><button type='button' class='saveButton'>Save</button></li>");
+		console.log('here', time)
+		var inp_text = $('input[name=step1]:radio:checked + input').val()
+		var $li = $("<li class='movable subgoal'><span contenteditable='true' class='sub'>" + inp_text + "</span>" + 
+			"<button type='button' class='delButton'>Delete</button>" + 
+			"<button type='button' class='editButton'>Edit</button>" + 
+			"<button type='button' class='saveButton'>Save</button></li>");
 		$li.fadeIn(1000)
-		placeSubtitle($li, window.stepTime-1)
+		// OLD: possibly a bug
+		// placeSubtitle($li, window.stepTime - 1)
+		// NEW: follow time of a subgoal displayed as a choice
+		placeSubtitle($li, time)
+
+		// backend update
+		$.ajax({
+			type: "POST",
+			url: "/subgoal/create/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				stage: stage,
+				video_id: video["id"], 
+				time: time,
+				label: inp_text,
+				learner_id: 1
+			},
+		}).done(function(data){
+			console.log("success:", data["success"]);
+			$li.attr("data-subgoal-id", data["subgoal_id"]);
+			// TODO: do something for failure
+		}).fail(function(){
+			console.log("ajax failed");
+		}).always(function(){
+		});		
+	} else {
+		// backend update
+		$.ajax({
+			type: "POST",
+			url: "/subgoal/vote/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				stage: stage,
+				video_id: video["id"], 
+				answer: $('input[name=step1]:radio:checked').val(),
+				learner_id: 1
+			},
+		}).done(function(data){
+			console.log("success:", data["success"]);
+			// $li.attr("data-subgoal-id", data["subgoal_id"]);
+			// TODO: do something for failure
+		}).fail(function(){
+			console.log("ajax failed");
+		}).always(function(){
+		});				
 	}
 	player.playVideo();
 	$('.dq_input_2').fadeOut(250);
 	$('.dq_help').fadeIn(500);
 	$("#player").show()
 	setTimeout(checkVideo, 1000);
+
 }
 
 $("body").on('keypress', '.q_input', function(e) {
@@ -252,7 +244,7 @@ $("body").on('click', '.frozen', function(e) {
 	// $(this).siblings().css('font-weight', 'normal')
 	// $(this).css('font-weight', 'bold')
 	step = $(this).attr("id")
-	time = video_data.step_times[step]
+	time = step_times[step]
 
 	$(".frozen").css("color", "black")
 	$(".time_marker").css("color", "white")
@@ -269,7 +261,7 @@ $("body").on('click', 'span.sub', function(e) {
 	el = $($(this).parent()).next()
 	// console.log(this)
 	step = $(el).attr("id")
-	time = video_data.step_times[step]
+	time = step_times[step]
 	player.seekTo(time)
 
 	console.log("subgoal clicked")

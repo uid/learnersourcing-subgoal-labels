@@ -17,8 +17,11 @@ class Learner(models.Model):
 	def toJSON(self):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 
+
 # tutorial video
 class Video(models.Model):
+	# person who posted the video: probably won't be necessary.
+	learner = models.ForeignKey(Learner)
 	title = models.CharField(max_length=200)
 	# filename
 	url = models.URLField()
@@ -26,7 +29,6 @@ class Video(models.Model):
 	slug = models.CharField(max_length=32)
 	duration = models.IntegerField()
 	added_at = models.DateTimeField(auto_now_add=True)
-	learner = models.ForeignKey(Learner)
 	youtube_id = models.CharField(max_length=16, null=True, blank=True)
 	is_used = models.BooleanField(default=True)
 
@@ -36,44 +38,44 @@ class Video(models.Model):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 
 
-# higher-level step
-class Subgoal(models.Model):
+# individual step
+class Step(models.Model):
 	video = models.ForeignKey(Video)
+	learner = models.ForeignKey(Learner)
 	time = models.FloatField()
 	label = models.CharField(max_length=200)
 	# thumbnail_before
 	# thumbnail_after
 	added_at = models.DateTimeField(auto_now_add=True)
-	learner = models.ForeignKey(Learner)
 	# is it a valid one?
 	is_final = models.BooleanField(default=False)
-	# state: "created", "updated", "moved", "deleted"
-	# multiple states can exist at the same time.
-	state = models.CharField(max_length=16)
-	votes = models.IntegerField()
 
 	def __unicode__(self):
-		return "(" + unicode(int(round(self.time))) + ") " + self.label
+		return self.video.slug + " (" + unicode(int(round(self.time))) + ") " + self.label
 	def toJSON(self):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 
 
-# individual step
-class Step(models.Model):
+# higher-level step
+class Subgoal(models.Model):
 	video = models.ForeignKey(Video)
-	# many-to-many relation. 
-	subgoal = models.ManyToManyField(Subgoal)
+	learner = models.ForeignKey(Learner)
 	time = models.FloatField()
 	label = models.CharField(max_length=200)
+	# many-to-many relation. 
+	step = models.ManyToManyField(Step, null=True, blank=True)	
 	# thumbnail_before
 	# thumbnail_after
 	added_at = models.DateTimeField(auto_now_add=True)
-	learner = models.ForeignKey(Learner)
 	# is it a valid one?
 	is_final = models.BooleanField(default=False)
+	# state: "created", "updated", "moved", "deleted"
+	# only storing the latest, but multiple states can exist at the same time.
+	state = models.CharField(max_length=16)
+	votes = models.IntegerField(default=0)
 
 	def __unicode__(self):
-		return "(" + unicode(int(round(self.time))) + ") " + self.label
+		return self.video.slug + " (" + unicode(int(round(self.time))) + ") " + self.label
 	def toJSON(self):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 
@@ -86,10 +88,11 @@ class Action(models.Model):
 	step = models.ForeignKey(Step, blank=True, null=True)
 	# possible actions: create, update, delete, move
 	action_type = models.CharField(max_length=32)
+	stage = models.IntegerField()
 	added_at = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
-		return "(" + self.learner.username + ") " + self.action_type
+		return self.video.slug + " (" + self.learner.username + ") " + self.action_type
 	def toJSON(self):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 

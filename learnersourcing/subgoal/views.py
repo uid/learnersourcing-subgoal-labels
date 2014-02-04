@@ -43,7 +43,7 @@ def stage1(request, video_id):
 
 def stage2(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
-	subgoals = Subgoal.objects.filter(video=video_id)
+	subgoals = Subgoal.objects.filter(video=video_id).exclude(state="deleted")
 	steps = Step.objects.filter(video=video_id)
 	print unicode(len(subgoals)) + " subgoals: "
 	print subgoals
@@ -62,7 +62,7 @@ def stage2(request, video_id):
 
 def stage3(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
-	subgoals = Subgoal.objects.filter(video=video_id)
+	subgoals = Subgoal.objects.filter(video=video_id).exclude(state="deleted")
 	steps = Step.objects.filter(video=video_id)
 	print unicode(len(subgoals)) + " subgoals: "
 	print subgoals
@@ -94,7 +94,7 @@ def subgoal_create(request):
 					votes=0)
 		subgoal.save()
 
-		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_create")
+		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_create", stage=request.POST['stage'])
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
@@ -115,7 +115,7 @@ def subgoal_update(request):
 		subgoal.state = "updated"
 		subgoal.save()
 
-		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_update")
+		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_update", stage=request.POST['stage'])
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
@@ -136,7 +136,7 @@ def subgoal_move(request):
 		subgoal.state = "moved"
 		subgoal.save()
 
-		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_move")
+		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_move", stage=request.POST['stage'])
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
@@ -157,13 +157,40 @@ def subgoal_delete(request):
 		subgoal.state = "deleted"
 		subgoal.save()
 
-		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_delete")
+		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_delete", stage=request.POST['stage'])
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
 		raise Http404	
 	json = simplejson.dumps(results)
 	return HttpResponse(json, mimetype='application/json')	
+
+
+def subgoal_vote(request):
+	video_id = request.POST['video_id']
+	
+	learner_id = request.POST['learner_id']
+	video = get_object_or_404(Video, pk=video_id)
+	
+	learner = get_object_or_404(Learner, pk=learner_id)
+	if request.is_ajax():
+		# ignore none and repeat answers
+		if request.POST['answer'] != 'none' and request.POST['answer'] != 'repeat':
+			subgoal_id = request.POST['answer']		
+			subgoal = get_object_or_404(Subgoal, pk=subgoal_id)
+			subgoal.votes = subgoal.votes + 1
+			subgoal.state = "voted"
+			subgoal.save()
+			
+			action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_vote", stage=request.POST['stage'])
+			action.save()
+			results = {'success': True, 'subgoal_id': subgoal.id}
+		else:
+			results = {'success': True}
+	else:
+		raise Http404	
+	json = simplejson.dumps(results)
+	return HttpResponse(json, mimetype='application/json')
 
 
 # Protocol for routing to correct stage

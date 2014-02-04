@@ -18,6 +18,7 @@ $(function() {
 			url: "/subgoal/delete/",
 			data: {
 				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				stage: stage,
 				video_id: video["id"], 
 				subgoal_id: $(this).parent().attr("data-subgoal-id"), 
 				// TODO: add the current user's info
@@ -64,6 +65,7 @@ $(function() {
 			url: "/subgoal/update/",
 			data: {
 				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				stage: stage,
 				video_id: video["id"], 
 				subgoal_id: $(this).parent().attr("data-subgoal-id"), 
 				label: text,
@@ -96,6 +98,29 @@ $(function() {
 		$("#sortable").prepend($li);
 		enableEvents();
 		// enableSubgoalClick()
+		
+		// backend update
+		$.ajax({
+			type: "POST",
+			url: "/subgoal/create/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				stage: stage,
+				video_id: video["id"], 
+				time: 0,
+				label: "New section title",
+				// hard-coded for now since there's no login
+				// TODO: add the current user's info
+				learner_id: 1
+			},
+		}).done(function(data){
+			console.log("success:", data["success"]);
+			$li.attr("data-subgoal-id", data["subgoal_id"]);
+			// TODO: do something for failure
+		}).fail(function(){
+			console.log("ajax failed");
+		}).always(function(){
+		});			
 	});	
 
 });
@@ -113,6 +138,7 @@ $(function() {
 			url: "/subgoal/move/",
 			data: {
 				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				stage: stage,
 				video_id: video["id"], 
 				subgoal_id: ui.item.attr("data-subgoal-id"), 
 				time: time,
