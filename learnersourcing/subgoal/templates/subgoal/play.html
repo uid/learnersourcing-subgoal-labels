@@ -147,6 +147,8 @@
 		var rel_steps = pre_groups[2];
 
 		console.log(getParameterByName("step"), getParameterByName("random2"), getParameterByName("random")==1);
+		if (getParameterByName("interval") != "" && isInt(getParameterByName("interval")))
+			Experiment.questionInterval = getParameterByName("interval");
 		Experiment.isQuestionRandom = getParameterByName("random")==1 ? true : false;
 		Experiment.isStepShown = getParameterByName("step")==1 ? true : false;
 		if (!(Experiment.isStepShown))
