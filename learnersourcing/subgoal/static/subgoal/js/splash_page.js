@@ -44,7 +44,7 @@ function getYouTubeInfo(id) {
 
 	pre_id = $('#'+id).attr('class')
 	int_id = pre_id.replace('video_link video_id_', '')
-	$('#'+id+'>.actual_link').attr('href', '/router/'+int_id)
+	$('#'+id+'>.actual_link').attr('href', '/play/'+int_id)
     $.ajax({
         url: "http://gdata.youtube.com/feeds/api/videos/"+id+"?v=2&alt=json",
         dataType: "jsonp",
