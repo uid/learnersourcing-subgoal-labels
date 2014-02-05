@@ -99,10 +99,11 @@ $(function() {
 	$("body").on('click', '.addButton', function(e) {
 		e.preventDefault();
 		var label = "New label";
-		var $li = $("<li class='movable subgoal'><span class='sub'>" + label + "</span>" + 
-			"<button type='button' class='delButton permButton'>Delete</button>" + 
-			"<button type='button' class='editButton permButton'>Edit</button>" + 
-			"<button type='button' class='saveButton permButton'>Save</button></li>");
+		var $li = Subgoal.getNewSubgoalHTML(label);
+		// var $li = $("<li class='movable subgoal'><span class='sub'>" + label + "</span>" + 
+		// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
+		// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
 		$("#sortable").prepend($li);
 		enableEvents();
 		// enableSubgoalClick()

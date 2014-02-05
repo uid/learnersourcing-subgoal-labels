@@ -1,3 +1,8 @@
+
+function escapeHTML(text){
+	return $('<div/>').text(text).html();
+}
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -11,7 +16,8 @@ function isInt(n) {
 
 function generate_steps(steps) {
     for (step in steps) {
-        new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span>"+steps[step]+"</li>"
+        new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span>" + 
+        	escapeHTML(steps[step]) + "</li>"
         $(".video_steps").append(new_step);
     }
 }

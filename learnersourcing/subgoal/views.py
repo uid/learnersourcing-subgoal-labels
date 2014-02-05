@@ -124,13 +124,15 @@ def record_question(request):
 	learner_id = request.POST['learner_id']
 	video = get_object_or_404(Video, pk=video_id)
 	learner = get_object_or_404(Learner, pk=learner_id)
+
+	is_asked = True if request.POST['is_asked'] == "true" else False
 	if request.is_ajax():
 		question = Question(
 					session_id = request.session.session_key,
 					video = video,
 					learner = learner,
 					video_time = request.POST['video_time'],
-					is_asked = request.POST['is_asked'],
+					is_asked = is_asked,
 					question_stage = request.POST['question_stage']
 				)
 		question.save()

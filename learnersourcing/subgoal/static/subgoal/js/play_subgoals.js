@@ -161,7 +161,7 @@ function displayStage2Question(t){
 		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
 			var subgoal_id = Subgoal.data[i]["id"];
 			var subgoal_text = Subgoal.data[i]["label"];
-			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+subgoal_text+"</input></label><br>")
+			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
 		}
 	}
 	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
@@ -207,13 +207,15 @@ function computePreviousTime(t){
 
 function submitStage1Subgoal(){
 	var inp_text = $('.q_input').val();
-	var time = computePreviousTime();
+	var currentTime = Math.floor(player.getCurrentTime());
+	var time = computePreviousTime(currentTime);	
 
 	// frontend update
-	var $li = $("<li class='movable subgoal'><span class='sub'>"+inp_text+"</span>" + 
-		"<button type='button' class='delButton permButton'>Delete</button>" + 
-		"<button type='button' class='editButton permButton'>Edit</button>" + 
-		"<button type='button' class='saveButton permButton'>Save</button></li>");
+	var $li = Subgoal.getNewSubgoalHTML(inp_text);
+	// $("<li class='movable subgoal'><span class='sub'>"+inp_text+"</span>" + 
+	// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
+	// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+	// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
 	$li.fadeIn(1000)
 	placeSubtitle($li, time)
 	$('.q_input').val('');
@@ -296,14 +298,15 @@ function submitStage2Subgoal(){
 	var $li;
 	// when another label was inserted.
 	if (typeof $('input[name=step1]:radio:checked + input').val() !== "undefined") {
-		console.log('here', time)
-		inp_text = $('input[name=step1]:radio:checked + input').val()
-		$li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
-			"<button type='button' class='delButton permButton'>Delete</button>" + 
-			"<button type='button' class='editButton permButton'>Edit</button>" + 
-			"<button type='button' class='saveButton permButton'>Save</button></li>");
-		$li.fadeIn(1000)
-		placeSubtitle($li, time)	
+		console.log('here', time);
+		inp_text = $('input[name=step1]:radio:checked + input').val();
+		$li = Subgoal.getNewSubgoalHTML(inp_text);
+		// $li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
+		// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
+		// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
+		$li.fadeIn(1000);
+		placeSubtitle($li, time);
 
 		Subgoal.opCreate($li, time, inp_text, true);
 		// backend update
@@ -332,10 +335,11 @@ function submitStage2Subgoal(){
 			if (answer == Subgoal.data[i]["id"])
 				inp_text = Subgoal.data[i]["label"];
 		}
-		$li = $("<li class='movable subgoal' data-subgoal-id='" + answer + "'><span class='sub'>" + inp_text + "</span>" + 
-			"<button type='button' class='delButton permButton'>Delete</button>" + 
-			"<button type='button' class='editButton permButton'>Edit</button>" + 
-			"<button type='button' class='saveButton permButton'>Save</button></li>");
+		$li = Subgoal.getSubgoalHTML(answer, inp_text);
+		// $li = $("<li class='movable subgoal' data-subgoal-id='" + answer + "'><span class='sub'>" + inp_text + "</span>" + 
+		// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
+		// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
 		$li.fadeIn(1000)	
 		placeSubtitle($li, time)		
 	}
