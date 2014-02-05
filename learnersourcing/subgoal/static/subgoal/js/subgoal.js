@@ -166,8 +166,8 @@ var Subgoal = function() {
 		for (var i in Subgoal.data) {
 			// $li.attr("data-subgoal-id", data[sub]["id"]);
 			var new_subgoal = "<li class='movable subgoal' data-subgoal-id='" + Subgoal.data[i]["id"] + "'>" + 
-				"<span class='sub sub" + (parseInt(i)+1) + "'>" +
-				Subgoal.data[i]["label"] + "</span>" + 
+				// "<span class='sub sub" + (parseInt(i)+1) + "'>" +
+				"<span class='sub'>" + Subgoal.data[i]["label"] + "</span>" + 
 				"<button type='button' class='delButton permButton'>Delete</button>" +
 				"<button type='button' class='editButton permButton'>Edit</button>" +
 				"<button type='button' class='saveButton permButton'>Save</button>" +

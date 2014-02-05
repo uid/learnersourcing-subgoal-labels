@@ -82,7 +82,7 @@ function checkVideo() {
 		time_to_stop = t + Experiment.questionInterval;
 		// update the question history
 		Experiment.recordQuestion({"time": t, "isAsked": isAsked, "stage": Experiment.questionStage});
-	} else if (player.getPlayerState()==0) {
+	} else if (player.getPlayerState()==0 && !(Experiment.isRecordedAt(t))) {
 		// always ask when the video ends.
 		// TODO: fix the problem of very short question interval if the (video length % interval) is short.
 		console.log(t, "video ended");
