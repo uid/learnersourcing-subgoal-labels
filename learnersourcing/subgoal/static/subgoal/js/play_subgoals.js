@@ -219,11 +219,6 @@ function submitStage1Subgoal(){
 	$li.fadeIn(1000)
 	placeSubtitle($li, time)
 	$('.q_input').val('');
-	player.playVideo();
-	$('.dq_input').hide();
-	$("#player").show()
-	$('.dq_help').show();
-	// setTimeout(checkVideo, 1000);
 
 	Subgoal.opCreate($li, time, inp_text);
 	// backend update
@@ -355,8 +350,10 @@ function submitSubgoal() {
 	} else if (Experiment.questionStage == 2){
 		submitStage2Subgoal();
 	}
-			
-	player.playVideo();
+
+	if (player.getPlayerState()!=0){
+		player.playVideo();
+	}
 	$('.dq_input').fadeOut(250);
 	$('.dq_input_2').fadeOut(250);
 	$('.dq_help').fadeIn(500);
@@ -385,7 +382,9 @@ $("body").on('click', '.submitButton', function(e) {
 });
 
 $("body").on('click', '.ppButton', function(e) {
-	player.playVideo();
+	if (player.getPlayerState()!=0){
+		player.playVideo();
+	}	
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_help').show();
@@ -395,7 +394,9 @@ $("body").on('click', '.ppButton', function(e) {
 });
 
 $("body").on('click', '.cancelButton', function(e) {
-	player.playVideo();
+	if (player.getPlayerState()!=0){
+		player.playVideo();
+	}	
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_help').show();

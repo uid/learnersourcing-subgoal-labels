@@ -50,7 +50,7 @@ h2 {
 
 .left {
 	float: left;
-	/*width: 420px;*/
+	width: 425px;
 	height: 700px;
 	overflow:scroll;
 }
