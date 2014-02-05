@@ -57,6 +57,16 @@ var Experiment = function() {
 		return isRecorded;
 	}
 
+	// get the last recording time
+	function getLastRecordingTime(){
+		var t = 0;
+		for (var i in questionTracker){
+			if (t < questionTracker[i]["time"])
+				t = questionTracker[i]["time"];
+		}
+		return t;
+	}
+
 	// coin flip function that returns true or false randomly
 	function coinFlip() {
 	    return (Math.floor(Math.random() * 2) == 0);
@@ -93,6 +103,7 @@ var Experiment = function() {
 		questionTracker: questionTracker,
 		recordQuestion: recordQuestion,
 		isRecordedAt: isRecordedAt,
+		getLastRecordingTime: getLastRecordingTime,
 		coinFlip: coinFlip,
 		setup: setup
 	}

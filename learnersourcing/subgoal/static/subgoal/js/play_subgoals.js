@@ -89,9 +89,13 @@ function checkVideo() {
 		// temp_time = t;
 		routeStage(t);
 		player.pauseVideo();
-		askQuestion(t);
-		isAsked = true;
-		Experiment.recordQuestion({"time": t, "isAsked": isAsked, "stage": Experiment.questionStage});
+		
+		// ask the question only when it has been some time after the last asking
+		if (t - Experiment.getLastRecordingTime() > Experiment.questionInterval / 2){
+			askQuestion(t);
+			isAsked = true;
+			Experiment.recordQuestion({"time": t, "isAsked": isAsked, "stage": Experiment.questionStage});			
+		}
 	} else {
 		// update every time, because users might be skipping. 
 		// retrieve the next possible interval.
