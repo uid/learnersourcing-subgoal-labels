@@ -28,14 +28,16 @@ function onPlayerReady(event) {
 
 // var stop_time = false;
 function onPlayerStateChange(event) {
-    setTimeout(checkVideo, 1000);
+    // setTimeout(checkVideo, 1000);
 }
 
 function stopVideo() {
+	console.log("stopped");
 	player.stopVideo();
 }
 
 function pauseVideo() {
+	console.log("paused");
 	player.pauseVideo();
 }
 
@@ -50,36 +52,53 @@ time_to_stop = Experiment.questionInterval;
 
 function checkVideo() {
 	var t = Math.floor(player.getCurrentTime());
+	console.log("video checked at", t);
+	var isAsked = false;
 	verticalTimeline(t);
-	if (t==time_to_stop && t != 0 && t - temp_time > 1) {
-		temp_time = t;
+	// if (t==time_to_stop && t != 0 && t - temp_time > 1) {
+	// skip if the question has already been asked in this time
+	// this happens when the learner re-watches some parts
+	if (t==time_to_stop && t != 0 && !(Experiment.isRecordedAt(t))) {
+		// temp_time = t;
+		routeStage(t);
 		if (Experiment.isQuestionRandom){
 			if (Experiment.coinFlip()){
 				console.log(t, "coin true, question asked");
 				player.pauseVideo();
 				askQuestion(t);
+				isAsked = true;
 			} else {
 				console.log(t, "coin false, question skipped");
+				isAsked = false;
 				// do nothing for this interval
 			}
 		} else {
 			console.log(t, "no coin, question asked");
 			player.pauseVideo();
-			askQuestion(t);			
+			askQuestion(t);		
+			isAsked = true;	
 		}
 		// update the next stopping point
 		time_to_stop = t + Experiment.questionInterval;
+		// update the question history
+		Experiment.recordQuestion({"time": t, "isAsked": isAsked, "stage": Experiment.questionStage});
 	} else if (player.getPlayerState()==0) {
+		// always ask when the video ends.
+		// TODO: fix the problem of very short question interval if the (video length % interval) is short.
 		console.log(t, "video ended");
-		temp_time = t;
+		// temp_time = t;
+		routeStage(t);
 		player.pauseVideo();
 		askQuestion(t);
+		isAsked = true;
+		Experiment.recordQuestion({"time": t, "isAsked": isAsked, "stage": Experiment.questionStage});
 	} else {
 		// update every time, because users might be skipping. 
 		// retrieve the next possible interval.
 		time_to_stop = t + Experiment.questionInterval - (t % Experiment.questionInterval);
-		setTimeout(checkVideo, 1000);
 	}
+	// keep looping
+	setTimeout(checkVideo, 1000);
 }
 
 // function step_from_time(time) {
@@ -102,32 +121,49 @@ function checkVideo() {
 
 // display the current step indicator in the Wiki view
 function verticalTimeline(t) {
-	var num_steps = Object.keys(step_times).length;
-	for (i = 1; i < num_steps; i++) {
-		step = 'step'+i;
-		if (t==step_times[step]) {
-			$(".time_marker").css("color", "white")
-			$($("#"+step).children()[0]).css("color", "red");
+	var numSteps = Object.keys(step_times).length;
+	var matchingStep = "";
+	for (i = 1; i < numSteps; i++) {
+		var curStep = 'step' + i;
+		var nextStep = 'step' + (i+1);
+		// if (t==step_times[step]) {
+		// instead of equality check, it should be a range check.
+		// last step doesn't have nextStep
+		if (i == numSteps - 1){
+			if (step_times[curStep] <= t){
+				matchingStep = curStep;
+				break;
+			}
+		} else {
+			if (step_times[curStep] <= t && t < step_times[nextStep]){
+				matchingStep = curStep;
+				break;
+			}
 		}
+	}
+
+	// always reset to show nothing "before" the first step begins.
+	$(".time_marker").css("color", "white");
+	if (matchingStep != ""){
+		$($("#" + curStep).children()[0]).css("color", "red");
 	}
 }
 
 
 // given the current time and data collected, decide which question to display.
 function routeStage(t) {
-	stage = 1;
+	Experiment.questionStage = 1;
 	// TODO: look at the number of subgoals collected so far, and decide dynamically.
 	var floor = t - Experiment.questionInterval;
 	var count = 0;
 	for (var i in subgoals){
-		console.log(subgoals[i], subgoals[i][1], t);
-		if (floor <= subgoals[i][1] && subgoals[i][1] < t){
+		// console.log(subgoals[i], t);
+		if (floor <= subgoals[i]["time"] && subgoals[i]["time"] < t){
 			count += 1;
 		}
 	}	
 	if (count >= 3)
-		stage = 2;
-	return stage;
+		Experiment.questionStage = 2;
 }
 
 
@@ -146,10 +182,10 @@ function displayStage2Question(t){
 	var floor = t - Experiment.questionInterval;	
 	$(".mult_choice_options").empty('');
 	for (var i in subgoals){
-		console.log(subgoals[i], subgoals[i][1], t);
-		if (floor <= subgoals[i][1] && subgoals[i][1] < t){
-			var subgoal_id = subgoals[i][0]["id"];
-			var subgoal_text = subgoals[i][0]["label"];
+		console.log(subgoals[i], t);
+		if (floor <= subgoals[i]["time"] && subgoals[i]["time"] < t){
+			var subgoal_id = subgoals[i]["id"];
+			var subgoal_text = subgoals[i]["label"];
 			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+subgoal_text+"</input></label><br>")
 		}
 	}
@@ -160,8 +196,7 @@ function displayStage2Question(t){
 // Create the question
 function askQuestion(t) {
 	$("#player").hide();	
-	routeStage(t);
-	if (stage == 1){
+	if (Experiment.questionStage == 1){
 		displayStage1Question(t);
 		$('.dq_input').fadeIn(500);
 	} else {
@@ -211,7 +246,7 @@ function submitStage1Subgoal(){
 	$('.dq_input').hide();
 	$("#player").show()
 	$('.dq_help').show();
-	setTimeout(checkVideo, 1000);
+	// setTimeout(checkVideo, 1000);
 
 	// backend update
 	$.ajax({
@@ -253,7 +288,7 @@ function submitStage2Subgoal(){
 	}
 	// everything else should be downvoted
 	for (var i in subgoals) {
-		var subgoal_id = subgoals[i][0]["id"];
+		var subgoal_id = subgoals[i]["id"];
 		if (!(subgoal_id in votes))
 			votes[subgoal_id] = "downvotes_s2";
 	}
@@ -313,8 +348,8 @@ function submitStage2Subgoal(){
 		});		
 	} else if (answer != "new" && answer != "none"){
 		for (var i in subgoals){
-			if (answer == subgoals[i][0]["id"])
-				inp_text = subgoals[i][0]["label"];
+			if (answer == subgoals[i]["id"])
+				inp_text = subgoals[i]["label"];
 		}
 		$li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" + 
@@ -349,9 +384,9 @@ function submitStage2Subgoal(){
 function submitSubgoal() {
 	$(".frozen").css("color", "black");
 
-	if (stage == 1){
+	if (Experiment.questionStage == 1){
 		submitStage1Subgoal();
-	} else {
+	} else if (Experiment.questionStage == 2){
 		submitStage2Subgoal();
 	}
 			
@@ -360,7 +395,7 @@ function submitSubgoal() {
 	$('.dq_input_2').fadeOut(250);
 	$('.dq_help').fadeIn(500);
 	$("#player").show();
-	setTimeout(checkVideo, 1000);
+	// setTimeout(checkVideo, 1000);
 }
 
 $("body").on('keypress', '.q_input', function(e) {
@@ -390,7 +425,7 @@ $("body").on('click', '.ppButton', function(e) {
 	$('.dq_help').show();
 	$("#player").show()
 	// $('.dq_instr').hide();
-	setTimeout(checkVideo, 1000);
+	// setTimeout(checkVideo, 1000);
 });
 
 $("body").on('click', '.cancelButton', function(e) {
@@ -400,7 +435,7 @@ $("body").on('click', '.cancelButton', function(e) {
 	$('.dq_help').show();
 	$("#player").show()
 	// $('.dq_instr').hide();
-	setTimeout(checkVideo, 1000);
+	// setTimeout(checkVideo, 1000);
 });
 
 $("body").on('click', '.frozen', function(e) {

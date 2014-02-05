@@ -171,7 +171,7 @@ button:hover {
 }
 
 #player {
-  margin-top: 40px;
+  margin-top: 5px;
   padding-top: 10px;
   position: relative;
 }
@@ -344,6 +344,10 @@ img.video_thumb {
 .mult_choice_options {
 	margin:15px;
 	margin-top: 25px;
+}
+
+.mult_choice_options label:hover {
+	cursor: pointer;
 }
 
 .solidButton {
