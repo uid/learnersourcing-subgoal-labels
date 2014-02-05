@@ -159,7 +159,8 @@ $(function() {
 
 function enableEvents() {
 	$("#sortable").sortable({
-		cancel:".frozen"
+		cancel:".frozen",
+		cancel:".movable",
 	});
 
 }

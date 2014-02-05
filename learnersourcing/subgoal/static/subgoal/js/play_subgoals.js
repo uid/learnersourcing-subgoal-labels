@@ -10,8 +10,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-    	width: '500',
-    	height: '315',
+    	width: '750',
+    	height: '473',
     	videoId: youtube_id,
         enablejsapi: '1',
         events: {
@@ -150,10 +150,10 @@ function displayStage2Question(t){
 		if (floor <= subgoals[i][1] && subgoals[i][1] < t){
 			var subgoal_id = subgoals[i][0]["id"];
 			var subgoal_text = subgoals[i][0]["label"];
-			$(".mult_choice_options").append("<input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'><label>"+subgoal_text+"</label></input><br>")
+			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+subgoal_text+"</input></label><br>")
 		}
 	}
-	$(".mult_choice_options").append("<input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input'></input><br><input type='radio' name='step1' value='none' class='q_none'><label>None apply</label></input><br>")
+	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
 }
 
 
@@ -283,7 +283,7 @@ function submitStage2Subgoal(){
 	if (typeof $('input[name=step1]:radio:checked + input').val() !== "undefined") {
 		console.log('here', time)
 		inp_text = $('input[name=step1]:radio:checked + input').val()
-		$li = $("<li class='movable subgoal'><span contenteditable='true' class='sub'>" + inp_text + "</span>" + 
+		$li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" + 
 			"<button type='button' class='editButton permButton'>Edit</button>" + 
 			"<button type='button' class='saveButton permButton'>Save</button></li>");
@@ -316,7 +316,7 @@ function submitStage2Subgoal(){
 			if (answer == subgoals[i][0]["id"])
 				inp_text = subgoals[i][0]["label"];
 		}
-		$li = $("<li class='movable subgoal'><span contenteditable='true' class='sub'>" + inp_text + "</span>" + 
+		$li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" + 
 			"<button type='button' class='editButton permButton'>Edit</button>" + 
 			"<button type='button' class='saveButton permButton'>Save</button></li>");
