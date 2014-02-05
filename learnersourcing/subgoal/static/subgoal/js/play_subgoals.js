@@ -101,23 +101,6 @@ function checkVideo() {
 	setTimeout(checkVideo, 1000);
 }
 
-// function step_from_time(time) {
-// 	for (step in step_times) {
-// 		if (step_times[step]==time) {
-// 			return step
-// 		}
-// 	}
-// }
-
-// function calculate_new_time(tts) {
-// 	for (i=0; i<Object.keys(subgoal_groups).length-1; i++) {
-// 		if (tts == step_times[Object.keys(subgoal_groups)[i]]) {
-// 			new_tts = step_times[Object.keys(subgoal_groups)[i+1]]
-// 		}
-// 	}
-// 	console.log(new_tts)
-// 	return new_tts
-// }
 
 // display the current step indicator in the Wiki view
 function verticalTimeline(t) {
@@ -156,9 +139,9 @@ function routeStage(t) {
 	// TODO: look at the number of subgoals collected so far, and decide dynamically.
 	var floor = t - Experiment.questionInterval;
 	var count = 0;
-	for (var i in subgoals){
-		// console.log(subgoals[i], t);
-		if (floor <= subgoals[i]["time"] && subgoals[i]["time"] < t){
+	for (var i in Subgoal.data){
+		// console.log(Subgoal.data[i], t);
+		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
 			count += 1;
 		}
 	}	
@@ -181,11 +164,11 @@ function displayStage1Question(t){
 function displayStage2Question(t){
 	var floor = t - Experiment.questionInterval;	
 	$(".mult_choice_options").empty('');
-	for (var i in subgoals){
-		console.log(subgoals[i], t);
-		if (floor <= subgoals[i]["time"] && subgoals[i]["time"] < t){
-			var subgoal_id = subgoals[i]["id"];
-			var subgoal_text = subgoals[i]["label"];
+	for (var i in Subgoal.data){
+		console.log(Subgoal.data[i], t);
+		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
+			var subgoal_id = Subgoal.data[i]["id"];
+			var subgoal_text = Subgoal.data[i]["label"];
 			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+subgoal_text+"</input></label><br>")
 		}
 	}
@@ -266,11 +249,11 @@ function submitStage1Subgoal(){
 			learner_id: 1
 		},
 	}).done(function(data){
-		console.log("success:", data["success"]);
+		console.log("/subgoal/create/ success:", data["success"]);
 		$li.attr("data-subgoal-id", data["subgoal_id"]);
 		// TODO: do something for failure
 	}).fail(function(){
-		console.log("ajax failed");
+		console.log("/subgoal/create/ failure");
 	}).always(function(){
 	});	
 }
@@ -287,8 +270,8 @@ function submitStage2Subgoal(){
 		votes[answer] = "upvotes_s2";
 	}
 	// everything else should be downvoted
-	for (var i in subgoals) {
-		var subgoal_id = subgoals[i]["id"];
+	for (var i in Subgoal.data) {
+		var subgoal_id = Subgoal.data[i]["id"];
 		if (!(subgoal_id in votes))
 			votes[subgoal_id] = "downvotes_s2";
 	}
@@ -304,8 +287,8 @@ function submitStage2Subgoal(){
 	// for (sub in subs) {
 	// 	if ($('.'+subs[sub]).text() != text) {
 	// 		// for now, whatever's the latest in the group will get the time assigned.
-	// 		if (isInt(formatted_subgoals[subs[sub]]["time"]))
-	// 			time = formatted_subgoals[subs[sub]]["time"];
+	// 		if (isInt(formatted_Subgoal.data[subs[sub]]["time"]))
+	// 			time = formatted_Subgoal.data[subs[sub]]["time"];
 	// 		$('.'+subs[sub]).parents()[0].remove()
 	// 	} else {
 	// 	}
@@ -339,17 +322,17 @@ function submitStage2Subgoal(){
 				is_vote: 1
 			},
 		}).done(function(data){
-			console.log("success:", data["success"]);
+			console.log("/subgoal/create/ success:", data["success"]);
 			$li.attr("data-subgoal-id", data["subgoal_id"]);
 			// TODO: do something for failure
 		}).fail(function(){
-			console.log("ajax failed");
+			console.log("/subgoal/create/ failure");
 		}).always(function(){
 		});		
 	} else if (answer != "new" && answer != "none"){
-		for (var i in subgoals){
-			if (answer == subgoals[i]["id"])
-				inp_text = subgoals[i]["label"];
+		for (var i in Subgoal.data){
+			if (answer == Subgoal.data[i]["id"])
+				inp_text = Subgoal.data[i]["label"];
 		}
 		$li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" + 
@@ -372,11 +355,11 @@ function submitStage2Subgoal(){
 			learner_id: 1
 		},
 	}).done(function(data){
-		console.log("success:", data["success"]);
+		console.log("/subgoal/vote/ success:", data["success"]);
 		// $li.attr("data-subgoal-id", data["subgoal_id"]);
 		// TODO: do something for failure
 	}).fail(function(){
-		console.log("ajax failed");
+		console.log("/subgoal/vote/ failure");
 	}).always(function(){
 	});		
 }

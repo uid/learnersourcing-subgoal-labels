@@ -85,6 +85,7 @@ class Subgoal(models.Model):
 
 # keeping track of user actions
 class Action(models.Model):
+	session_id = models.CharField(max_length=200)	
 	video = models.ForeignKey(Video)
 	learner = models.ForeignKey(Learner)
 	subgoal = models.ForeignKey(Subgoal, blank=True, null=True)
@@ -93,10 +94,42 @@ class Action(models.Model):
 	action_type = models.CharField(max_length=32)
 	stage = models.IntegerField()
 	added_at = models.DateTimeField(auto_now_add=True)
-	session_id = models.CharField(max_length=200)
 
 	def __unicode__(self):
 		return self.video.slug + " (" + self.learner.username + ") " + self.action_type
+	def toJSON(self):
+		return simplejson.dumps(self, default=dthandler, sort_keys=True)
+
+
+# keeping track of user sessions and their experimental conditions
+class ExpSession(models.Model):
+	session_id = models.CharField(max_length=200)	
+	video = models.ForeignKey(Video)
+	learner = models.ForeignKey(Learner)
+	cond_interval = models.IntegerField(default=0)
+	cond_random = models.BooleanField(default=False)
+	cond_step = models.BooleanField(default=False)
+	cond_admin = models.BooleanField(default=False)
+	added_at = models.DateTimeField(auto_now_add=True)
+
+	def __unicode__(self):
+		return self.video.slug + " " + self.session_id
+	def toJSON(self):
+		return simplejson.dumps(self, default=dthandler, sort_keys=True)
+
+
+# keeping track of questions asked to the learner
+class Question(models.Model):
+	session_id = models.CharField(max_length=200)	
+	video = models.ForeignKey(Video)
+	learner = models.ForeignKey(Learner)
+	video_time = models.IntegerField(default=0)
+	is_asked = models.BooleanField(default=False)
+	question_stage = models.IntegerField(default=0)
+	added_at = models.DateTimeField(auto_now_add=True)
+
+	def __unicode__(self):
+		return self.video.slug + " " + self.session_id
 	def toJSON(self):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 

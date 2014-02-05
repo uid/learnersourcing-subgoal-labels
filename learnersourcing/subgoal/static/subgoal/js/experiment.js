@@ -24,8 +24,27 @@ var Experiment = function() {
 	// add a record to questionTracker
 	function recordQuestion(record){
 		questionTracker.push(record);
-		// TODO: Ajax call to the server
+		// Ajax call to the server
 		// session key, video ID, record (time, isAsked, questionStage)
+
+		// backend update
+		$.ajax({
+			type: "POST",
+			url: "/subgoal/record_question/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				video_id: video["id"], 
+				learner_id: 1,
+				video_time: record["time"],
+				is_asked: record["isAsked"],
+				question_stage: record["stage"]
+			},
+		}).done(function(data){
+			console.log("/subgoal/record_question success:", data["success"]);
+		}).fail(function(){
+			console.log("/subgoal/record_question failure");
+		}).always(function(){
+		});			
 	}
 
 	// check if the question has been already asked in this time
@@ -43,6 +62,28 @@ var Experiment = function() {
 	    return (Math.floor(Math.random() * 2) == 0);
 	}
 
+	// set up the parameters
+	function setup(exp_session){
+		// console.log(exp_session);
+		Experiment.questionInterval = exp_session["cond_interval"];
+		Experiment.isQuestionRandom = exp_session["cond_random"];
+		Experiment.isStepShown = exp_session["cond_step"];
+		Experiment.isAdmin = exp_session["cond_admin"];
+
+		// process any query string: overwrite the default
+		if (getParameterByName("interval") != "" && isInt(getParameterByName("interval")))
+			Experiment.questionInterval = getParameterByName("interval");
+		if (getParameterByName("random") != "")
+			Experiment.isQuestionRandom = getParameterByName("random")==1 ? true : false;
+		if (getParameterByName("step") != "")
+			Experiment.isStepShown = getParameterByName("step")==1 ? true : false;
+		if (getParameterByName("admin") != "")
+			Experiment.isAdmin = getParameterByName("admin")==1 ? true : false;
+
+		console.log("Interval:", Experiment.questionInterval, "Random:", Experiment.isQuestionRandom, "Step:", Experiment.isStepShown, "Admin:", Experiment.isAdmin);
+	}
+
+
 	return {
 		questionStage: questionStage,
 		isAdmin: isAdmin,
@@ -52,6 +93,7 @@ var Experiment = function() {
 		questionTracker: questionTracker,
 		recordQuestion: recordQuestion,
 		isRecordedAt: isRecordedAt,
-		coinFlip: coinFlip
+		coinFlip: coinFlip,
+		setup: setup
 	}
 }();

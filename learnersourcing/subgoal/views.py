@@ -2,10 +2,10 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
-from subgoal.models import Video, Step, Subgoal, Learner, Action
+from subgoal.models import Video, Step, Subgoal, Learner, Action, ExpSession, Question
 from django.db import IntegrityError
 from django.utils import simplejson
-
+from random import randint
 
 def model_to_json(instances):
     result = []
@@ -34,13 +34,31 @@ def play(request, video_id):
 	print subgoals
 	print unicode(len(steps)) + " steps: "
 	print steps
+
+	learner = get_object_or_404(Learner, pk=1)
+	cond_interval = 30
+	cond_random = False if randint(0,1) == 0 else True
+	cond_step = False if randint(0,1) == 0 else True
+	cond_admin = False
+
+	exp_session = ExpSession(
+					session_id = request.session.session_key,
+					video = video,
+					learner = learner,
+					cond_interval = cond_interval,
+					cond_random = cond_random,
+					cond_step = cond_step,
+					cond_admin = cond_admin
+				)
+	exp_session.save()
 	return render(
 		request, 
 		'subgoal/play.html', 
 		{
 			'video': model_to_json([video]),
 			'subgoals': model_to_json(subgoals),
-			'steps': model_to_json(steps)
+			'steps': model_to_json(steps),
+			'exp_session': model_to_json([exp_session])
 		}
 	)
 
@@ -98,6 +116,32 @@ def stage3(request, video_id):
 	)
 
 
+
+# Ajax
+# recording each time the learnersourcing question is asked.
+def record_question(request):
+	video_id = request.POST['video_id']
+	learner_id = request.POST['learner_id']
+	video = get_object_or_404(Video, pk=video_id)
+	learner = get_object_or_404(Learner, pk=learner_id)
+	if request.is_ajax():
+		question = Question(
+					session_id = request.session.session_key,
+					video = video,
+					learner = learner,
+					video_time = request.POST['video_time'],
+					is_asked = request.POST['is_asked'],
+					question_stage = request.POST['question_stage']
+				)
+		question.save()
+		results = {'success': True}
+	else:
+		raise Http404
+	json = simplejson.dumps(results)
+	return HttpResponse(json, mimetype='application/json')
+
+
+# Ajax
 def subgoal_create(request):
 	video_id = request.POST['video_id']
 	learner_id = request.POST['learner_id']
@@ -135,6 +179,7 @@ def subgoal_create(request):
 	return HttpResponse(json, mimetype='application/json')
 
 
+# Ajax
 def subgoal_update(request):
 	video_id = request.POST['video_id']
 	subgoal_id = request.POST['subgoal_id']
@@ -160,6 +205,7 @@ def subgoal_update(request):
 	return HttpResponse(json, mimetype='application/json')	
 
 
+# Ajax
 def subgoal_move(request):
 	video_id = request.POST['video_id']
 	subgoal_id = request.POST['subgoal_id']
@@ -185,6 +231,7 @@ def subgoal_move(request):
 	return HttpResponse(json, mimetype='application/json')		
 
 
+# Ajax
 def subgoal_delete(request):
 	video_id = request.POST['video_id']
 	subgoal_id = request.POST['subgoal_id']
@@ -210,6 +257,7 @@ def subgoal_delete(request):
 	return HttpResponse(json, mimetype='application/json')	
 
 
+# Ajax
 def subgoal_vote(request):
 	video_id = request.POST['video_id']
 	
@@ -249,6 +297,7 @@ def subgoal_vote(request):
 
 
 # Protocol for routing to correct stage
+# Not used: now dynamically added within the page
 
 # Route to stage 1:
 #	If low number of subgoals (< 10) total for one video
