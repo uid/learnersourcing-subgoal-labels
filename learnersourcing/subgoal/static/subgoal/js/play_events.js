@@ -98,14 +98,15 @@ $(function() {
 
 	$("body").on('click', '.addButton', function(e) {
 		e.preventDefault();
-		var $li = $("<li class='movable subgoal'><span class='sub'>New label</span>" + 
+		var label = "New label";
+		var $li = $("<li class='movable subgoal'><span class='sub'>" + label + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" + 
 			"<button type='button' class='editButton permButton'>Edit</button>" + 
 			"<button type='button' class='saveButton permButton'>Save</button></li>");
 		$("#sortable").prepend($li);
 		enableEvents();
 		// enableSubgoalClick()
-		Subgoal.opCreate($li);
+		Subgoal.opCreate($li, 0, label);
 		// backend update
 		// $.ajax({
 		// 	type: "POST",

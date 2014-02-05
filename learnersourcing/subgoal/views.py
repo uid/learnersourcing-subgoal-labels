@@ -150,7 +150,7 @@ def subgoal_create(request):
 	if request.is_ajax():
 		subgoal = Subgoal(
 					video=video, 
-					time=request.POST['time'], 
+					time=int(request.POST['time']), 
 					label=request.POST['label'],
 					learner=learner,
 					state="created",

@@ -137,7 +137,7 @@
 		load_video_title(video["title"]);
 		// we're not currently showing all the subgoals
 		if (Experiment.isAdmin)
-			Subgoal.display(step_times);
+			Subgoal.displayAll(step_times);
 			// add_subgoals_new(subgoals, step_times);
 		// var pre_groups = group_subgoals_new(subgoals, video_steps, step_times);
 		var pre_groups = Subgoal.group(video_steps, step_times);

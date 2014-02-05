@@ -78,7 +78,9 @@ class Subgoal(models.Model):
 	downvotes_s3 = models.IntegerField(default=0)
 
 	def __unicode__(self):
-		return self.video.slug + " (" + unicode(int(round(self.time))) + ") " + self.label
+		return self.video.slug + " (" + unicode(self.time) + ") " + self.label
+		# return self.video.slug + " (" + unicode(int(round(self.time))) + ") " + self.label
+
 	def toJSON(self):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 
@@ -113,7 +115,12 @@ class ExpSession(models.Model):
 	added_at = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
-		return self.video.slug + " " + self.session_id
+		return str(self.added_at) + \
+			" | video=" + self.video.slug + \
+			" | interval=" + str(self.cond_interval) + \
+			" | random=" + str(self.cond_random) + \
+			" | step=" + str(self.cond_step) + \
+			" | admin=" + str(self.cond_admin) 
 	def toJSON(self):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 
@@ -129,7 +136,11 @@ class Question(models.Model):
 	added_at = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
-		return self.video.slug + " " + self.session_id
+		return str(self.added_at) + \
+			" | video=" + self.video.slug + \
+			" | time=" + str(self.video_time) + \
+			" | asked=" + str(self.is_asked) + \
+			" | stage=" + str(self.question_stage)
 	def toJSON(self):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 

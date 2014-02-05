@@ -3,20 +3,25 @@ var Subgoal = function() {
 	// all subgoals to be accessed in the frontend
 	var data = [];
 
-	function opCreate($li){
+	function opCreate($li, t, label, isVoted){
+		isVoted = typeof isVoted !== 'undefined' ? isVoted : false;
+		var data = {
+			csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+			stage: stage,
+			video_id: video["id"], 
+			time: t,
+			label: label,
+			// hard-coded for now since there's no login
+			// TODO: add the current user's info
+			learner_id: 1
+		};
+		if (isVoted)
+			data["is_vote"] = 1;
+
 		$.ajax({
 			type: "POST",
 			url: "/subgoal/create/",
-			data: {
-				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-				stage: stage,
-				video_id: video["id"], 
-				time: 0,
-				label: "New label",
-				// hard-coded for now since there's no login
-				// TODO: add the current user's info
-				learner_id: 1
-			},
+			data: data
 		}).done(function(data){
 			console.log("/subgoal/create/ success:", data["success"]);
 			$li.attr("data-subgoal-id", data["subgoal_id"]);
@@ -94,7 +99,27 @@ var Subgoal = function() {
 		});		
 	}
 
-	function opVote(){
+	function opVote(votes){
+		// backend update
+		$.ajax({
+			type: "POST",
+			url: "/subgoal/vote/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				stage: stage,
+				video_id: video["id"], 
+				votes: JSON.stringify(votes),
+				// answer: $('input[name=step1]:radio:checked').val(),
+				learner_id: 1
+			},
+		}).done(function(data){
+			console.log("/subgoal/vote/ success:", data["success"]);
+			// $li.attr("data-subgoal-id", data["subgoal_id"]);
+			// TODO: do something for failure
+		}).fail(function(){
+			console.log("/subgoal/vote/ failure");
+		}).always(function(){
+		});		
 
 	}
 
@@ -137,7 +162,7 @@ var Subgoal = function() {
 		return [actual_groups, group_times, rel_steps]
 	}
 
-	function display(step_times) {
+	function displayAll(step_times) {
 		for (var i in Subgoal.data) {
 			// $li.attr("data-subgoal-id", data[sub]["id"]);
 			var new_subgoal = "<li class='movable subgoal' data-subgoal-id='" + Subgoal.data[i]["id"] + "'>" + 
@@ -158,6 +183,39 @@ var Subgoal = function() {
 		}
 	}
 
+	// for the given time, return all subgoals within the most recent time interval
+	function getCurrentGroup(t){
+		// TODO: expand the floor if question was skipped at floor
+		var floor = t - Experiment.questionInterval;
+		var group = [];
+		for (var i in Subgoal.data){
+			if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
+				group.push(Subgoal.data[i]);
+			}
+		}	
+		return group;
+	}
+
+	// find a subgoal data entry with ID
+	function getSubgoalByID(subgoal_id){
+		var result;
+		for (var i in Subgoal.data){
+			if (Subgoal.data[i]["id"] == subgoal_id)
+				result = Subgoal.data[i];
+		}
+		return result;
+	}
+
+	// find a subgoal visual entry with ID
+	function getSubgoalDivByID(subgoal_id){
+		var result;
+		$(".subgoal").each(function(){
+			if ($(this).attr("data-subgoal-id") == subgoal_id)
+				result = $(this);
+		});
+		return result;
+	}
+
 
 	return {
 		data: data,
@@ -167,6 +225,9 @@ var Subgoal = function() {
 		opMove: opMove,
 		opVote: opVote,
 		group: group,
-		display: display
+		displayAll: displayAll,
+		getCurrentGroup: getCurrentGroup,
+		getSubgoalByID: getSubgoalByID,
+		getSubgoalDivByID: getSubgoalDivByID
 	}
 }();

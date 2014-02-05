@@ -52,7 +52,7 @@ time_to_stop = Experiment.questionInterval;
 
 function checkVideo() {
 	var t = Math.floor(player.getCurrentTime());
-	console.log("video checked at", t);
+	// console.log("video checked at", t);
 	var isAsked = false;
 	verticalTimeline(t);
 	// if (t==time_to_stop && t != 0 && t - temp_time > 1) {
@@ -136,22 +136,15 @@ function verticalTimeline(t) {
 // given the current time and data collected, decide which question to display.
 function routeStage(t) {
 	Experiment.questionStage = 1;
-	// TODO: look at the number of subgoals collected so far, and decide dynamically.
-	var floor = t - Experiment.questionInterval;
-	var count = 0;
-	for (var i in Subgoal.data){
-		// console.log(Subgoal.data[i], t);
-		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
-			count += 1;
-		}
-	}	
-	if (count >= 3)
+	var subgoalGroup = Subgoal.getCurrentGroup(t);
+	// simple routing heuristic: see if the current group has 3 or more
+	if (subgoalGroup.length >= 3)
 		Experiment.questionStage = 2;
 }
 
 
 function displayStage1Question(t){
-	var floor = t - Experiment.questionInterval;
+	var floor = computePreviousTime(t);
 	$(".frozen").css("color", "black");
 	for (step in step_times) {
 		if (floor <= step_times[step] && step_times[step] < t) {
@@ -162,10 +155,9 @@ function displayStage1Question(t){
 
 
 function displayStage2Question(t){
-	var floor = t - Experiment.questionInterval;	
+	var floor = computePreviousTime(t);	
 	$(".mult_choice_options").empty('');
 	for (var i in Subgoal.data){
-		console.log(Subgoal.data[i], t);
 		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
 			var subgoal_id = Subgoal.data[i]["id"];
 			var subgoal_text = Subgoal.data[i]["label"];
@@ -203,8 +195,8 @@ function placeSubtitle(subtitle, time) {
 
 
 // decide where the current subgoal should be placed in. should refer to the previous time that the question was asked.
-function computePreviousTime(){
-	var result = player.getCurrentTime() - Experiment.questionInterval;
+function computePreviousTime(t){
+	var result = t - Experiment.questionInterval;
 	if (Experiment.isQuestionRandom){
 		// TODO: when random is on, skip the skipped ones.
 		// filter out the skipped timings.
@@ -231,35 +223,38 @@ function submitStage1Subgoal(){
 	$('.dq_help').show();
 	// setTimeout(checkVideo, 1000);
 
+	Subgoal.opCreate($li, time, inp_text);
 	// backend update
-	$.ajax({
-		type: "POST",
-		url: "/subgoal/create/",
-		data: {
-			// to avoid 403 forbidden error in Django+Ajax POST calls
-			// https://racingtadpole.com/blog/django-ajax-and-jquery/
-			csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-			stage: stage,
-			// note: this is Django object ID, not Youtube ID.
-			video_id: video["id"], 
-			time: time,
-			label: inp_text,
-			// hard-coded for now since there's no login
-			// TODO: add the current user's info
-			learner_id: 1
-		},
-	}).done(function(data){
-		console.log("/subgoal/create/ success:", data["success"]);
-		$li.attr("data-subgoal-id", data["subgoal_id"]);
-		// TODO: do something for failure
-	}).fail(function(){
-		console.log("/subgoal/create/ failure");
-	}).always(function(){
-	});	
+	// $.ajax({
+	// 	type: "POST",
+	// 	url: "/subgoal/create/",
+	// 	data: {
+	// 		// to avoid 403 forbidden error in Django+Ajax POST calls
+	// 		// https://racingtadpole.com/blog/django-ajax-and-jquery/
+	// 		csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+	// 		stage: stage,
+	// 		// note: this is Django object ID, not Youtube ID.
+	// 		video_id: video["id"], 
+	// 		time: time,
+	// 		label: inp_text,
+	// 		// hard-coded for now since there's no login
+	// 		// TODO: add the current user's info
+	// 		learner_id: 1
+	// 	},
+	// }).done(function(data){
+	// 	console.log("/subgoal/create/ success:", data["success"]);
+	// 	$li.attr("data-subgoal-id", data["subgoal_id"]);
+	// 	// TODO: do something for failure
+	// }).fail(function(){
+	// 	console.log("/subgoal/create/ failure");
+	// }).always(function(){
+	// });	
 }
 
 function submitStage2Subgoal(){
-	var time = computePreviousTime();
+	console.log(player.getCurrentTime());
+	var currentTime = Math.floor(player.getCurrentTime());
+	var time = computePreviousTime(currentTime);
 	var text = $('input[name=step1]:radio:checked + label').text();
 
 	// compute upvote/downvote
@@ -269,18 +264,20 @@ function submitStage2Subgoal(){
 	if (answer != "new" && answer != "none"){
 		votes[answer] = "upvotes_s2";
 	}
-	// everything else should be downvoted
-	for (var i in Subgoal.data) {
-		var subgoal_id = Subgoal.data[i]["id"];
-		if (!(subgoal_id in votes))
+	// everything else within the same time group should be downvoted
+	var subgoalGroup = Subgoal.getCurrentGroup(currentTime);
+	for (var i in subgoalGroup) {
+		var subgoal_id = subgoalGroup[i]["id"];
+		if (Experiment.isAdmin){
+			var $target = Subgoal.getSubgoalDivByID(subgoal_id);
+			console.log($target);
+			if (typeof $target !== "undefined")
+				$target.remove();
+		}		
+		if (!(subgoal_id in votes)){
 			votes[subgoal_id] = "downvotes_s2";
+		}
 	}
-
-	// for (sub in subs) {
-	// 	var subgoal_id = $('.'+subs[sub]).parent().attr("data-subgoal-id");
-	// 	if (!(subgoal_id in votes))
-	// 		votes[subgoal_id] = "downvotes_s2";
-	// }
 	console.log(votes);
 
 	// within this subgoal group, remove everything that does not match the selected item.
@@ -308,33 +305,34 @@ function submitStage2Subgoal(){
 		$li.fadeIn(1000)
 		placeSubtitle($li, time)	
 
+		Subgoal.opCreate($li, time, inp_text, true);
 		// backend update
-		$.ajax({
-			type: "POST",
-			url: "/subgoal/create/",
-			data: {
-				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-				stage: stage,
-				video_id: video["id"], 
-				time: time,
-				label: inp_text,
-				learner_id: 1,
-				is_vote: 1
-			},
-		}).done(function(data){
-			console.log("/subgoal/create/ success:", data["success"]);
-			$li.attr("data-subgoal-id", data["subgoal_id"]);
-			// TODO: do something for failure
-		}).fail(function(){
-			console.log("/subgoal/create/ failure");
-		}).always(function(){
-		});		
+		// $.ajax({
+		// 	type: "POST",
+		// 	url: "/subgoal/create/",
+		// 	data: {
+		// 		csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+		// 		stage: stage,
+		// 		video_id: video["id"], 
+		// 		time: time,
+		// 		label: inp_text,
+		// 		learner_id: 1,
+		// 		is_vote: 1
+		// 	},
+		// }).done(function(data){
+		// 	console.log("/subgoal/create/ success:", data["success"]);
+		// 	$li.attr("data-subgoal-id", data["subgoal_id"]);
+		// 	// TODO: do something for failure
+		// }).fail(function(){
+		// 	console.log("/subgoal/create/ failure");
+		// }).always(function(){
+		// });		
 	} else if (answer != "new" && answer != "none"){
 		for (var i in Subgoal.data){
 			if (answer == Subgoal.data[i]["id"])
 				inp_text = Subgoal.data[i]["label"];
 		}
-		$li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
+		$li = $("<li class='movable subgoal' data-subgoal-id='" + answer + "'><span class='sub'>" + inp_text + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" + 
 			"<button type='button' class='editButton permButton'>Edit</button>" + 
 			"<button type='button' class='saveButton permButton'>Save</button></li>");
@@ -342,26 +340,7 @@ function submitStage2Subgoal(){
 		placeSubtitle($li, time)		
 	}
 
-	// backend update
-	$.ajax({
-		type: "POST",
-		url: "/subgoal/vote/",
-		data: {
-			csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-			stage: stage,
-			video_id: video["id"], 
-			votes: JSON.stringify(votes),
-			// answer: $('input[name=step1]:radio:checked').val(),
-			learner_id: 1
-		},
-	}).done(function(data){
-		console.log("/subgoal/vote/ success:", data["success"]);
-		// $li.attr("data-subgoal-id", data["subgoal_id"]);
-		// TODO: do something for failure
-	}).fail(function(){
-		console.log("/subgoal/vote/ failure");
-	}).always(function(){
-	});		
+	Subgoal.opVote(votes);
 }
 
 function submitSubgoal() {
