@@ -16,6 +16,8 @@ function create_video_divs() {
 		new_subtitle = "<div class='splash_page_subtitle' id='"+domains[d]+"''>"+domains[d]+" tutorials</div>"
 		$(".videos_wrapper").append(new_subtitle)
 		for (v in videos) {
+      if (!(videos[v].is_used))
+        continue
 			if (videos[v].domain == domains[d]) {
 				new_video = "<div class='video_link video_id_"+videos[v].id+"' id='"+videos[v].youtube_id+"'>\
 						<a class='actual_link'><span class='empty_span'></span></a>\
