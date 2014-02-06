@@ -104,10 +104,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'subgoal.middleware.CustomSessionMiddleware',
 )
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_HTTPONLY = True
+#20140206: added to avoid session_id NULL error for new client requests
+# SESSION_SAVE_EVERY_REQUEST = True
+
 
 ROOT_URLCONF = 'learnersourcing.urls'
 

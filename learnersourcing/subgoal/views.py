@@ -7,6 +7,13 @@ from django.db import IntegrityError
 from django.utils import simplejson
 from random import randint, random
 
+
+# request.session.session_key is not available for first-time users.
+# manually creating one doesn't really work, so simply 
+def get_session_key(key):
+	return "" if key is None else key
+
+
 def model_to_json(instances):
     result = []
     # Hack to serialize a django model. There is no good way to deal with foreign keys.
@@ -30,11 +37,28 @@ def play(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
 	subgoals = Subgoal.objects.filter(video=video_id).exclude(state="deleted")
 	steps = Step.objects.filter(video=video_id)
-	print unicode(len(subgoals)) + " subgoals: "
-	print subgoals
-	print unicode(len(steps)) + " steps: "
-	print steps
+	# print unicode(len(subgoals)) + " subgoals: "
+	# print subgoals
+	# print unicode(len(steps)) + " steps: "
+	# print steps
 
+	# if not request.session.exists(request.session.session_key):
+	# 	print "creating new session"
+    	# request.session.create() 
+	# if not request.session.get('has_session'):
+	# 	print "no session"
+	# 	request.session['has_session'] = True
+	# if not request.session.get('session_key'):
+	# 	# request.session.session_key = "hello"
+	# 	print "no session key"
+	# 	request.session.modified = True
+	# print request.session['has_session']
+	# if request.session.session_key == None:
+	# 	session_key = ""
+	# else:
+	# 	session_key = request.session.session_key
+	print request.session.session_key
+	
 	learner = get_object_or_404(Learner, pk=1)
 	cond_interval = 30
 	cond_random = False if randint(0,1) == 0 else True
@@ -43,7 +67,7 @@ def play(request, video_id):
 	cond_admin = False
 
 	exp_session = ExpSession(
-					session_id = "", # if request.session.session_key is ,
+					session_id = get_session_key(request.session.session_key),
 					video = video,
 					learner = learner,
 					cond_interval = cond_interval,
@@ -67,8 +91,8 @@ def play(request, video_id):
 def stage1(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
 	steps = Step.objects.filter(video=video_id)
-	print unicode(len(steps)) + " steps: "
-	print steps
+	# print unicode(len(steps)) + " steps: "
+	# print steps
 	return render(
 		request, 
 		'subgoal/stage1.html', 
@@ -83,10 +107,10 @@ def stage2(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
 	subgoals = Subgoal.objects.filter(video=video_id).exclude(state="deleted")
 	steps = Step.objects.filter(video=video_id)
-	print unicode(len(subgoals)) + " subgoals: "
-	print subgoals
-	print unicode(len(steps)) + " steps: "
-	print steps
+	# print unicode(len(subgoals)) + " subgoals: "
+	# print subgoals
+	# print unicode(len(steps)) + " steps: "
+	# print steps
 	return render(
 		request, 
 		'subgoal/stage2.html', 
@@ -102,10 +126,10 @@ def stage3(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
 	subgoals = Subgoal.objects.filter(video=video_id).exclude(state="deleted")
 	steps = Step.objects.filter(video=video_id)
-	print unicode(len(subgoals)) + " subgoals: "
-	print subgoals
-	print unicode(len(steps)) + " steps: "
-	print steps
+	# print unicode(len(subgoals)) + " subgoals: "
+	# print subgoals
+	# print unicode(len(steps)) + " steps: "
+	# print steps
 	return render(
 		request, 
 		'subgoal/stage3.html', 
@@ -129,7 +153,7 @@ def record_question(request):
 	is_asked = True if request.POST['is_asked'] == "true" else False
 	if request.is_ajax():
 		question = Question(
-					session_id = request.session.session_key,
+					session_id = get_session_key(request.session.session_key),
 					video = video,
 					learner = learner,
 					video_time = request.POST['video_time'],
@@ -171,7 +195,7 @@ def subgoal_create(request):
 
 		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_create", stage=request.POST['stage'])
 		try:
-			action.session_id = request.session.session_key
+			action.session_id = get_session_key(request.session.session_key)
 		except (NameError, AttributeError):
 			pass
 		action.save()
@@ -197,7 +221,7 @@ def subgoal_update(request):
 
 		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_update", stage=request.POST['stage'])
 		try:
-			action.session_id = request.session.session_key
+			action.session_id = get_session_key(request.session.session_key)
 		except (NameError, AttributeError):
 			pass
 		action.save()
@@ -223,7 +247,7 @@ def subgoal_move(request):
 
 		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_move", stage=request.POST['stage'])
 		try:
-			action.session_id = request.session.session_key
+			action.session_id = get_session_key(request.session.session_key)
 		except (NameError, AttributeError):
 			pass
 		action.save()
@@ -249,7 +273,7 @@ def subgoal_delete(request):
 
 		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_delete", stage=request.POST['stage'])
 		try:
-			action.session_id = request.session.session_key
+			action.session_id = get_session_key(request.session.session_key)
 		except (NameError, AttributeError):
 			pass
 		action.save()
@@ -287,7 +311,7 @@ def subgoal_vote(request):
 			
 			action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_vote", stage=request.POST['stage'])
 			try:
-				action.session_id = request.session.session_key
+				action.session_id = get_session_key(request.session.session_key)
 			except (NameError, AttributeError):
 				pass
 			action.save()
