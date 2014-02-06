@@ -5,17 +5,18 @@ learnersourcing-subgoal-labels
 - learnersourcing: Django directory
 - learnersourcing/learnersourcing: Django project 
 - learnersourcing/subgoal: Django app
+- Django admin credentials: uid / subgoals
 
-Django admin credentials: uid / subgoals
+
+# Deployment
+
 
 # Migration
 migration with south: in case you're not familiar...
-1. The developer (you) change the models.py file,
-   updating the application's data model.
-2. Run manage.py schemamigration subgoal --auto to create
-   a migration file for generation N+1.
-3. Run manage.py migrate subgoal to update the database
-   schema and migrationhistory table to generation N+1.
+
+1. The developer (you) change the models.py file, updating the application's data model.
+2. Run manage.py schemamigration subgoal --auto to create a migration file for generation N+1.
+3. Run manage.py migrate subgoal to update the database schema and migrationhistory table to generation N+1.
 
 # Session management
 In order to differentiate activities between each anonymous user, we store request.session.session_key for page session, action, and record. But Django by default does not have a valid session_key until the first view is fully rendered, which means that the view handling the initial request does not have the right session_key. To address this issue, we added custom middleware that manually saves a session before the view handles the request to secure a session_key.

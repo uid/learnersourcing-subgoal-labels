@@ -41,6 +41,11 @@ function pauseVideo() {
 	player.pauseVideo();
 }
 
+function resumeVideo(){
+	player.seekTo(player.getCurrentTime()-1);
+	player.playVideo();
+}
+
 var temp_time = 0;
 var subs = [];
 
@@ -189,10 +194,13 @@ function askQuestion(t) {
 
 // Add the subgoal to the proper location in the Wiki view
 function placeSubtitle(subtitle, time) {
-	for (var i = 0; i < Object.keys(step_times).length - 1; i++) {
-		if (time >= step_times[Object.keys(step_times)[i]] && time < step_times[Object.keys(step_times)[i+1]]) {
-			console.log("MATCH", Object.keys(step_times)[i])
-			$('#'+Object.keys(step_times)[i+1]).before($(subtitle))
+	for (var i = 0; i < Object.keys(step_times).length; i++) {
+		if (i == Object.keys(step_times).length - 1){
+			if (time >= step_times[Object.keys(step_times)[i]])
+				$('#'+Object.keys(step_times)[i]).after($(subtitle));
+		} else if (time >= step_times[Object.keys(step_times)[i]] && time < step_times[Object.keys(step_times)[i+1]]) {
+			// console.log("MATCH", Object.keys(step_times)[i])
+			$('#'+Object.keys(step_times)[i+1]).before($(subtitle));
 		}
 	}
 }
@@ -356,7 +364,7 @@ function submitSubgoal() {
 	}
 
 	if (player.getPlayerState()!=0){
-		player.playVideo();
+		resumeVideo();
 	}
 	$('.dq_input').fadeOut(250);
 	$('.dq_input_2').fadeOut(250);
@@ -387,7 +395,7 @@ $("body").on('click', '.submitButton', function(e) {
 
 $("body").on('click', '.ppButton', function(e) {
 	if (player.getPlayerState()!=0){
-		player.playVideo();
+		resumeVideo();
 	}	
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
@@ -399,7 +407,7 @@ $("body").on('click', '.ppButton', function(e) {
 
 $("body").on('click', '.cancelButton', function(e) {
 	if (player.getPlayerState()!=0){
-		player.playVideo();
+		resumeVideo();
 	}	
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
