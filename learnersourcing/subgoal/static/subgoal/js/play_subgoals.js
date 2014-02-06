@@ -279,7 +279,7 @@ function submitStage2Subgoal(){
 		var subgoal_id = subgoalGroup[i]["id"];
 		if (Experiment.isAdmin){
 			var $target = Subgoal.getSubgoalDivByID(subgoal_id);
-			console.log($target);
+			// console.log($target);
 			if (typeof $target !== "undefined")
 				$target.remove();
 		}		
@@ -305,7 +305,7 @@ function submitStage2Subgoal(){
 	var $li;
 	// when another label was inserted.
 	if (typeof $('input[name=step1]:radio:checked + input').val() !== "undefined") {
-		console.log('here', time);
+		// console.log('here', time);
 		inp_text = $('input[name=step1]:radio:checked + input').val();
 		$li = Subgoal.getNewSubgoalHTML(inp_text);
 		// $li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
@@ -417,33 +417,44 @@ $("body").on('click', '.cancelButton', function(e) {
 	// setTimeout(checkVideo, 1000);
 });
 
+// individual step clicked
 $("body").on('click', '.frozen', function(e) {
 	// $(this).siblings().css('font-weight', 'normal')
 	// $(this).css('font-weight', 'bold')
-	step = $(this).attr("id")
-	time = step_times[step]
+	var step = $(this).attr("id");
+	var time = step_times[step];
 
-	$(".frozen").css("color", "black")
-	$(".time_marker").css("color", "white")
-	$($(this).children()[0]).css("color", "red")
+	$(".frozen").css("color", "black");
+	$(".time_marker").css("color", "white");
+	$($(this).children()[0]).css("color", "red");
 
 	var t = Math.floor(player.getCurrentTime());
-	verticalTimeline(t)
+	verticalTimeline(t);
 
-	player.seekTo(time)
+	player.seekTo(time-1);
 });
 
-$("body").on('click', 'span.sub', function(e) {
-	// console.log(this)
-	el = $($(this).parent()).next()
-	// console.log(this)
-	step = $(el).attr("id")
-	time = step_times[step]
-	player.seekTo(time)
+// subgoal clicked: when we know the attached step, play from the closest step's time
+// $("body").on('click', 'span.sub', function(e) {
+// 	// console.log(this)
+// 	el = $($(this).parent()).next()
+// 	// console.log(this)
+// 	step = $(el).attr("id")
+// 	time = step_times[step]
+// 	player.seekTo(time)
 
-	console.log("subgoal clicked")
+// 	console.log("subgoal clicked")
+// });
+
+// subgoal clicked: play from the captured time for the subgoal
+$("body").on('click', '.subgoal', function(e) {
+	var subgoal_id = $(this).attr("data-subgoal-id");
+	var subgoal = Subgoal.getSubgoalByID(subgoal_id);
+	if (typeof subgoal !== "undefined" && "time" in subgoal){
+		player.seekTo(subgoal["time"] - 1);
+	}
+	console.log("subgoal clicked");
 });
-
 
 $(document).ready(function() {
 	$('.dq_input').hide();

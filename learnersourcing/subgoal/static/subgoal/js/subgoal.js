@@ -43,7 +43,12 @@ var Subgoal = function() {
 		}).done(function(data){
 			console.log("/subgoal/create/ success:", data["success"]);
 			$li.attr("data-subgoal-id", data["subgoal_id"]);
-			
+			var new_subgoal = JSON.parse(data["subgoal"])[0];
+			if (typeof new_subgoal !== "undefined" && "id" in new_subgoal && "time" in new_subgoal && "label" in new_subgoal){
+				// console.log(new_subgoal);
+				Subgoal.data.push(new_subgoal);
+				Subgoal.data.sort(function(a, b) {return a["time"] - b["time"]});							
+			}
 			// TODO: do something for failure
 		}).fail(function(){
 			console.log("/subgoal/create/ failure");
@@ -66,6 +71,10 @@ var Subgoal = function() {
 			},
 		}).done(function(data){
 			console.log("/subgoal/update/ success:", data["success"]);
+			// this is possible because Javascript is call by reference
+			var subgoal = Subgoal.getSubgoalByID(subgoal_id);
+			if (typeof subgoal !== "undefined")
+				subgoal["label"] = text;
 			// TODO: do something for failure
 		}).fail(function(){
 			console.log("/subgoal/update/ failure");
@@ -87,6 +96,11 @@ var Subgoal = function() {
 			},
 		}).done(function(data){
 			console.log("/subgoal/delete/ success:", data["success"]);
+			// this is possible because Javascript is call by reference
+			var index = Subgoal.getSubgoalIndexByID(subgoal_id);
+			if (index > -1){
+				Subgoal.data.splice(index, 1);
+			}
 			// TODO: do something for failure
 		}).fail(function(){
 			console.log("/subgoal/delete/ failure");
@@ -110,6 +124,11 @@ var Subgoal = function() {
 			},
 		}).done(function(data){
 			console.log("/subgoal/move/ success:", data["success"]);
+			var subgoal = Subgoal.getSubgoalByID(subgoal_id);
+			if (typeof subgoal !== "undefined"){
+				subgoal["time"] = t;			
+				Subgoal.data.sort(function(a, b) {return a["time"] - b["time"]});			
+			}
 			// TODO: do something for failure
 		}).fail(function(){
 			console.log("/subgoal/move/ failure");
@@ -132,7 +151,15 @@ var Subgoal = function() {
 			},
 		}).done(function(data){
 			console.log("/subgoal/vote/ success:", data["success"]);
-			// $li.attr("data-subgoal-id", data["subgoal_id"]);
+			var subgoal_id, vote_type, subgoal;
+			for (subgoal_id in votes){
+				vote_type = votes[subgoal_id];
+				// console.log(subgoal_id, vote_type);
+				subgoal = Subgoal.getSubgoalByID(subgoal_id);
+				if (typeof subgoal !== "undefined" && vote_type in subgoal){
+					subgoal[vote_type] = subgoal[vote_type] + 1;
+				}
+			}
 			// TODO: do something for failure
 		}).fail(function(){
 			console.log("/subgoal/vote/ failure");
@@ -227,6 +254,16 @@ var Subgoal = function() {
 		return result;
 	}
 
+	// return the array index of a subgoal with ID
+	function getSubgoalIndexByID(subgoal_id){
+		var result = -1;
+		for (var i in Subgoal.data){
+			if (Subgoal.data[i]["id"] == subgoal_id)
+				result = i;
+		}
+		return result;
+	}
+
 	// find a subgoal visual entry with ID
 	function getSubgoalDivByID(subgoal_id){
 		var result;
@@ -249,6 +286,7 @@ var Subgoal = function() {
 		displayAll: displayAll,
 		getCurrentGroup: getCurrentGroup,
 		getSubgoalByID: getSubgoalByID,
+		getSubgoalIndexByID: getSubgoalIndexByID,
 		getSubgoalDivByID: getSubgoalDivByID,
 		getNewSubgoalHTML: getNewSubgoalHTML,
 		getSubgoalHTML: getSubgoalHTML

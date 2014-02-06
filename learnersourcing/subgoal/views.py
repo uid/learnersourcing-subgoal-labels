@@ -199,7 +199,7 @@ def subgoal_create(request):
 		except (NameError, AttributeError):
 			pass
 		action.save()
-		results = {'success': True, 'subgoal_id': subgoal.id}
+		results = {'success': True, 'subgoal_id': subgoal.id, 'subgoal': model_to_json([subgoal])}
 	else:
 		raise Http404
 	json = simplejson.dumps(results)
