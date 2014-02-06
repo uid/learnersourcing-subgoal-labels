@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from subgoal.models import Video, Step, Subgoal, Learner, Action, ExpSession, Question
 from django.db import IntegrityError
 from django.utils import simplejson
-from random import randint
+from random import randint, random
 
 def model_to_json(instances):
     result = []
@@ -38,11 +38,12 @@ def play(request, video_id):
 	learner = get_object_or_404(Learner, pk=1)
 	cond_interval = 30
 	cond_random = False if randint(0,1) == 0 else True
+	#cond_random = False if random() < 0.7 else True
 	cond_step = False if randint(0,1) == 0 else True
 	cond_admin = False
 
 	exp_session = ExpSession(
-					session_id = request.session.session_key,
+					session_id = "", # if request.session.session_key is ,
 					video = video,
 					learner = learner,
 					cond_interval = cond_interval,

@@ -69,7 +69,8 @@ var Experiment = function() {
 
 	// coin flip function that returns true or false randomly
 	function coinFlip() {
-	    return (Math.floor(Math.random() * 2) == 0);
+	    // return (Math.floor(Math.random() * 2) == 0);
+	    return Math.random() < 0.66;
 	}
 
 	// set up the parameters
