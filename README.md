@@ -9,6 +9,22 @@ learnersourcing-subgoal-labels
 
 
 # Deployment
+We're using Apache + mod_wsgi for live deployment.
+
+TODO: document the apache conf setup
+
+
+
+Here are the steps for setting up the deployment folder structure:
+- git clone https://github.com/uid/learnersourcing-subgoal-labels.git
+- sudo chown -R juhokim:uid learnersourcing-subgoal-labels
+- chmod 775 learnersourcing-subgoal-labels/
+- sudo chown -R www-data:www-data learnersourcing-subgoal-labels/learnersourcing/db
+- sudo mkdir -p /var/www/learnersourcing/static
+- sudo chown -R juhokim:uid /var/www/learnersourcing
+- python manage.py collectstatic
+
+For troubleshooting, https://code.djangoproject.com/wiki/NewbieMistakes
 
 
 # Migration
