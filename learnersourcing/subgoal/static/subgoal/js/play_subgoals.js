@@ -42,6 +42,7 @@ function pauseVideo() {
 }
 
 function resumeVideo(){
+	$(".frozen").css("color", "black");
 	player.seekTo(player.getCurrentTime()-1);
 	player.playVideo();
 }
@@ -155,9 +156,11 @@ function routeStage(t) {
 function displayStage1Question(t){
 	var floor = computePreviousTime(t);
 	$(".frozen").css("color", "black");
+	// $(".frozen").toggleClass("blue");
 	for (step in step_times) {
 		if (floor <= step_times[step] && step_times[step] < t) {
 			$("#"+step).css("color", "#59BDE8");
+			// $("#"+step).toggleClass("blue");
 		}
 	}
 }
@@ -182,10 +185,12 @@ function askQuestion(t) {
 	$("#player").hide();	
 	if (Experiment.questionStage == 1){
 		displayStage1Question(t);
-		$('.dq_input').fadeIn(500);
+		// $('.dq_input').fadeIn(500);
+		$('.dq_input').show();
 	} else {
 		displayStage2Question(t);
-		$('.dq_input_2').fadeIn(500);
+		// $('.dq_input_2').fadeIn(500);
+		$('.dq_input_2').show();
 	}
 	$('.dq_help').hide();
 	$('.dq_instr').hide();
@@ -219,20 +224,26 @@ function computePreviousTime(t){
 
 function submitStage1Subgoal(){
 	var inp_text = $('.q_input').val();
-	var currentTime = Math.floor(player.getCurrentTime());
-	var time = computePreviousTime(currentTime);	
 
-	// frontend update
-	var $li = Subgoal.getNewSubgoalHTML(inp_text);
-	// $("<li class='movable subgoal'><span class='sub'>"+inp_text+"</span>" + 
-	// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
-	// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
-	// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
-	$li.fadeIn(1000)
-	placeSubtitle($li, time)
-	$('.q_input').val('');
+	if (inp_text == "") {
+		noSubgoal()
+	} else {
 
-	Subgoal.opCreate($li, time, inp_text);
+		var currentTime = Math.floor(player.getCurrentTime());
+		var time = computePreviousTime(currentTime);	
+
+		// frontend update
+		var $li = Subgoal.getNewSubgoalHTML(inp_text);
+		// $("<li class='movable subgoal'><span class='sub'>"+inp_text+"</span>" + 
+		// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
+		// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
+		$li.fadeIn(1000)
+		placeSubtitle($li, time)
+		$('.q_input').val('');
+
+		Subgoal.opCreate($li, time, inp_text);
+	}
 	// backend update
 	// $.ajax({
 	// 	type: "POST",
@@ -307,15 +318,21 @@ function submitStage2Subgoal(){
 	if (typeof $('input[name=step1]:radio:checked + input').val() !== "undefined") {
 		// console.log('here', time);
 		inp_text = $('input[name=step1]:radio:checked + input').val();
-		$li = Subgoal.getNewSubgoalHTML(inp_text);
-		// $li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
-		// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
-		// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
-		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
-		$li.fadeIn(1000);
-		placeSubtitle($li, time);
 
-		Subgoal.opCreate($li, time, inp_text, true);
+		if (inp_text == "") {
+			noSubgoal()
+		} else {
+
+			$li = Subgoal.getNewSubgoalHTML(inp_text);
+			// $li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
+			// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
+			// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+			// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
+			$li.fadeIn(1000);
+			placeSubtitle($li, time);
+
+			Subgoal.opCreate($li, time, inp_text, true);
+		}
 		// backend update
 		// $.ajax({
 		// 	type: "POST",
@@ -356,7 +373,7 @@ function submitStage2Subgoal(){
 
 function submitSubgoal() {
 	$(".frozen").css("color", "black");
-
+	// $(".frozen").toggleClass("blue");
 	if (Experiment.questionStage == 1){
 		submitStage1Subgoal();
 	} else if (Experiment.questionStage == 2){
@@ -366,10 +383,31 @@ function submitSubgoal() {
 	if (player.getPlayerState()!=0){
 		resumeVideo();
 	}
-	$('.dq_input').fadeOut(250);
-	$('.dq_input_2').fadeOut(250);
-	$('.dq_help').fadeIn(500);
+
+	// $('.dq_input').fadeOut(250);
+	// $('.dq_input_2').fadeOut(250);
+	// $('.dq_help').fadeIn(500);
+
+	$('.dq_input').hide();
+	$('.dq_input_2').hide();
+	$('.dq_help').show();
+
 	$("#player").show();
+	// setTimeout(checkVideo, 1000);
+}
+
+function noSubgoal() {
+	if (player.getPlayerState()!=0){
+		resumeVideo();
+	}	
+	$('.dq_input').hide();
+	$('.dq_input_2').hide();
+	$('.dq_help').show();
+
+	// $(".frozen").css("color", "black");
+
+	$("#player").show()
+	// $('.dq_instr').hide();
 	// setTimeout(checkVideo, 1000);
 }
 
@@ -406,15 +444,7 @@ $("body").on('click', '.ppButton', function(e) {
 });
 
 $("body").on('click', '.cancelButton', function(e) {
-	if (player.getPlayerState()!=0){
-		resumeVideo();
-	}	
-	$('.dq_input').hide();
-	$('.dq_input_2').hide();
-	$('.dq_help').show();
-	$("#player").show()
-	// $('.dq_instr').hide();
-	// setTimeout(checkVideo, 1000);
+	noSubgoal();
 });
 
 // individual step clicked
@@ -424,6 +454,7 @@ $("body").on('click', '.frozen', function(e) {
 	var step = $(this).attr("id");
 	var time = step_times[step];
 
+	// $(".frozen").toggleClass("blue");
 	$(".frozen").css("color", "black");
 	$(".time_marker").css("color", "white");
 	$($(this).children()[0]).css("color", "red");
@@ -447,8 +478,9 @@ $("body").on('click', '.frozen', function(e) {
 // });
 
 // subgoal clicked: play from the captured time for the subgoal
-$("body").on('click', '.subgoal', function(e) {
-	var subgoal_id = $(this).attr("data-subgoal-id");
+$("body").on('click', 'span.sub', function(e) {
+	// var subgoal_id = $(this).attr("data-subgoal-id");
+	var subgoal_id = $($(this).parents()[0]).attr("data-subgoal-id");
 	var subgoal = Subgoal.getSubgoalByID(subgoal_id);
 	if (typeof subgoal !== "undefined" && "time" in subgoal){
 		player.seekTo(subgoal["time"] - 1);

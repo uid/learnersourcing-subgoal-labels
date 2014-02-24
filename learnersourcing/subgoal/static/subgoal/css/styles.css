@@ -104,7 +104,7 @@ h2 {
 
 .frozen:hover {
 	cursor: hand;
-	color: #59BDE8;
+	/*color: #59BDE8;*/
 	/*color: white;*/
 }	
 
@@ -450,4 +450,12 @@ a:hover {
 .none_apply_option {
 	color: #646B73;
 	font-weight: bold;
+}
+
+.blue {
+	color: #59BDE8;
+}
+
+.black {
+	color: black;
 }
