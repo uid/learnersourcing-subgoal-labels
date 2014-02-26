@@ -273,8 +273,14 @@ img.video_thumb {
 	cursor: hand;
 }
 
-#page_title {
-
+#an_page_title {
+	font-size: 18pt;
+  	font-weight: normal;
+  	margin-top: 40px;
+  	color: white;
+  	background-color: #646B73;
+  	padding: 15px;
+  	width: 1170;
 }
 
 #page_title:hover {
@@ -459,3 +465,68 @@ a:hover {
 .black {
 	color: black;
 }
+
+#an_overview {
+	height: 100px;
+}
+
+#all_videos {
+
+}
+
+.each_video {
+	margin-bottom: 20px;
+}
+
+.video_bar {
+	color: white;
+	background-color: #59BDE8;
+	padding: 15px;
+}
+
+.video_bar:hover {
+	cursor: hand;
+}
+
+.up_caret {
+	margin-right: 10px;
+}
+
+.down_caret {
+	margin-right: 10px;
+	display: none;
+}
+
+.video_content {
+	display: none;
+	margin: 20px;
+}
+
+#expand_all {
+	margin: 20px;
+}
+
+#expand_all:hover {
+	cursor: hand;
+	color: blue;
+}
+
+.upvotes {
+	margin-right: 5px;
+	color: green;
+}
+
+.downvotes {
+	margin-right: 5px;
+	color: #F78181;
+}
+
+.an_sub {
+	background-color: white;
+	/*background-color: #B8B8B8;*/
+	color: black;
+	border: 1px solid black;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+

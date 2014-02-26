@@ -87,6 +87,27 @@ def play(request, video_id):
 		}
 	)
 
+def analytics(request):
+	videos = Video.objects.exclude(is_used="True")
+	videos_dict = {}
+	for v in videos:
+		video = {}
+
+		video['video'] = model_to_json([v])
+		video['steps'] = model_to_json(Step.objects.filter(video=v.id))
+		video['subgoals'] = model_to_json(Subgoal.objects.filter(video=v.id).exclude(state="deleted"))
+
+		# video['video'] = v
+		# video['steps'] = Step.objects.filter(video=v.id)
+		# video['subgoals'] = Subgoal.objects.filter(video=v.id).exclude(state="deleted")
+		
+		videos_dict[v.id] = video
+
+	# print videos_dict
+	# return render(request, 'subgoal/analytics.html', {'content':model_to_json(videos_dict)})
+
+	return render(request, 'subgoal/analytics.html', {'content':videos_dict})
+
 
 def stage1(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
