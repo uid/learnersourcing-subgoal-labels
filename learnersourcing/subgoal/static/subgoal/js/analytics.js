@@ -24,31 +24,60 @@ for (i in videos_list) {
 				"<span class='video_name'>"+videos_list[i]['video'][0].title+"</span>" +
 				"</div>" +
 				"<div class='video_content'>" +
+				"<div class='an_left'><div class='exp_label'>STEPS</div></div>" +
+				"<div class='an_right'><div class='exp_label'>NO STEPS</div></div>" +
 				"</div></div>";
 	$("#all_videos").append(video_html);
 }
 
 for (i in videos_list) {
-	if (videos_list[i]['video'][0].is_used == true) {
+	// if (videos_list[i]['video'][0].is_used == true) {
 		var id = videos_list[i]['video'][0].id
+		console.log(id)
 		var steps = videos_list[i]['steps']
 		var subgoals = videos_list[i]['subgoals']
+		var exp = videos_list[i]['exp']
 		// console.log(steps)
-
 		for (step in steps) {
-			var $step_html = $("<div class='step'>"+steps[step].label+"</div>")
+			var $step_html = $("<div class='step'>"+escapeHTML(steps[step].label)+"</div>")
+			var $rt_step_html = $("<div class='step'>"+escapeHTML(steps[step].label)+"</div>")
 			step_time = steps[step].time
 			
-			for (sub in subgoals) {			
-				sub_time = Math.floor(subgoals[sub].time)
-				if (step_time == sub_time) {
-					var $sub_html = $("<div class='sub an_sub'><span class='upvotes'>"+subgoals[sub].upvotes_s2+"</span><span class='downvotes'>"+subgoals[sub].downvotes_s2+"</span><span class='sublabel'>"+subgoals[sub].label+"</span></div>")
-					$("#"+id+"> .video_content").append($sub_html)
+			// console.log("step_time "+step_time)
+			for (sub in subgoals) {	
+				sub_time = subgoals[sub].time
+				if (step > 0) {
+					console.log('here')
+					prev_step_time = steps[step-1].time
+					if (sub_time > prev_step_time && sub_time <= step_time) {
+						var $sub_html = $("<div class='sub an_sub'><span class='upvotes'>"+
+							subgoals[sub].upvotes_s2+"</span><span class='downvotes'>"+
+							subgoals[sub].downvotes_s2+"</span><span class='sublabel'>"+
+							escapeHTML(subgoals[sub].label)+"</span></div>");
+						$("#"+id+"> .video_content > .an_left").append($sub_html)
+					}
+				} else {
+					if (sub_time <= step_time) {
+						var $sub_html = $("<div class='sub an_sub'><span class='upvotes'>"+
+							subgoals[sub].upvotes_s2+"</span><span class='downvotes'>"+
+							subgoals[sub].downvotes_s2+"</span><span class='sublabel'>"+
+							escapeHTML(subgoals[sub].label)+"</span></div>");
+						$("#"+id+"> .video_content > .an_left").append($sub_html)
+					}
 				}
+				// for (e in exp) {
+				// 	if (exp[e].cond_step == true) {
+				// 		$("#"+id+"> .video_content > .an_left").append($sub_html)
+				// 	} else {
+				// 		$("#"+id+"> .video_content > .an_right").append($sub_html)
+				// 	}
+				// }
 			}
-
-			$("#"+id+"> .video_content").append($step_html)
+			// console.log($("#"+id+" > .video_content > .an_left"))
+			// console.log($step_html)
+			$("#"+id+" > .video_content > .an_left").append($step_html)
+			// $("#"+id+" > .video_content > .an_right").append($rt_step_html)
 		}
-	}
+	// }
 	
 }

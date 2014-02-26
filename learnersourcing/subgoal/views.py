@@ -88,15 +88,15 @@ def play(request, video_id):
 	)
 
 def analytics(request):
-	videos = Video.objects.exclude(is_used="True")
+	videos = Video.objects.filter(is_used=True)
 	videos_dict = {}
 	for v in videos:
 		video = {}
 
 		video['video'] = model_to_json([v])
-		video['steps'] = model_to_json(Step.objects.filter(video=v.id))
-		video['subgoals'] = model_to_json(Subgoal.objects.filter(video=v.id).exclude(state="deleted"))
-
+		video['steps'] = model_to_json(Step.objects.filter(video=v))
+		video['subgoals'] = model_to_json(Subgoal.objects.filter(video=v))
+		video['exp'] = model_to_json(ExpSession.objects.filter(video=v))
 		# video['video'] = v
 		# video['steps'] = Step.objects.filter(video=v.id)
 		# video['subgoals'] = Subgoal.objects.filter(video=v.id).exclude(state="deleted")

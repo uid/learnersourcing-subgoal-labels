@@ -500,6 +500,7 @@ a:hover {
 .video_content {
 	display: none;
 	margin: 20px;
+	overflow: hidden;
 }
 
 #expand_all {
@@ -530,3 +531,12 @@ a:hover {
 	margin-bottom: 5px;
 }
 
+.an_left {
+	float: left;
+	width: 500px;
+}
+
+.an_right {
+	width: 500px;
+	float: right;
+}

@@ -56,67 +56,12 @@
  			temp_dict['video'] = (JSON.parse(videos_list_first[i].video));
  			temp_dict['steps'] = (JSON.parse(videos_list_first[i].steps));
  			temp_dict['subgoals'] = (JSON.parse(videos_list_first[i].subgoals));
+ 			temp_dict['exp'] = (JSON.parse(videos_list_first[i].exp));
 
  			videos_list.push(temp_dict)
  		}
 
- 		// console.log(videos_list)
-
- 	// 	var stage = 1; 
-
-		// var video_json = JSON.stringify({{video|safe}});
-		// var video = JSON.parse(video_json)[0];
-		// var youtube_id = video["youtube_id"];
-		// console.log(video, video["title"], video["id"]);
-
-		// var exp_session_json = JSON.stringify({{exp_session|safe}});
-		// var exp_session = JSON.parse(exp_session_json)[0];
-		// Experiment.setup(exp_session);
-
-		// // read steps and sort by time
-		// var steps_json = JSON.stringify({{steps|safe}});
-		// var steps_unsorted = JSON.parse(steps_json);
-		// var steps = [];
-		// for (var i in steps_unsorted)
-  //     		steps.push([steps_unsorted[i], steps_unsorted[i]["time"]]);
-		// steps.sort(function(a, b) {return a[1] - b[1]});
-		// console.log(steps);		
-
-		// // read subgoals and sort by time
-		// var subgoals_json = JSON.stringify({{subgoals|safe}});
-		// var subgoals = JSON.parse(subgoals_json);;
-		// subgoals.sort(function(a, b) {return a["time"] - b["time"]});
-		// Subgoal.data = subgoals;
-		// console.log(Subgoal.data);
-
-		// // format steps to make compatible with Sarah's code
-		// // TODO: restructure
-		// var video_steps = {}; 	// video_data.video_steps;
-		// var step_times = {};	// video_data.step_times;
-		// step_times["step0"] = 0.0;
-		// for (var i=0; i<steps.length; i++){
-		// 	video_steps["step" + (i+1)] = steps[i][0]["label"];
-		// 	step_times["step" + (i+1)] = steps[i][0]["time"];
-		// }
-		// console.log(video_steps);
-		// console.log(step_times);
-
-		// generate_steps(video_steps);
-		// load_video_title(video["title"]);
-		// // we're not currently showing all the subgoals
-		// if (Experiment.isAdmin)
-		// 	Subgoal.displayAll(step_times);
-		// 	// add_subgoals_new(subgoals, step_times);
-		// // var pre_groups = group_subgoals_new(subgoals, video_steps, step_times);
-		// var pre_groups = Subgoal.group(video_steps, step_times);
-		// var subgoal_groups = pre_groups[0];
-		// var time_groups = pre_groups[1];
-		// var rel_steps = pre_groups[2];
-
-
-		// apply different experimental conditions
-		if (!(Experiment.isStepShown))
-			$(".frozen").hide();		
+ 		console.log(videos_list)	
  	</script>
 
 	<script src="{% static 'subgoal/js/analytics.js' %}"></script>
