@@ -10,9 +10,15 @@ $("body").on('click', '.video_bar', function(e) {
 });
 
 $("body").on('click', '#expand_all', function(e) {
-	$(".up_caret").toggle();
-	$(".down_caret").toggle();
-	$(".video_content").toggle();
+	$(".up_caret").hide();
+	$(".down_caret").show();
+	$(".video_content").show();
+});
+
+$("body").on('click', '#collapse_all', function(e) {
+	$(".up_caret").show();
+	$(".down_caret").hide();
+	$(".video_content").hide();
 });
 
 for (i in videos_list) {
@@ -33,7 +39,7 @@ for (i in videos_list) {
 for (i in videos_list) {
 	// if (videos_list[i]['video'][0].is_used == true) {
 		var id = videos_list[i]['video'][0].id
-		console.log(id)
+		// console.log(id)
 		var steps = videos_list[i]['steps']
 		var subgoals = videos_list[i]['subgoals']
 		var exp = videos_list[i]['exp']
@@ -47,7 +53,7 @@ for (i in videos_list) {
 			for (sub in subgoals) {	
 				sub_time = subgoals[sub].time
 				if (step > 0) {
-					console.log('here')
+					// console.log('here')
 					prev_step_time = steps[step-1].time
 					if (sub_time > prev_step_time && sub_time <= step_time) {
 						var $sub_html = $("<div class='sub an_sub'><span class='upvotes'>"+

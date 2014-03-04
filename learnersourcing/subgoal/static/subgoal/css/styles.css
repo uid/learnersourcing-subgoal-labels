@@ -471,7 +471,7 @@ a:hover {
 }
 
 #all_videos {
-
+	width: 1195;
 }
 
 .each_video {
@@ -505,11 +505,22 @@ a:hover {
 
 #expand_all {
 	margin: 20px;
+	display: inline-block;
 }
 
 #expand_all:hover {
 	cursor: hand;
-	color: blue;
+	color: #59BDE8;
+}
+
+#collapse_all {
+	margin: 20px;
+	display: inline-block;
+}
+
+#collapse_all:hover {
+	cursor: hand;
+	color: #59BDE8;
 }
 
 .upvotes {
@@ -539,4 +550,13 @@ a:hover {
 .an_right {
 	width: 500px;
 	float: right;
+}
+
+.step {
+	margin-bottom: 5px;
+}
+
+.exp_label {
+	font-size: 16pt;
+	margin-bottom: 10px;
 }
