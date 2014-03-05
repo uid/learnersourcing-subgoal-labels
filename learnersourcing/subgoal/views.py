@@ -89,14 +89,32 @@ def play(request, video_id):
 
 def analytics(request):
 	videos = Video.objects.filter(is_used=True)
+	actions = Action.objects.all()
+	exp = ExpSession.objects.all()
 	videos_dict = {}
+	subgoals_dict = {}
 	for v in videos:
 		video = {}
 
 		video['video'] = model_to_json([v])
 		video['steps'] = model_to_json(Step.objects.filter(video=v))
-		video['subgoals'] = model_to_json(Subgoal.objects.filter(video=v))
 		video['exp'] = model_to_json(ExpSession.objects.filter(video=v))
+
+		video['subgoals'] = model_to_json(Subgoal.objects.filter(video=v))
+
+		vid_subs = Subgoal.objects.filter(video=v)
+
+		for s in vid_subs:
+			vid_acts = Action.objects.filter(subgoal=s)
+			for a in vid_acts:
+				# print a.action_type
+				if (a.action_type == 'subgoal_create'):
+					sesh = a.session_id
+					stage = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_step
+					subgoals_dict[s.id] = str(stage)
+
+		# print subgoals_dict
+
 		# video['video'] = v
 		# video['steps'] = Step.objects.filter(video=v.id)
 		# video['subgoals'] = Subgoal.objects.filter(video=v.id).exclude(state="deleted")
@@ -106,7 +124,12 @@ def analytics(request):
 	# print videos_dict
 	# return render(request, 'subgoal/analytics.html', {'content':model_to_json(videos_dict)})
 
-	return render(request, 'subgoal/analytics.html', {'content':videos_dict})
+	return render(request, 'subgoal/analytics.html', 
+		{
+			'content':videos_dict,
+			'subgoals':subgoals_dict
+		}
+	)
 
 
 def stage1(request, video_id):

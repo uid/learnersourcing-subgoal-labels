@@ -540,6 +540,20 @@ a:hover {
 	border: 1px solid black;
 	margin-top: 5px;
 	margin-bottom: 5px;
+	width: 400px;
+	display: block;
+}
+
+.an_sub_right {
+	background-color: white;
+	/*background-color: #B8B8B8;*/
+	color: black;
+	border: 4px solid blue;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 400px;
+	display: block;
+	/*float: right;*/
 }
 
 .an_left {
@@ -554,6 +568,8 @@ a:hover {
 
 .step {
 	margin-bottom: 5px;
+	width: 500px;
+	margin-left: 300px;
 }
 
 .exp_label {

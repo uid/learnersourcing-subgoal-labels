@@ -48,8 +48,10 @@
  	<script>
 
  		var videos_json = JSON.stringify({{content|safe}})
+ 		var subgoals_json = JSON.stringify({{subgoals|safe}})
 
  		var videos_list_first = JSON.parse(videos_json);
+ 		var subgoals_list = JSON.parse(subgoals_json)
 
  		var videos_list = []
  		for (i in videos_list_first) {
@@ -62,7 +64,8 @@
  			videos_list.push(temp_dict)
  		}
 
- 		console.log(videos_list)	
+ 		console.log(videos_list)
+ 		console.log(subgoals_list)
  	</script>
 
 	<script src="{% static 'subgoal/js/analytics.js' %}"></script>
