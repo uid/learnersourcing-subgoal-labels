@@ -93,41 +93,59 @@ def analytics(request):
 	exp = ExpSession.objects.all()
 	videos_dict = {}
 	subgoals_dict = {}
+	activity_dict = {}
+	actions_per_video_dict = {}
+
+	# for calculating activity over time... right now it looks like all of the times are the same?
+	for a in actions:
+		if a.video in videos:
+			video = str(a.video.slug)
+			date = actions[0].added_at.date()
+			hour = actions[0].added_at.time().hour
+			if ((date,hour) in activity_dict):
+				activity_dict[(date,hour)] += 1
+			else:
+				activity_dict[(date,hour)] = 1
+
+			if (video in actions_per_video_dict):
+				actions_per_video_dict[video] += 1
+			else:
+				actions_per_video_dict[video] = 1
+
+	# print actions_per_video_dict
+
 	for v in videos:
 		video = {}
 
 		video['video'] = model_to_json([v])
 		video['steps'] = model_to_json(Step.objects.filter(video=v))
 		video['exp'] = model_to_json(ExpSession.objects.filter(video=v))
-
 		video['subgoals'] = model_to_json(Subgoal.objects.filter(video=v))
+
+
+		# print "---------------new video----------------"
+		# for ttt in Subgoal.objects.filter(video=v).order_by('upvotes_s2'):
+		# 	print ttt.label
+		# 	print ttt.upvotes_s2
 
 		vid_subs = Subgoal.objects.filter(video=v)
 
 		for s in vid_subs:
 			vid_acts = Action.objects.filter(subgoal=s)
 			for a in vid_acts:
-				# print a.action_type
 				if (a.action_type == 'subgoal_create'):
 					sesh = a.session_id
-					stage = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_step
-					subgoals_dict[s.id] = str(stage)
-
-		# print subgoals_dict
-
-		# video['video'] = v
-		# video['steps'] = Step.objects.filter(video=v.id)
-		# video['subgoals'] = Subgoal.objects.filter(video=v.id).exclude(state="deleted")
+					stage_step = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_step
+					stage_ask = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_random
+					subgoals_dict[s.id] = [str(stage_step), str(stage_ask)]
 		
 		videos_dict[v.id] = video
-
-	# print videos_dict
-	# return render(request, 'subgoal/analytics.html', {'content':model_to_json(videos_dict)})
 
 	return render(request, 'subgoal/analytics.html', 
 		{
 			'content':videos_dict,
-			'subgoals':subgoals_dict
+			'subgoals':subgoals_dict,
+			'actions_per_vid':actions_per_video_dict
 		}
 	)
 

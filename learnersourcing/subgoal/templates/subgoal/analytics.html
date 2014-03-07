@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <title>System Analytics</title>    
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 </head>
 	<body>
 		<div class="wrapper">
@@ -18,8 +19,11 @@
 				System Analytics
 			</h1>
 			<div class="content_wrapper">
-				<div id="an_overview">
-					The graph will go here.
+				<div id="an_graph">
+					<div class="graph_title">Total activity for each video</div>
+				</div>
+				<div class="section_title">
+					Video content
 				</div>
 				<div id="all_videos">
 					<span id="expand_all">Expand all</span>
@@ -49,9 +53,11 @@
 
  		var videos_json = JSON.stringify({{content|safe}})
  		var subgoals_json = JSON.stringify({{subgoals|safe}})
+ 		var actions_per_vid_json = JSON.stringify({{actions_per_vid|safe}})
 
  		var videos_list_first = JSON.parse(videos_json);
- 		var subgoals_list = JSON.parse(subgoals_json)
+ 		var subgoals_list = JSON.parse(subgoals_json);
+ 		var actions_per_vid_list = JSON.parse(actions_per_vid_json);
 
  		var videos_list = []
  		for (i in videos_list_first) {
