@@ -63,8 +63,15 @@ for (i in videos_list) {
 		for (sub in subgoals) {	
 			sub_time = subgoals[sub].time
 			sub_id = subgoals[sub].id
-			step_stage = subgoals_list[sub_id][0]
-			rand_stage = subgoals_list[sub_id][1]
+			console.log(typeof(subgoals_list[sub_id]))
+			if (typeof(subgoals_list[sub_id])!= 'undefined') {
+				step_stage = subgoals_list[sub_id][0]
+				rand_stage = subgoals_list[sub_id][1]
+			} else {
+				//adding a default value? Not sure what should be here TODO
+				step_stage = 'True'
+				rand_stage = 'True'
+			}
 			if (step > 0) {
 				prev_step_time = steps[step-1].time
 				if (sub_time > prev_step_time && sub_time <= step_time) {

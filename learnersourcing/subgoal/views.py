@@ -112,7 +112,7 @@ def analytics(request):
 			else:
 				actions_per_video_dict[video] = 1
 
-	# print actions_per_video_dict
+	print actions_per_video_dict
 
 	for v in videos:
 		video = {}
@@ -135,11 +135,14 @@ def analytics(request):
 			for a in vid_acts:
 				if (a.action_type == 'subgoal_create'):
 					sesh = a.session_id
-					stage_step = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_step
-					stage_ask = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_random
-					subgoals_dict[s.id] = [str(stage_step), str(stage_ask)]
-		
+					print len(ExpSession.objects.filter(video=v).filter(session_id=sesh))
+					if len(ExpSession.objects.filter(video=v).filter(session_id=sesh)) > 0:
+						stage_step = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_step
+						stage_ask = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_random
+						subgoals_dict[s.id] = [str(stage_step), str(stage_ask)]
 		videos_dict[v.id] = video
+
+	# print subgoals_dict
 
 	return render(request, 'subgoal/analytics.html', 
 		{
