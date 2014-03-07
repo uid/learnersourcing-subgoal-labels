@@ -10,7 +10,8 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     # url(r'^learnersourcing/', include('learnersourcing.foo.urls')),
 
-	url(r'^play/(?P<video_id>\d+)/$', views.play, name='play'),    
+	url(r'^play/(?P<video_id>\d+)/$', views.play, name='play'), 
+	url(r'^analytics/$', views.analytics, name='analytics'),    
 
 	url(r'^stage1/(?P<video_id>\d+)/$', views.stage1, name='stage1'),
 	url(r'^stage2/(?P<video_id>\d+)/$', views.stage2, name='stage2'),

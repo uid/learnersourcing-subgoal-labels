@@ -1,0 +1,78 @@
+{% load staticfiles %}
+{% csrf_token %}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>System Analytics</title>    
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+	<body>
+		<div class="wrapper">
+			<div id="toolbar">
+				<span id="page_title">
+					<a href="{% url 'index' %}">< All tutorial videos</a>
+				</span>
+			</div>
+			<h1 id="an_page_title">
+				System Analytics
+			</h1>
+			<div class="content_wrapper">
+				<div id="an_graph">
+					<div class="graph_title">Total activity for each video</div>
+				</div>
+				<div class="section_title">
+					Video content
+				</div>
+				<div id="all_videos">
+					<span id="expand_all">Expand all</span>
+					<span id="collapse_all">Collapse all</span>
+					<!-- <div class="each_video">
+						<div class="video_bar">
+							<span class="up_caret">^</span>
+							<span class="down_caret">v</span>
+							<span class="video_name">How to use HTML</span>
+						</div>
+						<div class="video_content">
+							Expanded content wee
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+
+		
+	</body>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="{% static 'subgoal/js/experiment.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/helper.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/subgoal.js' %}"></script>
+ 	<script>
+
+ 		var videos_json = JSON.stringify({{content|safe}})
+ 		var subgoals_json = JSON.stringify({{subgoals|safe}})
+ 		var actions_per_vid_json = JSON.stringify({{actions_per_vid|safe}})
+
+ 		var videos_list_first = JSON.parse(videos_json);
+ 		var subgoals_list = JSON.parse(subgoals_json);
+ 		var actions_per_vid_list = JSON.parse(actions_per_vid_json);
+
+ 		var videos_list = []
+ 		for (i in videos_list_first) {
+ 			temp_dict = {}
+ 			temp_dict['video'] = (JSON.parse(videos_list_first[i].video));
+ 			temp_dict['steps'] = (JSON.parse(videos_list_first[i].steps));
+ 			temp_dict['subgoals'] = (JSON.parse(videos_list_first[i].subgoals));
+ 			temp_dict['exp'] = (JSON.parse(videos_list_first[i].exp));
+
+ 			videos_list.push(temp_dict)
+ 		}
+
+ 		console.log(videos_list)
+ 		console.log(subgoals_list)
+ 	</script>
+
+	<script src="{% static 'subgoal/js/analytics.js' %}"></script>
+</html>

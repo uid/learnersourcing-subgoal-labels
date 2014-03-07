@@ -165,6 +165,10 @@ $(function() {
 		// });			
 	});
 
+	$('.frozen').hover(function(){
+		$(this).toggleClass('blue');
+	});
+
 function enableEvents() {
 	$("#sortable").sortable({
 		cancel:".frozen",

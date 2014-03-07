@@ -104,7 +104,7 @@ h2 {
 
 .frozen:hover {
 	cursor: hand;
-	color: #59BDE8;
+	/*color: #59BDE8;*/
 	/*color: white;*/
 }	
 
@@ -273,8 +273,14 @@ img.video_thumb {
 	cursor: hand;
 }
 
-#page_title {
-
+#an_page_title {
+	font-size: 18pt;
+  	font-weight: normal;
+  	margin-top: 40px;
+  	color: white;
+  	background-color: #646B73;
+  	padding: 15px;
+  	width: 1170;
 }
 
 #page_title:hover {
@@ -450,4 +456,220 @@ a:hover {
 .none_apply_option {
 	color: #646B73;
 	font-weight: bold;
+}
+
+.blue {
+	color: #59BDE8;
+}
+
+.black {
+	color: black;
+}
+
+#an_overview {
+	height: 100px;
+}
+
+#all_videos {
+	width: 900;
+	margin-left: 100px;
+}
+
+.each_video {
+	margin-bottom: 20px;
+}
+
+.video_bar {
+	color: white;
+	background-color: #59BDE8;
+	padding: 15px;
+}
+
+.video_bar:hover {
+	cursor: hand;
+}
+
+.up_caret {
+	margin-right: 10px;
+}
+
+.down_caret {
+	margin-right: 10px;
+	display: none;
+}
+
+.video_content {
+	display: none;
+	margin: 20px;
+	overflow: hidden;
+}
+
+#expand_all {
+	margin: 20px;
+	display: inline-block;
+}
+
+#expand_all:hover {
+	cursor: hand;
+	color: #59BDE8;
+}
+
+#collapse_all {
+	margin: 20px;
+	display: inline-block;
+}
+
+#collapse_all:hover {
+	cursor: hand;
+	color: #59BDE8;
+}
+
+.upvotes {
+	margin-right: 5px;
+	color: green;
+}
+
+.downvotes {
+	margin-right: 5px;
+	color: #F78181;
+}
+
+.an_sub {
+	background-color: white;
+	/*background-color: #B8B8B8;*/
+	color: black;
+	border: 4px solid black;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 300px;
+	/*display: block;
+	margin-left: 50px;*/
+}
+
+.an_sub_right {
+	background-color: white;
+	/*background-color: #B8B8B8;*/
+	color: black;
+	border: 4px solid #929FA6;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 300px;
+	display: inline-block;
+	/*float: left;*/
+	/*margin-left: 225px;*/
+}
+
+.dot_sub {
+	border-style: dotted;
+}
+
+.sol_sub {
+	border-style: solid;
+}
+
+.an_left {
+	float: left;
+	width: 500px;
+	/*margin-left: 50px;*/
+}
+
+.an_right {
+	width: 500px;
+	float: right;
+}
+
+.step {
+	margin-bottom: 10px;
+	width: 500px;
+	margin-left: 100px;
+	color: gray;
+	padding: 5px;
+}
+
+.exp_label {
+	font-size: 16pt;
+	margin-bottom: 10px;
+}
+
+.show_s1_votes {
+	padding: 10px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	/*border: 1px solid gray;*/
+	display: inline-block;
+}
+
+.show_s1_votes:hover {
+	cursor: hand;
+	/*color: #59BDE8;*/
+}
+
+.show_s2_votes {
+	padding: 10px;
+	margin-bottom: 10px;
+	/*border: 1px solid gray;*/
+	display: inline-block;
+}
+
+.show_s2_votes:hover {
+	cursor: hand;
+	/*color: #59BDE8;*/
+}
+
+.small_details {
+	font-size: 9pt;
+	/*float: left;*/
+	margin-bottom: 10px;
+}
+
+.sub_wrap_left {
+	/*width: 300px;*/
+	display: block;
+	margin-left: 50px;
+}
+
+.sub_wrap_right {
+	/*width: 300px;*/
+	display: block;
+	margin-left: 225px;
+}
+
+.no_steps_votes {
+	margin-left: 10px;
+}
+
+#an_graph > svg > rect {
+  font: 10px sans-serif;
+  /*background-color: steelblue;*/
+  fill: #FF9380;
+  stroke: white;
+  text-align: right;
+  padding: 3px;
+  /*margin: 1px;*/
+  margin-left: 100px;
+  color: white;
+}
+
+#an_graph > svg > text {
+	fill: black;
+	font-size: 10px;
+}
+
+#an_graph > svg > text.bartext {
+	font-size: 10px;
+	fill: black;
+}
+
+.graph_title {
+	margin: 20px;
+}
+
+.section_title {
+	font-size: 14pt;
+  	font-weight: normal;
+  	margin-top: 40px;
+  	color: white;
+  	background-color: #929FA6;
+  	padding: 10px;
+  	width: 1170;
 }
