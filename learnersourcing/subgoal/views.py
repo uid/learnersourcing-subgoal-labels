@@ -309,7 +309,9 @@ def subgoal_vote(request):
 			subgoal.state = "voted"
 			subgoal.save()
 			
-			action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_vote", stage=request.POST['stage'])
+			action_type = "subgoal_" + vote_type
+			#action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_vote", stage=request.POST['stage'])
+			action = Action(video=video, learner=learner, subgoal=subgoal, action_type=action_type, stage=request.POST['stage'])
 			try:
 				action.session_id = get_session_key(request.session.session_key)
 			except (NameError, AttributeError):
