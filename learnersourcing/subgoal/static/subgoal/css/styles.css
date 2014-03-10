@@ -538,7 +538,7 @@ a:hover {
 	background-color: white;
 	/*background-color: #B8B8B8;*/
 	color: black;
-	border: 4px solid black;
+	border: 2px solid black;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	width: 300px;
@@ -550,7 +550,7 @@ a:hover {
 	background-color: white;
 	/*background-color: #B8B8B8;*/
 	color: black;
-	border: 4px solid #929FA6;
+	border: 2px solid #929FA6;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	width: 300px;
@@ -660,6 +660,50 @@ a:hover {
 	fill: black;
 }
 
+#sub_graph > svg > rect {
+  font: 10px sans-serif;
+  /*background-color: steelblue;*/
+  fill: #FF9380;
+  stroke: white;
+  text-align: right;
+  padding: 3px;
+  /*margin: 1px;*/
+  margin-left: 100px;
+  color: white;
+}
+
+#sub_graph > svg > text {
+	fill: black;
+	font-size: 10px;
+}
+
+#sub_graph > svg > text.bartext {
+	font-size: 10px;
+	fill: black;
+}
+
+#users_graph > svg > rect {
+  font: 10px sans-serif;
+  /*background-color: steelblue;*/
+  fill: #FF9380;
+  stroke: white;
+  text-align: right;
+  padding: 3px;
+  /*margin: 1px;*/
+  margin-left: 100px;
+  color: white;
+}
+
+#users_graph > svg > text {
+	fill: black;
+	font-size: 10px;
+}
+
+#users_graph > svg > text.bartext {
+	font-size: 10px;
+	fill: black;
+}
+
 .graph_title {
 	margin: 20px;
 }
@@ -672,4 +716,12 @@ a:hover {
   	background-color: #929FA6;
   	padding: 10px;
   	width: 1170;
+}
+
+.metric {
+	color: #59BDE8;
+}
+
+.total_users_label {
+	margin-bottom: 30px;
 }

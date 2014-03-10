@@ -32,7 +32,7 @@ $("body").on('click', '.show_s2_votes', function(e) {
 	$(this).toggleClass('blue');
 });
 
-console.log(actions_per_vid_list)
+// console.log(actions_per_vid_list)
 
 
 for (i in videos_list) {
@@ -43,7 +43,10 @@ for (i in videos_list) {
 				"<span class='video_name'>"+videos_list[i]['video'][0].title+"</span>" +
 				"</div>" +
 				"<div class='video_content'>" +
-				"<span class='show_s1_votes'>Toggle vote details</span>" +
+				"<div class='metric total_activity_label'>Number of actions: "+videos_list[i]['activity']+"</div>"+
+				"<div class='metric total_subgoals_label'>Number of subgoals: "+videos_list[i]['subcount']+"</div>"+
+				"<div class='metric total_users_label'>Number of users: "+videos_list[i]['users']+"</div>"+
+				// "<span class='show_s1_votes'>Toggle vote details</span>" +
 				// "<span class='show_s2_votes'>Show stage 2 votes</span>" +
 				"</div></div>";
 	$("#all_videos").append(video_html);
@@ -63,7 +66,7 @@ for (i in videos_list) {
 		for (sub in subgoals) {	
 			sub_time = subgoals[sub].time
 			sub_id = subgoals[sub].id
-			console.log(typeof(subgoals_list[sub_id]))
+			// console.log(typeof(subgoals_list[sub_id]))
 			if (typeof(subgoals_list[sub_id])!= 'undefined') {
 				step_stage = subgoals_list[sub_id][0]
 				rand_stage = subgoals_list[sub_id][1]
@@ -133,8 +136,8 @@ function compare_votes(a,b) {
   return 0;
 }
 
-function generate_graph() {
-	var dict = actions_per_vid_list;
+function generate_graph(dict, graph) {
+	// var dict = actions_per_vid_list;
 	var keys = []
 	var max = 0
 
@@ -156,7 +159,7 @@ function generate_graph() {
 		.domain(keys)
 		.rangeBands[0, height];
 
-	var graph = d3.select("#an_graph")
+	var graph = d3.select("#"+graph)
 		.append('svg')
 		.attr('width', 1000)
 		.attr('height', height);
@@ -192,4 +195,6 @@ function generate_graph() {
 		.text(String);
 }
 
-generate_graph()
+generate_graph(actions_per_vid_list, 'an_graph')
+generate_graph(subs_per_vid_list, 'sub_graph')
+generate_graph(users_per_vid_list, 'users_graph')
