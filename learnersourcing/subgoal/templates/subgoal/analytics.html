@@ -22,6 +22,12 @@
 				<div id="an_graph">
 					<div class="graph_title">Total activity for each video</div>
 				</div>
+				<div id="sub_graph">
+					<div class="graph_title">Number of subgoals for each video</div>
+				</div>
+				<div id="users_graph">
+					<div class="graph_title">Number of users for each video</div>
+				</div>
 				<div class="section_title">
 					Video content
 				</div>
@@ -51,27 +57,38 @@
  	<script src="{% static 'subgoal/js/subgoal.js' %}"></script>
  	<script>
 
- 		var videos_json = JSON.stringify({{content|safe}})
- 		var subgoals_json = JSON.stringify({{subgoals|safe}})
- 		var actions_per_vid_json = JSON.stringify({{actions_per_vid|safe}})
+ 		var videos_json = JSON.stringify({{content|safe}});
+ 		var subgoals_json = JSON.stringify({{subgoals|safe}});
+ 		var actions_per_vid_json = JSON.stringify({{actions_per_vid|safe}});
+ 		var subs_per_vid_json = JSON.stringify({{subs_per_vid|safe}});
+ 		var users_per_vid_json = JSON.stringify({{users_per_vid|safe}});
 
  		var videos_list_first = JSON.parse(videos_json);
  		var subgoals_list = JSON.parse(subgoals_json);
  		var actions_per_vid_list = JSON.parse(actions_per_vid_json);
+ 		var subs_per_vid_list = JSON.parse(subs_per_vid_json);
+ 		var users_per_vid_list = JSON.parse(users_per_vid_json);
 
  		var videos_list = []
  		for (i in videos_list_first) {
+ 			console.log(i)
  			temp_dict = {}
  			temp_dict['video'] = (JSON.parse(videos_list_first[i].video));
  			temp_dict['steps'] = (JSON.parse(videos_list_first[i].steps));
  			temp_dict['subgoals'] = (JSON.parse(videos_list_first[i].subgoals));
  			temp_dict['exp'] = (JSON.parse(videos_list_first[i].exp));
+ 			temp_dict['activity'] = actions_per_vid_list[String(temp_dict['video'][0].slug)];
+ 			temp_dict['subcount'] = subs_per_vid_list[String(temp_dict['video'][0].slug)];
+ 			temp_dict['users'] = users_per_vid_list[String(temp_dict['video'][0].slug)];
+ 			// console.log(actions_per_vid_list[String(temp_dict['video'][0].slug)])
 
  			videos_list.push(temp_dict)
  		}
 
- 		console.log(videos_list)
- 		console.log(subgoals_list)
+
+
+ 		// console.log(videos_list)
+ 		// console.log(subgoals_list)
  	</script>
 
 	<script src="{% static 'subgoal/js/analytics.js' %}"></script>
