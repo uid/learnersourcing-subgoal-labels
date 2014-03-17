@@ -147,6 +147,7 @@ function verticalTimeline(t) {
 function routeStage(t) {
 	Experiment.questionStage = 1;
 	var subgoalGroup = Subgoal.getCurrentGroup(t);
+	console.log(subgoalGroup)
 	// simple routing heuristic: see if the current group has 3 or more
 	if (subgoalGroup.length >= 3)
 		Experiment.questionStage = 2;
@@ -167,16 +168,25 @@ function displayStage1Question(t){
 
 
 function displayStage2Question(t){
+	var subgoalTestGroup = Subgoal.getCurrentGroup(t);
+	console.log(subgoalTestGroup)
+	var numSubgoals = subgoalTestGroup.length
+	console.log(numSubgoals)
+
 	var floor = computePreviousTime(t);	
 	$(".mult_choice_options").empty('');
 	for (var i in Subgoal.data){
+		
+		//Threshold for displaying subgoal in stage 2-- set to 3 but could change
+		// (If subgoal has < 4 downvotes, then display it)
+		// if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t && Subgoal.data[i].downvotes_s2 < 4){
 		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
 			var subgoal_id = Subgoal.data[i]["id"];
 			var subgoal_text = Subgoal.data[i]["label"];
 			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
 		}
 	}
-	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
+	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input' id='new_answer'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
 }
 
 
@@ -310,15 +320,12 @@ function submitStage2Subgoal(){
 	// 	} else {
 	// 	}
 	// }
-
-
 	var inp_text ="";
 	var $li;
 	// when another label was inserted.
 	if (typeof $('input[name=step1]:radio:checked + input').val() !== "undefined") {
 		// console.log('here', time);
 		inp_text = $('input[name=step1]:radio:checked + input').val();
-
 		if (inp_text == "") {
 			noSubgoal()
 		} else {
@@ -354,18 +361,23 @@ function submitStage2Subgoal(){
 		// 	console.log("/subgoal/create/ failure");
 		// }).always(function(){
 		// });		
+
 	} else if (answer != "new" && answer != "none"){
-		for (var i in Subgoal.data){
-			if (answer == Subgoal.data[i]["id"])
-				inp_text = Subgoal.data[i]["label"];
-		}
-		$li = Subgoal.getSubgoalHTML(answer, inp_text);
-		// $li = $("<li class='movable subgoal' data-subgoal-id='" + answer + "'><span class='sub'>" + inp_text + "</span>" + 
-		// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
-		// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
-		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
-		$li.fadeIn(1000)	
-		placeSubtitle($li, time)		
+		if (typeof $('input[name=step1]:radio:checked').val() == "undefined") {
+			noSubgoal();
+		} else {
+			for (var i in Subgoal.data){
+				if (answer == Subgoal.data[i]["id"])
+					inp_text = Subgoal.data[i]["label"];
+			}
+			$li = Subgoal.getSubgoalHTML(answer, inp_text);
+			// $li = $("<li class='movable subgoal' data-subgoal-id='" + answer + "'><span class='sub'>" + inp_text + "</span>" + 
+			// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
+			// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+			// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
+			$li.fadeIn(1000)	
+			placeSubtitle($li, time)
+		}		
 	}
 
 	Subgoal.opVote(votes);
@@ -397,9 +409,7 @@ function submitSubgoal() {
 }
 
 function noSubgoal() {
-	if (player.getPlayerState()!=0){
-		resumeVideo();
-	}	
+	
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_help').show();
@@ -407,6 +417,10 @@ function noSubgoal() {
 	// $(".frozen").css("color", "black");
 
 	$("#player").show()
+
+	if (player.getPlayerState()!=0){
+		resumeVideo();
+	}	
 	// $('.dq_instr').hide();
 	// setTimeout(checkVideo, 1000);
 }
