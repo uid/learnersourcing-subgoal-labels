@@ -115,6 +115,7 @@ h2 {
 button {
 	/*background-color: #646B73;*/
 	background: none;
+	/*color: #59BDE8;*/
 	color: #646B73;
 	border: none;
 	font-size: 10pt;
@@ -726,4 +727,18 @@ a:hover {
 
 .total_users_label {
 	margin-bottom: 30px;
+}
+
+.disabledButton {
+	color: #bdbdbd;
+}
+
+.disabledButton:hover {
+	border: 1px solid white;
+	cursor: default;
+}
+
+.bottom_border {
+	border-bottom: 1px solid black;
+	padding-top: 10px;
 }

@@ -167,10 +167,12 @@ $(function() {
 
 	$("body").on('click', '.q_choice', function(e) {
 		buttonEnable(this);
+		$(".submitbutton").removeClass('disabledButton');
 	});
 
 	$("body").on('click', '.q_input', function(e) {
 		$(".submitbutton").removeAttr('disabled')
+		$(".submitbutton").removeClass('disabledButton');
 	});
 
 	$('.frozen').hover(function(){

@@ -218,7 +218,8 @@ function askQuestion(t) {
 		// $('.dq_input_2').fadeIn(500);
 		$('.dq_input_2').show();
 	}
-	$(".submitbutton").attr('disabled','disabled')
+	$(".submitbutton").attr('disabled','disabled');
+	$(".submitbutton").addClass('disabledButton');
 	$('.dq_help').hide();
 	$('.dq_instr').hide();
 }
