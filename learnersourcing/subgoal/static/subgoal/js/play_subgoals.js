@@ -227,7 +227,8 @@ function displayStage3Question(t){
 	$(".sub_label").empty('')
 	$(".steps_list").empty('')
 	$(".mult_choice_options_stage3").empty('')
-	// $(".steps_list").append("<p class='step_label'>Steps:</p>")
+	
+	$(".steps_list").append("<p class='step_label'>Steps:</p>")
 
 	var subgoal_text = sortedSubgoalGroup[0].label
 	var subgoal_id = sortedSubgoalGroup[0].id
@@ -235,9 +236,9 @@ function displayStage3Question(t){
 
 	$(".mult_choice_options_stage3").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>This statement applies</input></label><br>");
 	$(".mult_choice_options_stage3").append("<label><input type='radio' name='step1' class='q_choice' value='none'>These steps don't require summarization</input></label><br>");
-	$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
+	$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>Replace statement: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
 
-	var floor = computePreviousTime(t);	
+	var floor = computePreviousTime(t);
 	for (var i in steps){
 		if (floor <= steps[i][0].time && steps[i][0].time < t){
 			var step_text = steps[i][0].label;
