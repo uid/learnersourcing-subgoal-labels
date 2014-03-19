@@ -147,7 +147,7 @@ button {
 }
 
 .q_input_3 {
-
+	margin:10px;
 }
 
 .movable:hover {
@@ -359,6 +359,15 @@ img.video_thumb {
 	cursor: pointer;
 }
 
+.mult_choice_options_stage3 {
+	margin:15px;
+	margin-top: 25px;
+}
+
+.mult_choice_options_stage3 label:hover {
+	cursor: pointer;
+}
+
 .solidButton {
 	background-color: #646B73;
 	color:white;
@@ -449,6 +458,8 @@ a:hover {
 
 .q_text_inp {
 	width: 250px;
+	height: 30px;
+	font-size: 12pt;
 }
 
 .new_subgoal_option {
@@ -740,5 +751,5 @@ a:hover {
 
 .bottom_border {
 	border-bottom: 1px solid black;
-	padding-top: 10px;
+	padding-bottom: 10px;
 }
