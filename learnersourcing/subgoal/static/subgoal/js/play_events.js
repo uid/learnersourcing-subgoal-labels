@@ -165,14 +165,32 @@ $(function() {
 		// });			
 	});
 
+	$("body").on('click', '.q_choice', function(e) {
+		buttonEnable(this);
+	});
+
+	$("body").on('click', '.q_input', function(e) {
+		$(".submitbutton").removeAttr('disabled')
+	});
+
 	$('.frozen').hover(function(){
 		$(this).toggleClass('blue');
 	});
+
+function buttonEnable(obj) {
+	if ($(obj).is(':checked')) {
+		$(".submitbutton").removeAttr('disabled')
+	} else {
+		$(".submitbutton").attr('disabled', 'disabled');
+	}
+}
 
 function enableEvents() {
 	$("#sortable").sortable({
 		cancel:".frozen",
 		cancel:".movable",
 	});
+
+	$(".submitbutton").attr('disabled', 'disabled');
 
 }

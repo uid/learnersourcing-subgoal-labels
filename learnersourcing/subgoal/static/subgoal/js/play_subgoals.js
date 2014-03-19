@@ -175,18 +175,34 @@ function displayStage2Question(t){
 
 	var floor = computePreviousTime(t);	
 	$(".mult_choice_options").empty('');
-	for (var i in Subgoal.data){
-		
-		//Threshold for displaying subgoal in stage 2-- set to 3 but could change
-		// (If subgoal has < 4 downvotes, then display it)
-		// if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t && Subgoal.data[i].downvotes_s2 < 4){
-		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
-			var subgoal_id = Subgoal.data[i]["id"];
-			var subgoal_text = Subgoal.data[i]["label"];
-			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+
+	if (numSubgoals <= 5) {
+		for (var i in Subgoal.data){
+			
+			//Threshold for displaying subgoal in stage 2-- set to 3 but could change
+			// (If subgoal has < 4 downvotes, then display it)
+			// if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t && Subgoal.data[i].downvotes_s2 < 4){
+			if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
+				var subgoal_id = Subgoal.data[i]["id"];
+				var subgoal_text = Subgoal.data[i]["label"];
+				$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+			}
+		}
+	} else {
+		for (var i in Subgoal.data){
+			
+			//Threshold for displaying subgoal in stage 2-- set to 3 but could change
+			// (If subgoal has < 4 downvotes, then display it)
+			// if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t && Subgoal.data[i].downvotes_s2 < 4){
+			if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
+				var subgoal_id = Subgoal.data[i]["id"];
+				var subgoal_text = Subgoal.data[i]["label"];
+				$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+			}
 		}
 	}
-	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input' id='new_answer'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
+	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input' id='new_answer'></input></label><br>")
+	// $(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input' id='new_answer'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
 }
 
 
@@ -202,6 +218,7 @@ function askQuestion(t) {
 		// $('.dq_input_2').fadeIn(500);
 		$('.dq_input_2').show();
 	}
+	$(".submitbutton").attr('disabled','disabled')
 	$('.dq_help').hide();
 	$('.dq_instr').hide();
 }
