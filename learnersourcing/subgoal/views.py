@@ -60,8 +60,9 @@ def play(request, video_id):
 	print request.session.session_key
 	
 	learner = get_object_or_404(Learner, pk=1)
-	cond_interval = 30
-	cond_random = False if randint(0,1) == 0 else True
+	cond_interval = 60
+	cond_random = False
+	#cond_random = False if randint(0,1) == 0 else True
 	#cond_random = False if random() < 0.7 else True
 	cond_step = False if randint(0,1) == 0 else True
 	cond_admin = False
