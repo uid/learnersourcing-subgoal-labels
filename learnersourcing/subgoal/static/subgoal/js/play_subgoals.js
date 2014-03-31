@@ -42,8 +42,10 @@ function pauseVideo() {
 }
 
 function resumeVideo(){
+	console.log("RESUMING")
 	$(".frozen").css("color", "black");
-	player.seekTo(player.getCurrentTime()-1);
+	// player.seekTo(player.getCurrentTime()-1);
+	player.seekTo(player.getCurrentTime());
 	player.playVideo();
 }
 
@@ -147,9 +149,25 @@ function verticalTimeline(t) {
 function routeStage(t) {
 	Experiment.questionStage = 1;
 	var subgoalGroup = Subgoal.getCurrentGroup(t);
-	// simple routing heuristic: see if the current group has 3 or more
-	if (subgoalGroup.length >= 3)
-		Experiment.questionStage = 2;
+	console.log(subgoalGroup)
+	
+	//routes it to stage 2 or 3 (enough subgoals generated)
+	if (subgoalGroup.length >= 3) {
+		var sorted_group = subgoalGroup.sort(compare_votes_s3);
+		var div_threshold = .4;
+		var diff_threshold = 3;
+		var vote_diff = sorted_group[0].upvotes_s2-sorted_group[1].upvotes_s2
+		var vote_val = vote_diff/sorted_group[0].upvotes_s2;
+
+		//checks if the difference between number of votes is high
+		if (vote_diff > diff_threshold && vote_val > div_threshold) {
+			Experiment.questionStage = 3;
+		} else {
+			Experiment.questionStage = 2;
+		}
+	}
+	stage = Experiment.questionStage;
+	// console.log(Experiment.questionStage)
 }
 
 
@@ -167,16 +185,101 @@ function displayStage1Question(t){
 
 
 function displayStage2Question(t){
+	var subgoalTestGroup = Subgoal.getCurrentGroup(t);
+	console.log(subgoalTestGroup)
+	var numSubgoals = subgoalTestGroup.length
+	console.log(numSubgoals)
+
 	var floor = computePreviousTime(t);	
 	$(".mult_choice_options").empty('');
-	for (var i in Subgoal.data){
-		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
-			var subgoal_id = Subgoal.data[i]["id"];
-			var subgoal_text = Subgoal.data[i]["label"];
-			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+
+	if (numSubgoals <= 5) {
+		for (var i in Subgoal.data){
+			
+			//Threshold for displaying subgoal in stage 2-- set to 3 but could change
+			// (If subgoal has < 4 downvotes, then display it)
+			// if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t && Subgoal.data[i].downvotes_s2 < 4){
+			if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
+				var subgoal_id = Subgoal.data[i]["id"];
+				var subgoal_text = Subgoal.data[i]["label"];
+				$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+			}
+		}
+	} else {
+		for (var i in Subgoal.data){
+			
+			//Threshold for displaying subgoal in stage 2-- set to 3 but could change
+			// (If subgoal has < 4 downvotes, then display it)
+			// if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t && Subgoal.data[i].downvotes_s2 < 4){
+			if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
+				var subgoal_id = Subgoal.data[i]["id"];
+				var subgoal_text = Subgoal.data[i]["label"];
+				$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+			}
 		}
 	}
-	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
+	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new_2'>I have a better answer: <input type='text' class='q_input_2' id='new_answer'></input></label><br>")
+	// $(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input' id='new_answer'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
+}
+
+function displayStage3Question(t){
+	var subgoalTestGroup = Subgoal.getCurrentGroup(t);
+
+	var subgoalAddedStage3 = [];
+	for (var s in subgoalTestGroup) {
+		console.log(subgoalTestGroup[s].stage_added);
+		if (subgoalTestGroup[s].stage_added == 3) {
+			subgoalAddedStage3.push(subgoalTestGroup[s])
+		}
+	}
+
+	if (subgoalAddedStage3.length > 0) {
+		for (var i in subgoalAddedStage3) {
+			var sortedSubgoalDate = subgoalAddedStage3.sort(compare_dates_s3);
+			var subgoal_text = sortedSubgoalDate[0].label
+			var subgoal_id = sortedSubgoalDate[0].id
+		}
+	} else {
+		var sortedSubgoalGroup = subgoalTestGroup.sort(compare_votes_s3);
+		var subgoal_text = sortedSubgoalGroup[0].label
+		var subgoal_id = sortedSubgoalGroup[0].id
+	}
+
+	
+
+	$(".sub_label").empty('')
+	$(".steps_list").empty('')
+	$(".mult_choice_options_stage3").empty('')
+	
+	$(".steps_list").append("<p class='step_label'>Steps:</p>")
+
+	
+	$(".sub_label").append("<p class='step_label'>Statement:</p>")
+	$(".sub_label").append(escapeHTML(subgoal_text));
+	
+	var floor = computePreviousTime(t);
+	var numSteps = 0;
+	for (var i in steps){
+		if (floor <= steps[i][0].time && steps[i][0].time < t){
+			var step_text = steps[i][0].label;
+			$(".steps_list").append("<p class='ind_step'>" + escapeHTML(step_text) + "</p><br>");
+			numSteps++
+		}
+	}
+
+	if (numSteps == 0) {
+		$("#stage3_ques").empty('')
+		$("#stage3_ques").append('Does the below statement accurately summarize what you just watched?');
+		$(".steps_list").empty('')
+
+		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='" + subgoal_id + "'>Yes, this statement applies</input></label><br>");
+		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='none'>No, there should be no summarizing statement here</input></label><br>");
+		$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and replace statement: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
+	} else {
+		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='" + subgoal_id + "'>Yes, this statement applies</input></label><br>");
+		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='none'>No, these steps don't require summarization</input></label><br>");
+		$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and replace statement: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
+	}
 }
 
 
@@ -187,11 +290,17 @@ function askQuestion(t) {
 		displayStage1Question(t);
 		// $('.dq_input').fadeIn(500);
 		$('.dq_input').show();
-	} else {
+	} else if (Experiment.questionStage == 2){
 		displayStage2Question(t);
 		// $('.dq_input_2').fadeIn(500);
 		$('.dq_input_2').show();
+	} else if (Experiment.questionStage == 3) {
+		displayStage3Question(t);
+		// $('.dq_input_2').fadeIn(500);
+		$('.dq_input_3').show();
 	}
+	$(".submitbutton").attr('disabled','disabled');
+	$(".submitbutton").addClass('disabledButton');
 	$('.dq_help').hide();
 	$('.dq_instr').hide();
 }
@@ -310,15 +419,12 @@ function submitStage2Subgoal(){
 	// 	} else {
 	// 	}
 	// }
-
-
 	var inp_text ="";
 	var $li;
 	// when another label was inserted.
 	if (typeof $('input[name=step1]:radio:checked + input').val() !== "undefined") {
 		// console.log('here', time);
 		inp_text = $('input[name=step1]:radio:checked + input').val();
-
 		if (inp_text == "") {
 			noSubgoal()
 		} else {
@@ -354,18 +460,83 @@ function submitStage2Subgoal(){
 		// 	console.log("/subgoal/create/ failure");
 		// }).always(function(){
 		// });		
+
 	} else if (answer != "new" && answer != "none"){
-		for (var i in Subgoal.data){
-			if (answer == Subgoal.data[i]["id"])
-				inp_text = Subgoal.data[i]["label"];
+		if (typeof $('input[name=step1]:radio:checked').val() == "undefined") {
+			noSubgoal();
+		} else {
+			for (var i in Subgoal.data){
+				if (answer == Subgoal.data[i]["id"])
+					inp_text = Subgoal.data[i]["label"];
+			}
+			$li = Subgoal.getSubgoalHTML(answer, inp_text);
+			// $li = $("<li class='movable subgoal' data-subgoal-id='" + answer + "'><span class='sub'>" + inp_text + "</span>" + 
+			// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
+			// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+			// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
+			$li.fadeIn(1000)	
+			placeSubtitle($li, time)
+		}		
+	}
+
+	Subgoal.opVote(votes);
+}
+
+function submitStage3Subgoal(){
+	var currentTime = Math.floor(player.getCurrentTime());
+	var time = computePreviousTime(currentTime);
+
+	// compute upvote/downvote
+	var votes = {};
+	var answer = $('input[name=step3]:radio:checked').val();
+
+	// add the selected valid subgoal as an upvote
+	if (answer != "new" && answer != "none"){
+		votes[answer] = "upvotes_s3";
+	}
+
+	var subgoalGroup = Subgoal.getCurrentGroup(currentTime);
+	for (var i in subgoalGroup) {
+		var subgoal_id = subgoalGroup[i]["id"];	
+		if (!(subgoal_id in votes)){
+			votes[subgoal_id] = "downvotes_s2";
 		}
-		$li = Subgoal.getSubgoalHTML(answer, inp_text);
-		// $li = $("<li class='movable subgoal' data-subgoal-id='" + answer + "'><span class='sub'>" + inp_text + "</span>" + 
-		// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
-		// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
-		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
-		$li.fadeIn(1000)	
-		placeSubtitle($li, time)		
+	}
+
+	var inp_text ="";
+	var $li;
+	// when another label was inserted.
+	if (typeof $('input[name=step3]:radio:checked + input').val() !== "undefined") {
+		console.log("FIRST BLOCK")
+		inp_text = $('input[name=step3]:radio:checked + input').val();
+		if (inp_text == "") {
+			noSubgoal()
+		} else {
+
+			$li = Subgoal.getNewSubgoalHTML(inp_text);
+			$li.fadeIn(1000);
+			placeSubtitle($li, time);
+
+			Subgoal.opCreate($li, time, inp_text, true);
+		}	
+
+	} else if (answer != "new" && answer != "none"){
+		console.log("SECOND BLOCK")
+		if (typeof $('input[name=step3]:radio:checked').val() == "undefined") {
+			noSubgoal();
+		} else {
+			for (var i in Subgoal.data){
+				if (answer == Subgoal.data[i]["id"])
+					inp_text = Subgoal.data[i]["label"];
+			}
+			$li = Subgoal.getSubgoalHTML(answer, inp_text);
+			$li.fadeIn(1000)	
+			placeSubtitle($li, time)
+		}		
+	} else if (answer == "none") {
+		console.log("THIRD BLOCK")
+		//TODO-- DO SOMETHING HERE! This gives us some information...
+		noSubgoal();
 	}
 
 	Subgoal.opVote(votes);
@@ -378,6 +549,8 @@ function submitSubgoal() {
 		submitStage1Subgoal();
 	} else if (Experiment.questionStage == 2){
 		submitStage2Subgoal();
+	} else if (Experiment.questionStage == 3) {
+		submitStage3Subgoal();
 	}
 
 	if (player.getPlayerState()!=0){
@@ -390,6 +563,7 @@ function submitSubgoal() {
 
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
+	$('.dq_input_3').hide();
 	$('.dq_help').show();
 
 	$("#player").show();
@@ -397,18 +571,37 @@ function submitSubgoal() {
 }
 
 function noSubgoal() {
-	if (player.getPlayerState()!=0){
-		resumeVideo();
-	}	
+	console.log("NO SUBGOAL")
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
+	$('.dq_input_3').hide();
 	$('.dq_help').show();
 
 	// $(".frozen").css("color", "black");
 
 	$("#player").show()
+
+	if (player.getPlayerState()!=0){
+		resumeVideo();
+	}	
 	// $('.dq_instr').hide();
 	// setTimeout(checkVideo, 1000);
+}
+
+function compare_votes_s3(a,b) {
+  if (a.upvotes_s2 < b.upvotes_s2)
+     return 1;
+  if (a.upvotes_s2 > b.upvotes_s2)
+    return -1;
+  return 0;
+}
+
+function compare_dates_s3(a,b) {
+  if (a.added_at < b.added_at)
+     return 1;
+  if (a.added_at > b.added_at)
+    return -1;
+  return 0;
 }
 
 $("body").on('keypress', '.q_input', function(e) {
@@ -416,10 +609,6 @@ $("body").on('keypress', '.q_input', function(e) {
 		submitSubgoal();
 	}
 });
-
-$("body").on('click', '.q_input', function(e) {
-	$(".q_new").prop('checked', 'true')
-});	
 
 $("body").on('keypress', '.q_choice', function(e) {
 	if (e.which == 13) {
@@ -444,6 +633,7 @@ $("body").on('click', '.ppButton', function(e) {
 });
 
 $("body").on('click', '.cancelButton', function(e) {
+	console.log("CANCEL BUTTON");
 	noSubgoal();
 });
 
@@ -491,5 +681,6 @@ $("body").on('click', 'span.sub', function(e) {
 $(document).ready(function() {
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
+	$('.dq_input_3').hide();
 	$('.dq_help').hide();
 });

@@ -151,7 +151,7 @@ def analytics(request):
 
 		users_per_video_dict[str(v.slug)] = len(temp_exp)
 
-	print users_per_video_dict
+	# print users_per_video_dict
 
 	return render(request, 'subgoal/analytics.html', 
 		{
@@ -257,6 +257,7 @@ def subgoal_create(request):
 					label=request.POST['label'],
 					learner=learner,
 					state="created",
+					stage_added=int(request.POST['stage']),
 					upvotes_s2=0,
 					downvotes_s2=0,
 					upvotes_s3=0,

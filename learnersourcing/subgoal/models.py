@@ -69,6 +69,7 @@ class Subgoal(models.Model):
 	added_at = models.DateTimeField(auto_now_add=True)
 	# is it a picked one to display in stage 3?
 	is_final = models.BooleanField(default=False)
+	stage_added = models.IntegerField(default=1)
 	# state: "created", "updated", "moved", "deleted"
 	# only storing the latest, but multiple states can exist at the same time.
 	state = models.CharField(max_length=16)

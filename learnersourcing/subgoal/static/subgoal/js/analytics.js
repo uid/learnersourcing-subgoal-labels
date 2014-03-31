@@ -58,10 +58,22 @@ for (i in videos_list) {
 	var subgoals = videos_list[i]['subgoals']
 	subgoals = subgoals.sort(compare_votes)
 	var exp = videos_list[i]['exp']
+
+	//iterates through the steps and places subgoals and steps together
 	for (step in steps) {
 		var $step_html = $("<div class='step'>"+escapeHTML(steps[step].label)+"</div>")
 		var $rt_step_html = $("<div class='step'>"+escapeHTML(steps[step].label)+"</div>")
 		step_time = steps[step].time
+		// console.log('step time: '+step_time)
+		time_group = generateTimes(step_time)
+
+		//Not sure where to do this, but the basic functionality will be that for every
+		//subgoal group, a line needs to be drawn beneath.
+		//Iterate through each of these time groups, see which subgoals fit into them, and
+		//the last one gets a line drawn beneath it.
+		for (t in time_group) {
+
+		}
 		
 		for (sub in subgoals) {	
 			sub_time = subgoals[sub].time
@@ -104,6 +116,31 @@ function place_an_subgoal(sub, classes, dir) {
 		$("#"+id+"> .video_content").append($sub_html)
 }
 
+function groupSubgoals(t, subgoals) {
+	var floor = 30;
+	var group = [];
+	for (var i in subgoals){
+		if (floor <= subgoals[i]["time"] && subgoals[i]["time"] < t){
+			group.push(subgoals[i]);
+		}
+	}	
+	// console.log(group)
+	return group;
+}
+
+function generateTimes(t) {
+	//replace 30 if interval changes
+	var interval = 30;
+	var num_groups = Math.floor(t/interval);
+	var time_group = [];
+	for (i=0; i < num_groups; i++) {
+		time_group.push(interval*(i+1));
+	}
+	console.log(time_group)
+	return time_group
+
+}
+
 function check_sub_classes(sub, step_stage, rand_stage) {
 	if (step_stage == 'True') {
 		if (rand_stage == 'True') {
@@ -136,6 +173,7 @@ function compare_votes(a,b) {
   return 0;
 }
 
+//generates horizontal bar graph with bar labels
 function generate_graph(dict, graph) {
 	// var dict = actions_per_vid_list;
 	var keys = []

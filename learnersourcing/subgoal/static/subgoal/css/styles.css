@@ -115,6 +115,7 @@ h2 {
 button {
 	/*background-color: #646B73;*/
 	background: none;
+	/*color: #59BDE8;*/
 	color: #646B73;
 	border: none;
 	font-size: 10pt;
@@ -140,13 +141,13 @@ button {
 	width: 250px;
 }
 
-.q_input {
+.q_input, .q_input_2 {
 	height: 30px;
 	font-size: 12pt;
 }
 
 .q_input_3 {
-
+	margin:10px;
 }
 
 .movable:hover {
@@ -159,6 +160,8 @@ button:hover {
 	cursor: hand;
 	border: 1px solid #646B73;
 }
+
+
 
 .sub {
   background-color: #59BDE8;
@@ -356,6 +359,15 @@ img.video_thumb {
 	cursor: pointer;
 }
 
+.mult_choice_options_stage3 {
+	margin:15px;
+	margin-top: 25px;
+}
+
+.mult_choice_options_stage3 label:hover {
+	cursor: pointer;
+}
+
 .solidButton {
 	background-color: #646B73;
 	color:white;
@@ -446,6 +458,8 @@ a:hover {
 
 .q_text_inp {
 	width: 250px;
+	height: 30px;
+	font-size: 12pt;
 }
 
 .new_subgoal_option {
@@ -724,4 +738,18 @@ a:hover {
 
 .total_users_label {
 	margin-bottom: 30px;
+}
+
+.disabledButton {
+	color: #bdbdbd;
+}
+
+.disabledButton:hover {
+	border: 1px solid white;
+	cursor: default;
+}
+
+.bottom_border {
+	border-bottom: 1px solid black;
+	padding-bottom: 10px;
 }
