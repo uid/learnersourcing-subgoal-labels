@@ -141,7 +141,7 @@ button {
 	width: 250px;
 }
 
-.q_input {
+.q_input, .q_input_2 {
 	height: 30px;
 	font-size: 12pt;
 }

@@ -166,11 +166,25 @@ $(function() {
 	});
 
 	$("body").on('click', '.q_choice', function(e) {
-		buttonEnable(this);
+		// buttonEnable(this);
+		if ($(this).is(':checked')) {
+			$(".submitbutton").removeAttr('disabled')
+		} else {
+			$(".submitbutton").attr('disabled', 'disabled');
+		}
 		$(".submitbutton").removeClass('disabledButton');
 	});
 
 	$("body").on('click', '.q_input', function(e) {
+		console.log("INPUT CLICKED")
+		$(".q_new").prop('checked', 'true')
+		$(".submitbutton").removeAttr('disabled')
+		$(".submitbutton").removeClass('disabledButton');
+	});
+
+	$("body").on('click', '.q_input_2', function(e) {
+		console.log("INPUT CLICKED")
+		$(".q_new_2").prop('checked', 'true')
 		$(".submitbutton").removeAttr('disabled')
 		$(".submitbutton").removeClass('disabledButton');
 	});
