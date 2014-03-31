@@ -402,6 +402,7 @@ img.video_thumb {
 	float: left;
 	margin: 20px;
 	width: 240px;
+	height: 255px;
 	position:relative;
 	/*background-color: gray;*/
 	padding: 10px;
