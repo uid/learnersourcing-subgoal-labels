@@ -6,13 +6,28 @@
     <meta charset="utf-8" />
     <title>Video tutorials</title>    
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/jquery-impromptu.css' %}" />
 </head>
 	<body>
+<!-- 		<div id="logo">
+			crowdy
+		</div> -->
+		<div id="toolbar">
+			<span id="page_title">
+				<a href="{% url 'index' %}">crowdy</a>
+			</span>
+			<span id="help_link">
+				<a href="{% url 'help' %}">Help</a>
+			</span>
+			<span id="about_link">
+				<a href="{% url 'about' %}">About</a>
+			</span>
+		</div>
 		<div class="wrapper">
 			<div class="content_wrapper">
-				<div id="splash_page_title">
+<!-- 				<div id="splash_page_title">
 					Basic web programming tutorials
-				</div>
+				</div> -->
 				<div class="videos_wrapper">
 					
 				</div>
@@ -23,11 +38,19 @@
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="{% static 'subgoal/js/jquery-impromptu.js' %}"></script>
  	<script>
 		var videos_json = JSON.stringify({{videos|safe}});
 		var videos = JSON.parse(videos_json);
 		// console.log(videos);
  	</script> 	
  	<script src="{% static 'subgoal/js/splash_page.js' %}"></script>
+ 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="{% static 'subgoal/js/experiment.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/helper.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/subgoal.js' %}"></script>
+	<script src="{% static 'subgoal/js/play_events.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/briefing.js' %}"></script>
 	
 </html>

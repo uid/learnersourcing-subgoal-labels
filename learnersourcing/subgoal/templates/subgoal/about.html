@@ -1,0 +1,95 @@
+{% load staticfiles %}
+{% csrf_token %}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Video tutorials</title>    
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/jquery-impromptu.css' %}" />
+</head>
+	<body>
+		<div id="toolbar">
+			<span id="page_title">
+				<a href="{% url 'index' %}">crowdy</a>
+			</span>
+			<span id="help_link">
+				<a href="{% url 'help' %}">Help</a>
+			</span>
+			<span id="about_link">
+				<a href="{% url 'about' %}">About</a>
+			</span>
+		</div>
+		<div class="wrapper">
+			<div class="content_wrapper">
+				<div class="help_page_title">
+					About this site
+				</div>
+				<div class="help_step_title">
+					This is an MIT research experiment
+				</div>
+				<div class="help_step_text">
+					We are a group of researchers in the field of user interface design. We are looking to test a system for summarizing information in how-to videos by asking video-watchers simple questions as they watch.
+				</div>
+				<div class='help_step_title'>
+					Website
+				</div>
+				<div class='help_step_text'>
+					This website consists of a video player that stops periodically to ask questions about the video being watched.
+				</div>
+				<div class='help_step_text bold'>
+					Featured features
+				</div>
+				<div class='help_step_text_sub'>
+					Watch videos that have been annotated and have an interactive timeline
+				</div>
+				<div class='help_step_text_sub'>
+					Answer questions and vote on what other users have answered as you watch videos
+				</div>
+				<div class='help_step_title'>
+					User study
+				</div>
+				<div class='help_step_text'>
+					The purpose of this study is to test how well our system can encourage users to generate concise summarizations of how-to videos when asked simple questions periodically while watching these videos.
+				</div>
+				<div class='help_step_text'>
+					As you watch videos, we will record actions such as the answers you submit and the edits made to the video’s outline. We also record a random variable assigned to each user’s session, but do not ask for or record any personal information.
+				</div>
+				<div class='help_step_text'>
+					You may revisit or remain on the site for as long as you’d like.
+				</div>
+				<div class='help_step_text bold'>
+					Requirements
+				</div>
+				<div class='help_step_text_sub'>
+					You must be at least 18 years old.
+				</div>
+				<div class='help_step_text_sub'>
+					You understand that you use this website at your own risk.
+				</div>
+				<div class='help_step_text bold'>
+					Guarantees
+				</div>
+				<div class='help_step_text_sub'>
+					Your participation is voluntary. You may abandon this study at any time.
+				</div>
+				<div class='help_step_text_sub'>
+					Your personal information will never be sent to researchers.
+				</div>
+				<div class='help_step_title'>
+					Contact
+				</div>
+				<div class='help_step_text'>
+					Please email sweir@mit.edu with any concerns or questions.
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="{% static 'subgoal/js/experiment.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/helper.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/subgoal.js' %}"></script>
+	<script src="{% static 'subgoal/js/play_events.js' %}"></script>
+</html>

@@ -112,6 +112,7 @@ function add_subgoals(subgoals, step_times) {
 			"<span class='sub "+sub+"'>"+
 			subgoals[sub]["label"] + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" +
+			"<button type='button' class='undelButton permButton'>Undelete</button>" +
 			"<button type='button' class='editButton permButton'>Edit</button>" +
 			"<button type='button' class='saveButton permButton'>Save</button>" +
 			"</li>";

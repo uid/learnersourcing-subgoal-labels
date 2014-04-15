@@ -1,0 +1,98 @@
+{% load staticfiles %}
+{% csrf_token %}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Video tutorials</title>    
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/jquery-impromptu.css' %}" />
+</head>
+	<body>
+		<div id="toolbar">
+			<span id="page_title">
+				<a href="{% url 'index' %}">crowdy</a>
+			</span>
+			<span id="help_link">
+				<a href="{% url 'help' %}">Help</a>
+			</span>
+			<span id="about_link">
+				<a href="{% url 'about' %}">About</a>
+			</span>
+		</div>
+		<div class="wrapper">
+			<div class="content_wrapper">
+				<div class="help_page_title">
+					How to use this site
+				</div>
+				<div class="help_step_title">
+					1. Choose
+				</div>
+				<div class="help_step_text">
+					Find a video that you're interested in learning more about.
+				</div>
+				<div class="help_step_title">
+					3. Information
+				</div>
+				<div class="help_step_text">
+					We provide you with annotated steps that the video goes through.
+				</div>
+				<div class="help_step_text">
+					Click on the steps to move to that point in the video.
+				</div>
+				<div class="help_step_title">
+					3. Watch
+				</div>
+				<div class="help_step_text">
+					Watch the video as you normally would.
+				</div>
+				<div class="help_step_title">
+					4. Summarize
+				</div>
+				<div class="help_step_text">
+					Periodically, we'll stop the video and ask you to summarize what you've watched.
+				</div>
+				<div class="help_step_text">
+					Be specific to the section of the video that you just saw. Other users may see what you've written.
+				</div>
+				<div class="help_step_title">
+					5. Example
+				</div>
+				<div class="help_step_text">
+					Here's an example of a video about baking a cake. The video just covered the following steps:
+				</div>
+				<div class="help_step_text_sub">
+					1. Put 1 cup of flour into a separate bowl
+				</div>
+				<div class="help_step_text_sub">
+					2. Add 2 tbsp of baking powder
+				</div>
+				<div class="help_step_text_sub">
+					3. Add 1/2 cup of sugar
+				</div>
+				<div class="help_step_text">
+					The video stops and asks:
+				</div>
+				<div class="help_step_text_sub">
+					What was the overall goal of the video section you just watched?
+				</div>
+				<div class="help_step_text">
+					A possible answer you could have would be:
+				</div>
+				<div class="help_step_text_sub">
+					Mix the dry ingredients
+				</div>
+				<div class="help_step_text bold">
+					See, it's easy!
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="{% static 'subgoal/js/experiment.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/helper.js' %}"></script>
+ 	<script src="{% static 'subgoal/js/subgoal.js' %}"></script>
+	<script src="{% static 'subgoal/js/play_events.js' %}"></script>
+</html>

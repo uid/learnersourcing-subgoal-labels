@@ -6,17 +6,21 @@
     <meta charset="utf-8" />
     <title>Video tutorials</title>    
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/jquery-impromptu.css' %}" />
 </head>
 	<body>
+		<div id="toolbar">
+			<span id="page_title">
+				<a href="{% url 'index' %}">crowdy</a>
+			</span>
+			<span id="help_link">
+				<a href="{% url 'help' %}">Help</a>
+			</span>
+			<span id="about_link">
+				<a href="{% url 'about' %}">About</a>
+			</span>
+		</div>
 		<div class="wrapper">
-			<div id="toolbar">
-				<span id="page_title">
-					<a href="{% url 'index' %}">< All tutorial videos</a>
-				</span>
-<!-- 				<span id="help_link">
-					How to use this site
-				</span> -->
-			</div>
 			<h1 id="video_title">
 
 			</h1>
@@ -58,7 +62,7 @@
 								Which of the following best describes the video section you just watched?
 							</h2>
 							<p>
-								Choose the best answer or add your own.
+								Choose the best answer (submitted by other users) or add your own.
 							</p>
 							<div class="mult_choice_options">
 								<input type="radio" name="step1" class="q_choice"><label>Option 1</label></input><br>
@@ -74,7 +78,7 @@
 						</div>
 						<div class="dq_input_3">
 							<h2 id="stage3_ques">
-								Does the below statement accurately summarize the steps?
+								Does the below statement (submitted by other users) accurately summarize the steps?
 							</h2>
 <!-- 							<p class="sub_instr">
 								Feel free to add your own or decide that none apply. Subheadings for the wiki outline should be consistent!
@@ -121,6 +125,7 @@
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ 	<script src="{% static 'subgoal/js/jquery-impromptu.js' %}"></script>
  	<script src="{% static 'subgoal/js/experiment.js' %}"></script>
  	<script src="{% static 'subgoal/js/helper.js' %}"></script>
  	<script src="{% static 'subgoal/js/subgoal.js' %}"></script>
@@ -180,9 +185,10 @@
 
 		// apply different experimental conditions
 		if (!(Experiment.isStepShown))
-			$(".frozen").hide();		
+			$(".frozen").hide();				
  	</script>
 
 	<script src="{% static 'subgoal/js/play_subgoals.js' %}"></script>
-	<script src="{% static 'subgoal/js/play_events.js' %}"></script> 	
+	<script src="{% static 'subgoal/js/play_events.js' %}"></script>
+	<script src="{% static 'subgoal/js/instructions.js' %}"></script> 	
 </html>

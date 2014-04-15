@@ -35,7 +35,23 @@ $(function() {
 		// });	
 
 		// frontend update
-		$($(this).parent()).remove();
+		$($(this).siblings()[0]).addClass('strikeout');
+		$($(this).siblings()[2]).attr("disabled", "disabled");
+		$(this).toggle();
+		$($(this).siblings()[1]).toggle();
+	});
+
+	$("body").on('click', '.undelButton', function(e) {
+		var subgoal_id = $(this).parent().attr("data-subgoal-id");
+
+		//TODO: WHAT ACTION FOR IF SUBGOAL RE-ADDED
+		Subgoal.opUnDelete(subgoal_id);
+
+		// frontend update
+		$($(this).siblings()[0]).removeClass('strikeout');
+		$($(this).siblings()[2]).removeAttr("disabled");
+		$(this).toggle();
+		$($(this).siblings()[1]).toggle();
 	});
 
 	$("body").on('click', '.editButton', function(e) {
@@ -53,7 +69,7 @@ $(function() {
 
 		//switch buttons
 		$(this).toggle();
-		$($(this).siblings()[2]).toggle();
+		$($(this).siblings()[3]).toggle();
 	});
 
 	$("body").on('click', '.saveButton', function(e) {
@@ -93,7 +109,7 @@ $(function() {
 
 		//switch buttons
 		$(this).toggle();
-		$($(this).siblings()[2]).toggle();
+		$($(this).siblings()[3]).toggle();
 	});
 
 	$("body").on('click', '.addButton', function(e) {
@@ -189,9 +205,37 @@ $(function() {
 		$(".submitbutton").removeClass('disabledButton');
 	});
 
-	$('.frozen').hover(function(){
-		$(this).toggleClass('blue');
+	//adding event handlers for random events to log
+	$("body").on('click', '#page_title', function(e) {
+		e.preventDefault();
+		Subgoal.opSiteAction('clicked_page_title', '/');
 	});
+
+	$("body").on('click', '#about_link', function(e) {
+		e.preventDefault();
+		Subgoal.opSiteAction('clicked_about_link', '/about');
+	});
+
+	$("body").on('click', '#help_link', function(e) {
+		e.preventDefault();
+		Subgoal.opSiteAction('clicked_help_link', '/help');
+		// window.location = '/help';
+	});
+
+	$("body").on('click', '.help_page_title', function(e) {
+		Subgoal.opSiteAction('clicked_help_page_title', 'none');
+	});
+
+	$("body").on('click', '.video_link', function(e) {
+		e.preventDefault();
+		var vid_url = $(this).children().attr("href");
+		var vid_id = vid_url.slice(6,8);
+		Subgoal.opVidAction('clicked_video', vid_id, vid_url);
+	});
+
+	// $('.frozen').hover(function(){
+	// 	$(this).toggleClass('blue');
+	// });
 
 function buttonEnable(obj) {
 	if ($(obj).is(':checked')) {

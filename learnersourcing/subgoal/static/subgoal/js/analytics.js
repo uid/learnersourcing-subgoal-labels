@@ -32,9 +32,6 @@ $("body").on('click', '.show_s2_votes', function(e) {
 	$(this).toggleClass('blue');
 });
 
-// console.log(actions_per_vid_list)
-
-
 for (i in videos_list) {
 	var video_html = "<div class='each_video' id='"+videos_list[i]['video'][0].id+"'>" +
 				"<div class='video_bar'>" +
@@ -58,27 +55,26 @@ for (i in videos_list) {
 	var subgoals = videos_list[i]['subgoals']
 	subgoals = subgoals.sort(compare_votes)
 	var exp = videos_list[i]['exp']
+	var duration = videos_list[i]['video'][0].duration
+	time_group = generateTimes(duration)
 
-	//iterates through the steps and places subgoals and steps together
-	for (step in steps) {
-		var $step_html = $("<div class='step'>"+escapeHTML(steps[step].label)+"</div>")
-		var $rt_step_html = $("<div class='step'>"+escapeHTML(steps[step].label)+"</div>")
-		step_time = steps[step].time
-		// console.log('step time: '+step_time)
-		time_group = generateTimes(step_time)
-
-		//Not sure where to do this, but the basic functionality will be that for every
-		//subgoal group, a line needs to be drawn beneath.
-		//Iterate through each of these time groups, see which subgoals fit into them, and
-		//the last one gets a line drawn beneath it.
-		for (t in time_group) {
-
+	for (t in time_group) {
+		//TODO fix the time interval (make it global)
+		time_string = (parseInt(time_group[t])-30).toString();
+		if (time_group[t]%60 == 0) {
+			$time_line = $("<div class='time_line'>"+(parseInt(time_group[t])-30).toString()+"</div>")
+			$("#"+id+"> .video_content").append($time_line)
+		} else {
+			$time_line = $("<div class='green_line'>"+(parseInt(time_group[t])-30).toString()+"</div>")
+			$("#"+id+"> .video_content").append($time_line)
 		}
 		
-		for (sub in subgoals) {	
-			sub_time = subgoals[sub].time
-			sub_id = subgoals[sub].id
-			// console.log(typeof(subgoals_list[sub_id]))
+
+		var subgoalTestGroup = getCurrentAnaGroup(time_group[t], subgoals);
+		var stepGroup = getCurrentStepGroup(time_group[t], steps);
+		for (sub in subgoalTestGroup) {	
+			sub_time = subgoalTestGroup[sub].time
+			sub_id = subgoalTestGroup[sub].id
 			if (typeof(subgoals_list[sub_id])!= 'undefined') {
 				step_stage = subgoals_list[sub_id][0]
 				rand_stage = subgoals_list[sub_id][1]
@@ -87,19 +83,34 @@ for (i in videos_list) {
 				step_stage = 'True'
 				rand_stage = 'True'
 			}
-			if (step > 0) {
-				prev_step_time = steps[step-1].time
-				if (sub_time > prev_step_time && sub_time <= step_time) {
-					check_sub_classes(subgoals[sub], step_stage, rand_stage)
-				}
-			} else {
-				if (sub_time <= step_time) {
-					check_sub_classes(subgoals[sub], step_stage, rand_stage)
-				}
-			}
+			check_sub_classes(subgoalTestGroup[sub], step_stage, rand_stage)
 		}
-		$("#"+id+" > .video_content").append($step_html)
-	}	
+
+		//iterates through the steps and places steps together
+		for (step in stepGroup) {
+			var $step_html = $("<div class='step'>"+escapeHTML(stepGroup[step].label)+"</div>")
+			var $rt_step_html = $("<div class='step'>"+escapeHTML(stepGroup[step].label)+"</div>")
+			step_time = stepGroup[step].time
+			$("#"+id+" > .video_content").append($step_html)
+		}
+
+		// $hztl_line = $("<div class='horizontal_line'></div>")
+		// $("#"+id+"> .video_content").append($hztl_line)
+	}
+}
+
+function getCurrentStepGroup(time, steps) {
+	// TODO: expand the floor if question was skipped at floor
+	var interval = 30
+	var floor = time - interval;
+	var group = [];
+	for (var i in steps){
+		if (floor <= steps[i].time && steps[i].time < time){
+			group.push(steps[i]);
+		}
+	}
+	// console.log(group)
+	return group;
 }
 
 function place_an_subgoal(sub, classes, dir) {
@@ -116,18 +127,6 @@ function place_an_subgoal(sub, classes, dir) {
 		$("#"+id+"> .video_content").append($sub_html)
 }
 
-function groupSubgoals(t, subgoals) {
-	var floor = 30;
-	var group = [];
-	for (var i in subgoals){
-		if (floor <= subgoals[i]["time"] && subgoals[i]["time"] < t){
-			group.push(subgoals[i]);
-		}
-	}	
-	// console.log(group)
-	return group;
-}
-
 function generateTimes(t) {
 	//replace 30 if interval changes
 	var interval = 30;
@@ -136,7 +135,7 @@ function generateTimes(t) {
 	for (i=0; i < num_groups; i++) {
 		time_group.push(interval*(i+1));
 	}
-	console.log(time_group)
+	// console.log(time_group)
 	return time_group
 
 }
@@ -171,6 +170,19 @@ function compare_votes(a,b) {
   if (a.upvotes_s2 > b.upvotes_s2)
     return -1;
   return 0;
+}
+
+function getCurrentAnaGroup(t, subs){
+	var interval = 30
+	var floor = t - interval;
+	var group = [];
+	for (var i in subgoals){
+		if (floor <= subgoals[i].time && subgoals[i].time < t){
+			group.push(subgoals[i]);
+		}
+	}	
+	// console.log(group)
+	return group;
 }
 
 //generates horizontal bar graph with bar labels

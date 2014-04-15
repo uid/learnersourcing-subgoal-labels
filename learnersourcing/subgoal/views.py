@@ -64,7 +64,8 @@ def play(request, video_id):
 	cond_random = False
 	#cond_random = False if randint(0,1) == 0 else True
 	#cond_random = False if random() < 0.7 else True
-	cond_step = False if randint(0,1) == 0 else True
+	# cond_step = False if randint(0,1) == 0 else True
+	cond_step = True
 	cond_admin = False
 
 	exp_session = ExpSession(
@@ -163,6 +164,17 @@ def analytics(request):
 		}
 	)
 
+def help(request):
+	return render(
+		request, 
+		'subgoal/help.html'
+	)
+
+def about(request):
+	return render(
+		request, 
+		'subgoal/about.html'
+	)
 
 def stage1(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
@@ -400,7 +412,166 @@ def subgoal_vote(request):
 	json = simplejson.dumps(results)
 	return HttpResponse(json, mimetype='application/json')
 
+def subgoal_undelete(request):
+	video_id = request.POST['video_id']
+	subgoal_id = request.POST['subgoal_id']
+	learner_id = request.POST['learner_id']
+	video = get_object_or_404(Video, pk=video_id)
+	subgoal = get_object_or_404(Subgoal, pk=subgoal_id)
+	learner = get_object_or_404(Learner, pk=learner_id)
+	if request.is_ajax():
+		# not actually removing the subgoal, but simply marking it as deleted
+		subgoal.state = "undeleted"
+		subgoal.save()
 
+		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_undelete", stage=request.POST['stage'])
+		try:
+			action.session_id = get_session_key(request.session.session_key)
+		except (NameError, AttributeError):
+			pass
+		action.save()
+		results = {'success': True, 'subgoal_id': subgoal.id}
+	else:
+		raise Http404	
+	json = simplejson.dumps(results)
+	return HttpResponse(json, mimetype='application/json')	
+
+def site_action(request):
+	print 'in site action'
+	action_type = request.POST['action']
+	learner_id = request.POST['learner_id']
+	learner = get_object_or_404(Learner, pk=learner_id)
+	#TODO: DUMMY VIDEO
+	video = get_object_or_404(Video, pk=1)
+	learner = get_object_or_404(Learner, pk=1)
+	subgoal = get_object_or_404(Subgoal, pk=1)
+
+	if request.is_ajax():
+		action = Action(video=video, learner=learner, subgoal=subgoal, action_type=action_type, stage = 0)
+		try:
+			action.session_id = get_session_key(request.session.session_key)
+		except (NameError, AttributeError):
+			pass
+		action.save()
+		results = {'success': True, 'action': action_type}
+	else:
+		raise Http404	
+	json = simplejson.dumps(results)
+	print results
+	return HttpResponse(json, mimetype='application/json')
+
+def vid_action(request):
+	print 'in vid action'
+	action_type = request.POST['action']
+	learner_id = request.POST['learner_id']
+	learner = get_object_or_404(Learner, pk=learner_id)
+	video = get_object_or_404(Video, pk=request.POST['video_id'])
+	
+	#TODO: DUMMY VIDEO
+	learner = get_object_or_404(Learner, pk=1)
+	subgoal = get_object_or_404(Subgoal, pk=1)
+
+	if request.is_ajax():
+		action = Action(video=video, learner=learner, subgoal=subgoal, action_type=action_type, stage = 0)
+		try:
+			action.session_id = get_session_key(request.session.session_key)
+		except (NameError, AttributeError):
+			pass
+		action.save()
+		results = {'success': True, 'action': action_type}
+	else:
+		raise Http404	
+	json = simplejson.dumps(results)
+	print results
+	return HttpResponse(json, mimetype='application/json')
+
+def subgoal_instr(request):
+	watched = False
+	#check if action "instr_clicked" exists
+	try:
+		user_sesh = get_session_key(request.session.session_key)
+		actions = Action.objects.filter(session_id=user_sesh)
+		for a in actions:
+			# print a
+			if a.action_type == 'instr_clicked':
+				watched = True
+				# print "WATCHED!"
+		results = {'success':True, 'watched':watched}
+	except (NameError, AttributeError):
+		pass
+	
+	json = simplejson.dumps(results)
+	return HttpResponse(json, mimetype='application/json')
+
+def subgoal_instr_click(request):
+	#create action named "instr_clicked"
+
+	#PLACEHOLDER TODO
+	video = get_object_or_404(Video, pk=1)
+	learner = get_object_or_404(Learner, pk=1)
+	subgoal = get_object_or_404(Subgoal, pk=1)
+	action_type = 'instr_clicked'
+	stage = 1
+
+	action = Action(video=video, learner=learner, subgoal=subgoal, action_type=action_type, stage=stage)
+	try:
+		action.session_id = get_session_key(request.session.session_key)
+	except (NameError, AttributeError):
+		pass
+	action.save()
+	
+	results = {'success': True}
+	json = simplejson.dumps(results)
+	return HttpResponse(json, mimetype='application/json')
+
+def subgoal_brief_check(request):
+	watched = False
+	#check if action "instr_clicked" exists
+	try:
+		user_sesh = get_session_key(request.session.session_key)
+		actions = Action.objects.filter(session_id=user_sesh)
+		for a in actions:
+			if a.action_type == 'brief_clicked':
+				watched = True
+				# print "WATCHED!"
+		results = {'success':True, 'watched':watched}
+	except (NameError, AttributeError):
+		pass
+	
+	json = simplejson.dumps(results)
+	return HttpResponse(json, mimetype='application/json')
+
+def subgoal_brief_click(request):
+#create action named "brief_clicked"
+
+	accepted = request.POST['agree']
+
+	#PLACEHOLDER TODO
+	video = get_object_or_404(Video, pk=1)
+	learner = get_object_or_404(Learner, pk=1)
+	subgoal = get_object_or_404(Subgoal, pk=1)
+	action_type = 'brief_clicked'
+	stage = 1
+	
+	#action for clicking the briefing
+	action = Action(video=video, learner=learner, subgoal=subgoal, action_type=action_type, stage=stage)
+	try:
+		action.session_id = get_session_key(request.session.session_key)
+	except (NameError, AttributeError):
+		pass
+	action.save()
+
+	#action for agreeing or not
+	action_agree = Action(video=video, learner=learner, subgoal=subgoal, action_type=accepted, stage=stage)
+	try:
+		action_agree.session_id = get_session_key(request.session.session_key)
+	except (NameError, AttributeError):
+		pass
+	action_agree.save()
+	
+	results = {'success': True}
+	json = simplejson.dumps(results)
+	return HttpResponse(json, mimetype='application/json')
 
 # Protocol for routing to correct stage
 # Not used: now dynamically added within the page

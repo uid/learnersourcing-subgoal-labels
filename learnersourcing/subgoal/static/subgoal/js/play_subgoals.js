@@ -43,7 +43,8 @@ function pauseVideo() {
 
 function resumeVideo(){
 	console.log("RESUMING")
-	$(".frozen").css("color", "black");
+	// $(".frozen").css("color", "black");
+	$(".frozen").removeClass("bold");
 	// player.seekTo(player.getCurrentTime()-1);
 	player.seekTo(player.getCurrentTime());
 	player.playVideo();
@@ -141,6 +142,7 @@ function verticalTimeline(t) {
 	$(".time_marker").css("color", "white");
 	if (matchingStep != ""){
 		$($("#" + curStep).children()[0]).css("color", "red");
+		$("#" + curStep).addClass("gray");
 	}
 }
 
@@ -171,20 +173,25 @@ function routeStage(t) {
 }
 
 
-function displayStage1Question(t){
+function colorStepGroup(t) {
 	var floor = computePreviousTime(t);
-	$(".frozen").css("color", "black");
+	// $(".frozen").css("color", "black");
 	// $(".frozen").toggleClass("blue");
 	for (step in step_times) {
 		if (floor <= step_times[step] && step_times[step] < t) {
-			$("#"+step).css("color", "#59BDE8");
-			// $("#"+step).toggleClass("blue");
+			// $("#"+step).css("color", "#59BDE8");
+			$("#"+step).addClass("bold");
 		}
 	}
 }
 
+function displayStage1Question(t){
+	colorStepGroup(t);
+}
+
 
 function displayStage2Question(t){
+	colorStepGroup(t);
 	var subgoalTestGroup = Subgoal.getCurrentGroup(t);
 	console.log(subgoalTestGroup)
 	var numSubgoals = subgoalTestGroup.length
@@ -193,36 +200,50 @@ function displayStage2Question(t){
 	var floor = computePreviousTime(t);	
 	$(".mult_choice_options").empty('');
 
-	if (numSubgoals <= 5) {
-		for (var i in Subgoal.data){
-			
-			//Threshold for displaying subgoal in stage 2-- set to 3 but could change
-			// (If subgoal has < 4 downvotes, then display it)
-			// if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t && Subgoal.data[i].downvotes_s2 < 4){
-			if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
-				var subgoal_id = Subgoal.data[i]["id"];
-				var subgoal_text = Subgoal.data[i]["label"];
-				$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+	var possibleSubgoals = [];
+
+	for (var i in Subgoal.data){
+		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
+			if (Subgoal.data[i].downvotes_s2 < 4) {
+				possibleSubgoals.push(Subgoal.data[i]);
 			}
 		}
-	} else {
-		for (var i in Subgoal.data){
-			
-			//Threshold for displaying subgoal in stage 2-- set to 3 but could change
-			// (If subgoal has < 4 downvotes, then display it)
-			// if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t && Subgoal.data[i].downvotes_s2 < 4){
-			if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
-				var subgoal_id = Subgoal.data[i]["id"];
-				var subgoal_text = Subgoal.data[i]["label"];
+	}
+
+	var numPossSubgoals = possibleSubgoals.length;
+
+	for (i in subgoalTestGroup) {
+		if (subgoalTestGroup[i].downvotes_s2 < 4) {
+			var subgoal_id = subgoalTestGroup[i]["id"];
+			var subgoal_text = subgoalTestGroup[i]["label"];
+			if (subgoal_text != '') {
 				$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
 			}
 		}
 	}
+
+//TODO!!! How should the breakdown be for this???
+	// if (numPossSubgoals >=3) {
+	// 	for (i in possibleSubgoals) {
+	// 		var subgoal_id = possibleSubgoals[i]["id"];
+	// 		var subgoal_text = possibleSubgoals[i]["label"];
+	// 		$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+	// 	}
+	// } else {
+	// 	for (i in subgoalTestGroup) {
+	// 		var subgoal_id = subgoalTestGroup[i]["id"];
+	// 		var subgoal_text = subgoalTestGroup[i]["label"];
+	// 		$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+	// 	}
+	// }
+
+
 	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new_2'>I have a better answer: <input type='text' class='q_input_2' id='new_answer'></input></label><br>")
 	// $(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input' id='new_answer'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
 }
 
 function displayStage3Question(t){
+	colorStepGroup(t);
 	var subgoalTestGroup = Subgoal.getCurrentGroup(t);
 
 	var subgoalAddedStage3 = [];
@@ -245,15 +266,11 @@ function displayStage3Question(t){
 		var subgoal_id = sortedSubgoalGroup[0].id
 	}
 
-	
-
 	$(".sub_label").empty('')
 	$(".steps_list").empty('')
 	$(".mult_choice_options_stage3").empty('')
 	
 	$(".steps_list").append("<p class='step_label'>Steps:</p>")
-
-	
 	$(".sub_label").append("<p class='step_label'>Statement:</p>")
 	$(".sub_label").append(escapeHTML(subgoal_text));
 	
@@ -269,22 +286,25 @@ function displayStage3Question(t){
 
 	if (numSteps == 0) {
 		$("#stage3_ques").empty('')
-		$("#stage3_ques").append('Does the below statement accurately summarize what you just watched?');
+		$("#stage3_ques").append('Does the statement below accurately summarize what you just watched?');
 		$(".steps_list").empty('')
 
 		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='" + subgoal_id + "'>Yes, this statement applies</input></label><br>");
 		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='none'>No, there should be no summarizing statement here</input></label><br>");
-		$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and replace statement: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
+		// $(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and I want to revise the statement: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
+		$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and I want to revise the statement: <input type='text' class='q_input' id='new_answer_s3' value="+escapeHTML(subgoal_text)+"></input></label><br>");
 	} else {
 		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='" + subgoal_id + "'>Yes, this statement applies</input></label><br>");
 		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='none'>No, these steps don't require summarization</input></label><br>");
-		$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and replace statement: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
+		// $(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and I want to revise the statement: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
+		$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and I want to revise the statement: <input type='text' class='q_input' id='new_answer_s3' value='"+escapeHTML(subgoal_text)+"'></input></label><br>");
 	}
 }
 
 
 // Create the question
 function askQuestion(t) {
+	console.log("current time ask: "+t)
 	$("#player").hide();	
 	if (Experiment.questionStage == 1){
 		displayStage1Question(t);
@@ -381,7 +401,7 @@ function submitStage1Subgoal(){
 }
 
 function submitStage2Subgoal(){
-	console.log(player.getCurrentTime());
+	// console.log(player.getCurrentTime());
 	var currentTime = Math.floor(player.getCurrentTime());
 	var time = computePreviousTime(currentTime);
 	var text = $('input[name=step1]:radio:checked + label').text();
@@ -543,8 +563,8 @@ function submitStage3Subgoal(){
 }
 
 function submitSubgoal() {
-	$(".frozen").css("color", "black");
-	// $(".frozen").toggleClass("blue");
+	console.log("current time submit: "+player.getCurrentTime());
+	$(".frozen").removeClass("bold");
 	if (Experiment.questionStage == 1){
 		submitStage1Subgoal();
 	} else if (Experiment.questionStage == 2){
@@ -577,8 +597,6 @@ function noSubgoal() {
 	$('.dq_input_3').hide();
 	$('.dq_help').show();
 
-	// $(".frozen").css("color", "black");
-
 	$("#player").show()
 
 	if (player.getPlayerState()!=0){
@@ -605,10 +623,26 @@ function compare_dates_s3(a,b) {
 }
 
 $("body").on('keypress', '.q_input', function(e) {
+	console.log("enter pressed")
 	if (e.which == 13) {
 		submitSubgoal();
 	}
 });
+
+$("body").on('keypress', '#new_answer', function(e) {
+	console.log("enter pressed");
+	if (e.which==13) {
+		submitSubgoal();
+	}
+});
+
+$("body").on('keypress', '#new_answer_s3', function(e) {
+	console.log("enter pressed");
+	if (e.which==13) {
+		submitSubgoal();
+	}
+});
+
 
 $("body").on('keypress', '.q_choice', function(e) {
 	if (e.which == 13) {
@@ -621,6 +655,7 @@ $("body").on('click', '.submitButton', function(e) {
 });
 
 $("body").on('click', '.ppButton', function(e) {
+	$('.q_input').val('');
 	if (player.getPlayerState()!=0){
 		resumeVideo();
 	}	
@@ -634,6 +669,7 @@ $("body").on('click', '.ppButton', function(e) {
 
 $("body").on('click', '.cancelButton', function(e) {
 	console.log("CANCEL BUTTON");
+
 	noSubgoal();
 });
 
@@ -644,8 +680,7 @@ $("body").on('click', '.frozen', function(e) {
 	var step = $(this).attr("id");
 	var time = step_times[step];
 
-	// $(".frozen").toggleClass("blue");
-	$(".frozen").css("color", "black");
+	// $(".frozen").css("color", "black");
 	$(".time_marker").css("color", "white");
 	$($(this).children()[0]).css("color", "red");
 

@@ -8,6 +8,7 @@ var Subgoal = function() {
 		return $("<li class='movable subgoal'>" + 
 			"<span class='sub'>" + escapeHTML(label) + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" + 
+			"<button type='button' class='undelButton permButton'>Undelete</button>" +
 			"<button type='button' class='editButton permButton'>Edit</button>" + 
 			"<button type='button' class='saveButton permButton'>Save</button></li>");
 	}
@@ -16,6 +17,7 @@ var Subgoal = function() {
 		return $li = $("<li class='movable subgoal' data-subgoal-id='" + id + "'>" + 
 			"<span class='sub'>" + escapeHTML(label) + "</span>" + 
 			"<button type='button' class='delButton permButton'>Delete</button>" + 
+			"<button type='button' class='undelButton permButton'>Undelete</button>" +
 			"<button type='button' class='editButton permButton'>Edit</button>" + 
 			"<button type='button' class='saveButton permButton'>Save</button></li>");
 	}
@@ -109,6 +111,33 @@ var Subgoal = function() {
 
 	}
 
+	function opUnDelete(subgoal_id){
+		$.ajax({
+			type: "POST",
+			url: "/subgoal/undelete/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				stage: stage,
+				video_id: video["id"], 
+				subgoal_id: subgoal_id, 
+				// TODO: add the current user's info
+				learner_id: 1
+			},
+		}).done(function(data){
+			console.log("/subgoal/undelete/ success:", data["success"]);
+			// this is possible because Javascript is call by reference
+			var index = Subgoal.getSubgoalIndexByID(subgoal_id);
+			if (index > -1){
+				Subgoal.data.splice(index, 1);
+			}
+			// TODO: do something for failure
+		}).fail(function(){
+			console.log("/subgoal/undelete/ failure");
+		}).always(function(){
+		});	
+
+	}
+
 	function opMove(subgoal_id, t){
 		$.ajax({
 			type: "POST",
@@ -168,8 +197,50 @@ var Subgoal = function() {
 
 	}
 
+	function opSiteAction(site_action, url) {
+		$.ajax({
+			type: "POST",
+			url: "/subgoal/action/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				action: site_action,
+				// answer: $('input[name=step1]:radio:checked').val(),
+				learner_id: 1
+			},
+		}).done(function(data){
+			console.log("/subgoal/action/ success:", data["success"]);
+			if (url != 'none') {
+				window.location = url;
+			}
+			// TODO: do something for failure
+		}).fail(function(){
+			console.log("/subgoal/action/ failure");
+		}).always(function(){
+		});	
+	}
 
-
+	function opVidAction(action_type, vid, url) {
+		$.ajax({
+			type: "POST",
+			url: "/subgoal/vidaction/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				video_id: vid,
+				action: action_type,
+				// answer: $('input[name=step1]:radio:checked').val(),
+				learner_id: 1
+			},
+		}).done(function(data){
+			console.log("/subgoal/vidaction/ success:", data["success"]);
+			if (url != 'none') {
+				window.location = url;
+			}
+			// TODO: do something for failure
+		}).fail(function(){
+			console.log("/subgoal/vidaction/ failure");
+		}).always(function(){
+		});	
+	}
 
 	/* newer versions of group_subgoals and add_subgoals that do not rely on formatted_subgoals */
 	function group(steps, step_times) {
@@ -280,8 +351,11 @@ var Subgoal = function() {
 		opCreate: opCreate,
 		opUpdate: opUpdate,
 		opDelete: opDelete,
+		opUnDelete: opUnDelete,
 		opMove: opMove,
 		opVote: opVote,
+		opSiteAction: opSiteAction,
+		opVidAction: opVidAction,
 		group: group,
 		displayAll: displayAll,
 		getCurrentGroup: getCurrentGroup,
