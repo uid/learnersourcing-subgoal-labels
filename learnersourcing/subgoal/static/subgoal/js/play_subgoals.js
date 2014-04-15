@@ -22,8 +22,9 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    // event.target.playVideo();
-    checkVideo();
+	tutCheck();
+	event.target.playVideo();
+	checkVideo();
 }
 
 // var stop_time = false;

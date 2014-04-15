@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	tutCheck();
+	// tutCheck();
 });
 
 function playTut() {
@@ -92,6 +92,7 @@ function playTut() {
 }
 
 function tutCheck(){
+	console.log("CHECKING TUT")
 	$.ajax({
 		type: "POST",
 		url: "/subgoal/instructions/",
@@ -105,12 +106,14 @@ function tutCheck(){
 		// console.log("WATCHED: "+watched)
 		if (!watched) {
 			playTut();
+			pauseVideo();
 		}
 		// TODO: do something for failure
 	}).fail(function(){
 		console.log("/subgoal/instructions/ failure");
 	}).always(function(){
 	});	
+
 }
 
 function tutClicked(){
