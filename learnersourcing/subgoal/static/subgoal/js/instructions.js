@@ -123,6 +123,7 @@ function tutClicked(){
 		},
 	}).done(function(data){
 		console.log("/subgoal/instr_click/ success:", data["success"]);
+		playVideo();
 		// TODO: do something for failure
 	}).fail(function(){
 		console.log("/subgoal/instr_click/ failure");

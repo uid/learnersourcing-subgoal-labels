@@ -22,13 +22,17 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    event.target.playVideo();
+    // event.target.playVideo();
     checkVideo();
 }
 
 // var stop_time = false;
 function onPlayerStateChange(event) {
     // setTimeout(checkVideo, 1000);
+}
+
+function playVideo() {
+	player.playVideo();
 }
 
 function stopVideo() {
