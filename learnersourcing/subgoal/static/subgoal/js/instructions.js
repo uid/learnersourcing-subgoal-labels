@@ -1,8 +1,5 @@
-$(document).ready(function() {
-	// tutCheck();
-});
-
 function playTut() {
+	console.log("PLAYING TUT")
 	var $state0_img = "<img class='help_img' id='state0_img' src='/static/subgoal/img/Whole_interface.png'></img>"
 	var $state1_img = "<img class='help_img_small' id='state1_img' src='/static/subgoal/img/Step1_shot.png'></img>"
 	var $state2_img = "<img class='help_img_small' id='state1_img' src='/static/subgoal/img/Step2_shot.png'></img>"
@@ -13,7 +10,6 @@ function playTut() {
 			"<div>"+$state0_img+"</div>",
 			buttons: { Cancel: false, Next: true },
 			focus: 1,
-			// close: tutClicked,
 			submit:function(e,v,m,f){
 				if(v){
 					e.preventDefault();
@@ -31,7 +27,6 @@ function playTut() {
 			html:"<div class='help_info'>This is an interactive panel with the steps that the tutorial video covers. <span class='bold'>Click on a step</span> to move to a specific point in the video.</div>",
 			buttons: { Back: -1, Next: 1},
 			focus: 1,
-			// close: tutClicked,
 			position: { container: '.wiki_wrap', x: 200, y: 0, width: 500, arrow: 'lt' },
 			submit:function(e,v,m,f){
 				e.preventDefault();
@@ -47,7 +42,6 @@ function playTut() {
 			"<div>"+$state1_img+"</div>",
 			buttons: { Back: -1, Next: 1},
 			focus: 1,
-			// close: tutClicked,
 			submit:function(e,v,m,f){
 				e.preventDefault();
 				if(v==1)
@@ -62,7 +56,6 @@ function playTut() {
 			"<div>"+$state2_img+"</div>",
 			buttons: { Back: -1, Next: 1},
 			focus: 1,
-			// close: tutClicked,
 			submit:function(e,v,m,f){
 				e.preventDefault();
 				if(v==1)
@@ -76,7 +69,6 @@ function playTut() {
 			html:"<div class='help_info'>This is also an experiment to see if answering these questions will help you <span class='bold'>learn better</span>. We think that it might.</div>",
 			buttons: { Back: -1, Finish: 1},
 			focus: 1,
-			// close: tutClicked,
 			submit:function(e,v,m,f){
 				e.preventDefault();
 				if(v==1) {
@@ -91,31 +83,6 @@ function playTut() {
 	$.prompt(statesdemo);
 }
 
-function tutCheck(){
-	console.log("CHECKING TUT")
-	$.ajax({
-		type: "POST",
-		url: "/subgoal/instructions/",
-		data: {
-			csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-		},
-	}).done(function(data){
-		console.log("/subgoal/instructions/ success:", data["success"]);
-		
-		var watched = data["watched"];
-		// console.log("WATCHED: "+watched)
-		if (!watched) {
-			playTut();
-			pauseVideo();
-		}
-		// TODO: do something for failure
-	}).fail(function(){
-		console.log("/subgoal/instructions/ failure");
-	}).always(function(){
-	});	
-
-}
-
 function tutClicked(){
 	console.log("TUT CLICKED")
 	$.ajax({
@@ -127,9 +94,9 @@ function tutClicked(){
 	}).done(function(data){
 		console.log("/subgoal/instr_click/ success:", data["success"]);
 		playVideo();
-		// TODO: do something for failure
 	}).fail(function(){
 		console.log("/subgoal/instr_click/ failure");
+		playVideo();
 	}).always(function(){
 	});	
 }

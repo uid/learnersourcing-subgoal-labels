@@ -1,8 +1,10 @@
-$(document).ready(function() {
-	briefCheck();
-});
-
-function briefCheck(){
+function briefCheck(source){
+	console.log("CHECKING BRIEF")
+	console.log("source: "+source)
+	if (source=='play') {
+		console.log('PAUSING VIDEO FROM BRIEF')
+		pauseVideo();
+	}
 	$.ajax({
 		type: "POST",
 		url: "/subgoal/brief_check/",
@@ -11,11 +13,30 @@ function briefCheck(){
 		},
 	}).done(function(data){
 		console.log("/subgoal/brief_check/ success:", data["success"]);
-		
-		var watched = data["watched"];
-		// console.log("WATCHED: "+watched)
-		if (!watched) {
-			briefing();
+		var watched_brief = data["watched_brief"];
+		var watched_tut = data["watched_tut"];
+
+		console.log("WATCHED_BRIEF: "+watched_brief);
+		console.log("WATCHED_TUT: "+watched_tut);
+
+		if (source=='play') {
+			if (!watched_brief) {
+				if (!watched_tut) {
+					double_brief();
+				} else {
+					briefing(source);
+				}
+			} else {
+				if (!watched_tut) {
+					playTut();
+				} else {
+					playVideo();
+				}
+			}
+		} else {
+			if (!watched_brief) {
+				briefing(source);
+			}
 		}
 		// TODO: do something for failure
 	}).fail(function(){
@@ -25,8 +46,8 @@ function briefCheck(){
 }
 
 //TODO make sure to send some information here about whether they clicked it or just cancelled
-function briefClicked(accepted){
-	console.log("TUT CLICKED")
+function briefClicked(accepted, source){
+	console.log("BRIEF CLICKED")
 	console.log(accepted)
 	$.ajax({
 		type: "POST",
@@ -44,7 +65,7 @@ function briefClicked(accepted){
 	});	
 }
 
-function briefing() {
+function briefing(source) {
 	var statesdemo = {
 		state0: {
 			title: "Terms of Use",
@@ -74,20 +95,19 @@ function briefing() {
 					$.prompt.goToState('state1', true);
 				} else {
 					$.prompt.close();
-					briefClicked('agree')
+					briefClicked('agree', source)
 				}
 				
 			}
 		},
 		state1: {
 			html:"<div class='help_info_sm'>Are you sure? None of your data will be saved.</div>",
-			buttons: { Cancel: -1, Okay: 1},
+			buttons: { No: -1, Yes: 1},
 			focus: 1,
-			// close: tutClicked,
 			submit:function(e,v,m,f){
 				e.preventDefault();
 				if(v==1) {
-					briefClicked('no_agree');
+					briefClicked('no_agree', source);
 					$.prompt.close();
 				} else if(v==-1) {
 					$.prompt.goToState('state0');

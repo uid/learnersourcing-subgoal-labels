@@ -78,4 +78,5 @@ function convert_sec_to_time(sec) {
 $(document).ready(function () {
 	create_video_divs()
     populate_video_divs();
+    briefCheck('splash');
 });

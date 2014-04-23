@@ -22,17 +22,30 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-	tutCheck();
+	//check whether briefing should be shown, and include source
 	event.target.playVideo();
 	checkVideo();
+	briefCheck('play');
+	// tutCheck();
+	
 }
 
 // var stop_time = false;
 function onPlayerStateChange(event) {
-    // setTimeout(checkVideo, 1000);
+    if (event.data == YT.PlayerState.PLAYING) {
+    	var vid = video.id;
+		Subgoal.opVidAction('play_video', vid, 'none');
+    } else if (event.data == YT.PlayerState.PAUSED) {
+    	var vid = video.id;
+		Subgoal.opVidAction('pause_video', vid, 'none');
+    } else if (event.data == YT.PlayerState.ENDED) {
+    	var vid = video.id;
+		Subgoal.opVidAction('stop_video', vid, 'none');
+    }
 }
 
 function playVideo() {
+	console.log("playing")
 	player.playVideo();
 }
 
@@ -50,6 +63,8 @@ function resumeVideo(){
 	console.log("RESUMING")
 	// $(".frozen").css("color", "black");
 	$(".frozen").removeClass("bold");
+	var vid = video.id;
+	Subgoal.opVidAction('resume_video', vid, 'none');
 	// player.seekTo(player.getCurrentTime()-1);
 	player.seekTo(player.getCurrentTime());
 	player.playVideo();
@@ -161,13 +176,22 @@ function routeStage(t) {
 	//routes it to stage 2 or 3 (enough subgoals generated)
 	if (subgoalGroup.length >= 3) {
 		var sorted_group = subgoalGroup.sort(compare_votes_s3);
-		var div_threshold = .4;
-		var diff_threshold = 3;
-		var vote_diff = sorted_group[0].upvotes_s2-sorted_group[1].upvotes_s2
-		var vote_val = vote_diff/sorted_group[0].upvotes_s2;
 
+		var diff_threshold = 5;
+		var upvote_threshold = 10;
+
+		var vote_diff = sorted_group[0].upvotes_s2-sorted_group[1].upvotes_s2
+
+
+		// var vote_val;
+		// if (sorted_group[0].upvotes_s2 == 0) {
+		// 	vote_val = -1;
+		// } else {
+		// 	vote_val = vote_diff/sorted_group[0].upvotes_s2;
+		// }
+		
 		//checks if the difference between number of votes is high
-		if (vote_diff > diff_threshold && vote_val > div_threshold) {
+		if ((vote_diff > diff_threshold) || sorted_group[0].upvotes_s2 > upvote_threshold) {
 			Experiment.questionStage = 3;
 		} else {
 			Experiment.questionStage = 2;
@@ -194,57 +218,49 @@ function displayStage1Question(t){
 	colorStepGroup(t);
 }
 
-
 function displayStage2Question(t){
 	colorStepGroup(t);
 	var subgoalTestGroup = Subgoal.getCurrentGroup(t);
-	console.log(subgoalTestGroup)
 	var numSubgoals = subgoalTestGroup.length
-	console.log(numSubgoals)
 
-	var floor = computePreviousTime(t);	
-	$(".mult_choice_options").empty('');
-
-	var possibleSubgoals = [];
-
-	for (var i in Subgoal.data){
-		if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
-			if (Subgoal.data[i].downvotes_s2 < 4) {
-				possibleSubgoals.push(Subgoal.data[i]);
-			}
-		}
-	}
-
-	var numPossSubgoals = possibleSubgoals.length;
+	var subgoal_test_list = [];
+	var subgoal_list = [];
 
 	for (i in subgoalTestGroup) {
-		if (subgoalTestGroup[i].downvotes_s2 < 4) {
-			var subgoal_id = subgoalTestGroup[i]["id"];
-			var subgoal_text = subgoalTestGroup[i]["label"];
-			if (subgoal_text != '') {
-				$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+		var sub_text = subgoalTestGroup[i]["label"].toLowerCase();
+		if (subgoal_test_list.indexOf(sub_text)<0) {
+			if (sub_text != '') {
+				var vote_diff = subgoalTestGroup[i].upvotes_s2 - subgoalTestGroup[i].downvotes_s2;
+				subgoal_test_list.push(sub_text);
+				subgoal_list.push({v:vote_diff, k:sub_text, t:subgoalTestGroup[i]});
 			}
+		} else {
+			//you have a duplicate entry!
 		}
 	}
 
-//TODO!!! How should the breakdown be for this???
-	// if (numPossSubgoals >=3) {
-	// 	for (i in possibleSubgoals) {
-	// 		var subgoal_id = possibleSubgoals[i]["id"];
-	// 		var subgoal_text = possibleSubgoals[i]["label"];
-	// 		$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
-	// 	}
-	// } else {
-	// 	for (i in subgoalTestGroup) {
-	// 		var subgoal_id = subgoalTestGroup[i]["id"];
-	// 		var subgoal_text = subgoalTestGroup[i]["label"];
-	// 		$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
-	// 	}
-	// }
+	subgoal_list.sort(function(a,b){
+		if (a.v > b.v){return -1}
+			if (a.v < b.v){return 1}
+				return 0;
+	});
 
+	console.log(subgoal_list);
+
+	$(".mult_choice_options").empty('');
+
+	//set the number of subgoals to show
+	var num_subgoals_threshold = 4;
+
+	for (i in subgoal_list.slice(0,num_subgoals_threshold)) {
+		var subgoal_id = subgoal_list[i].t.id;
+		var subgoal_text = subgoal_list[i].k;
+		if (subgoal_text != '') {
+			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+		}
+	}
 
 	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new_2'>I have a better answer: <input type='text' class='q_input_2' id='new_answer'></input></label><br>")
-	// $(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input' id='new_answer'></input></label><br><label class='none_apply_option'><input type='radio' name='step1' value='none' class='q_none'>None apply</input></label><br>")
 }
 
 function displayStage3Question(t){
@@ -324,6 +340,11 @@ function askQuestion(t) {
 		// $('.dq_input_2').fadeIn(500);
 		$('.dq_input_3').show();
 	}
+
+	var vid = video.id;
+	var question_act = 'ask_q_'+Experiment.questionStage
+	Subgoal.opVidAction(question_act, vid, 'none');
+
 	$(".submitbutton").attr('disabled','disabled');
 	$(".submitbutton").addClass('disabledButton');
 	$('.dq_help').hide();
@@ -607,6 +628,10 @@ function noSubgoal() {
 	if (player.getPlayerState()!=0){
 		resumeVideo();
 	}	
+
+	var vid = video.id;
+	Subgoal.opVidAction('no_subgoal', vid, 'none');
+
 	// $('.dq_instr').hide();
 	// setTimeout(checkVideo, 1000);
 }
@@ -664,6 +689,10 @@ $("body").on('click', '.ppButton', function(e) {
 	if (player.getPlayerState()!=0){
 		resumeVideo();
 	}	
+
+	var vid = video.id;
+	Subgoal.opVidAction('no_subgoal', vid, 'none');
+
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_help').show();
@@ -674,7 +703,6 @@ $("body").on('click', '.ppButton', function(e) {
 
 $("body").on('click', '.cancelButton', function(e) {
 	console.log("CANCEL BUTTON");
-
 	noSubgoal();
 });
 
@@ -692,7 +720,12 @@ $("body").on('click', '.frozen', function(e) {
 	var t = Math.floor(player.getCurrentTime());
 	verticalTimeline(t);
 
-	player.seekTo(time-1);
+	var vid = video.id;
+	var step_action = 'clicked_step_'+step;
+	Subgoal.opVidAction(step_action, vid, 'none');
+
+	player.seekTo(time);
+	// player.seekTo(time-1);
 });
 
 // subgoal clicked: when we know the attached step, play from the closest step's time
@@ -712,9 +745,15 @@ $("body").on('click', 'span.sub', function(e) {
 	// var subgoal_id = $(this).attr("data-subgoal-id");
 	var subgoal_id = $($(this).parents()[0]).attr("data-subgoal-id");
 	var subgoal = Subgoal.getSubgoalByID(subgoal_id);
+
+	var vid = video.id;
+	var sub_action = 'clicked_sub_'+subgoal_id;
+	Subgoal.opVidAction(sub_action, vid, 'none');
+
 	if (typeof subgoal !== "undefined" && "time" in subgoal){
 		player.seekTo(subgoal["time"] - 1);
 	}
+
 	console.log("subgoal clicked");
 });
 

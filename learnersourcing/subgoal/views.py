@@ -525,16 +525,33 @@ def subgoal_instr_click(request):
 	return HttpResponse(json, mimetype='application/json')
 
 def subgoal_brief_check(request):
-	watched = False
+	watched_brief = False
+	watched_tut = False
 	#check if action "instr_clicked" exists
+
+	results = {}
+
 	try:
 		user_sesh = get_session_key(request.session.session_key)
 		actions = Action.objects.filter(session_id=user_sesh)
 		for a in actions:
 			if a.action_type == 'brief_clicked':
-				watched = True
+				watched_brief = True
 				# print "WATCHED!"
-		results = {'success':True, 'watched':watched}
+		results['watched_brief'] = watched_brief
+	except (NameError, AttributeError):
+		pass
+
+	try:
+		user_sesh = get_session_key(request.session.session_key)
+		actions = Action.objects.filter(session_id=user_sesh)
+		for a in actions:
+			# print a
+			if a.action_type == 'instr_clicked':
+				watched_tut = True
+				# print "WATCHED!"
+		results['watched_tut'] = watched_tut
+		results['success'] = True
 	except (NameError, AttributeError):
 		pass
 	
