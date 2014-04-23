@@ -178,7 +178,7 @@ function routeStage(t) {
 		var sorted_group = subgoalGroup.sort(compare_votes_s3);
 
 		var diff_threshold = 5;
-		var upvote_threshold = 10;
+		var upvote_threshold = 5;
 
 		var vote_diff = sorted_group[0].upvotes_s2-sorted_group[1].upvotes_s2
 
