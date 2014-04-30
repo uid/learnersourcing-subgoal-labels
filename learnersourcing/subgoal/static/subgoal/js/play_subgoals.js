@@ -13,6 +13,7 @@ function onYouTubeIframeAPIReady() {
     	width: '750',
     	height: '473',
     	videoId: youtube_id,
+    	playerVars: {rel: 0},
         enablejsapi: '1',
         events: {
           'onReady': onPlayerReady,
