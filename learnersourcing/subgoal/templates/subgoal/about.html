@@ -12,20 +12,23 @@
 	<body>
 		<div id="toolbar">
 			<span id="page_title">
-				<a href="{% url 'index' %}">crowdy</a>
+				<a class="toolbar_text" href="{% url 'index' %}">crowdy</a>
 			</span>
 			<span id="help_link">
-				<a href="{% url 'help' %}">Help</a>
+				<a class="toolbar_text" href="{% url 'help' %}">Help</a>
 			</span>
 			<span id="about_link">
-				<a href="{% url 'about' %}">About</a>
+				<a class="toolbar_text" href="{% url 'about' %}">About</a>
 			</span>
+		</div>
+		<div id="instr_bar_top">
+			About this project
 		</div>
 		<div class="wrapper">
 			<div class="content_wrapper_info">
-				<div class="help_page_title">
+<!-- 				<div class="help_page_title">
 					About this site
-				</div>
+				</div> -->
 				<div class="help_step_title">
 					This is an MIT research experiment
 				</div>

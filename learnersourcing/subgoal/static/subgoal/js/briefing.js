@@ -84,7 +84,7 @@ function briefing(source) {
 			"<div class='help_info_bold_sm'>Guarantees:</div>"+
 			"<div class='help_info_sm'><ul><li>Your participation is voluntary. You may abandon this study at any time.</li>"+
 			"<li>Your personal information will never be sent to researchers.</li>"+
-			"<li>Please email sweir@mit.edu with any concerns or questions.</li></ul></div>"+
+			"<li>Please email sweir (at) mit (dot) edu with any concerns or questions.</li></ul></div>"+
 			'<input type="checkbox" id="agree_box" name="agree"/><label for="agree_box">I agree with the terms and conditions.</label>',
 			buttons: { Cancel: true, Agree: false },
 			focus: 1,
