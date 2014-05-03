@@ -187,7 +187,8 @@ button:hover {
 
 
 .sub {
-  background-color: #59BDE8;
+  /*background-color: #59BDE8;*/
+  background-color: #56c2ce;;
   color: white;
 	font-size: 12pt;
 	display: inline-block;
@@ -219,7 +220,8 @@ button:hover {
 	/*margin-bottom: 10px;*/
 	clear: right;
 	margin-left: 100px;
-	background-color: #59BDE8;
+	/*background-color: #59BDE8;*/
+	background-color: #56c2ce;
 	font-size: 12pt;
 	color: white;
 }
@@ -250,7 +252,8 @@ button.printButton:hover {
 
 .dq_help_text {
 	font-size: 18px;
-	color: #59BDE8;
+	/*color: #59BDE8;*/
+	color: #56c2ce;
 	display:none;
 	/*padding-top: 60px;*/
 }
@@ -299,7 +302,8 @@ img.video_thumb {
 .title_bar {
 	font-size: 40pt;
 	color: white;
-	background-color: #59BDE8;
+	/*background-color: #59BDE8;*/
+	background-color: #56c2ce;
 	width: 1000;
 	/*height: 300px;*/
 	margin: 20px;
@@ -312,7 +316,8 @@ img.video_thumb {
 
 .sub_info {
 	font-size: 30pt;
-	color: #59BDE8;
+	/*color: #59BDE8;*/
+	color: #56c2ce;
 	width: 1000;
 	/*height: 100px;*/
 	margin: 20px;
@@ -330,7 +335,8 @@ img.video_thumb {
 }
 
 #help_link:hover {
-	color: #59BDE8;
+	/*color: #59BDE8;*/
+	color: #56c2ce;
 	cursor: hand;
 }
 
@@ -423,7 +429,8 @@ img.video_thumb {
 }
 
 .sub_label {
-	color: #59BDE8;
+	/*color: #59BDE8;*/
+	color: #56c2ce;
 }
 
 .mult_choice_options {
@@ -459,7 +466,8 @@ img.video_thumb {
 
 #splash_page_title {
 	font-size: 20pt;
-	color: #59BDE8;
+	/*color: #59BDE8;*/
+	color: #56c2ce;
 	padding-bottom: 20px;
 	font-family: 'Amaranth';
 }
@@ -493,11 +501,13 @@ img.video_thumb {
 
 a {
 	text-decoration: none;
-	color: #59BDE8;
+	/*color: #59BDE8;*/
+	color: #56c2ce;
 }
 
 a:hover {
-	color: #59BDE8;
+	/*color: #59BDE8;*/
+	color: #56c2ce;
 }
 
 .video_link_title {
@@ -556,7 +566,8 @@ a:hover {
 }
 
 .blue {
-	color: #59BDE8;
+	/*color: #59BDE8;*/
+	color: #56c2ce;
 }
 
 .black {
@@ -907,7 +918,8 @@ a:hover {
   	font-weight: normal;
   	margin-top: 40px;
   	/*color: white;*/
-  	color:#59BDE8;
+  	/*color:#59BDE8;*/
+  	color: #56c2ce;
   	/*background-color: #59BDE8;*/
   	/*padding: 10px;*/
   	width: 800;
@@ -928,7 +940,8 @@ a:hover {
 }
 
 #about_link:hover {
-	color: #59BDE8;
+	/*color: #59BDE8;*/
+	color: #56c2ce;
 	cursor: hand;
 }
 

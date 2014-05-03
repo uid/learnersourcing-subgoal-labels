@@ -37,7 +37,8 @@ div.jqi .jqititle{
   font-size: 18px; 
   line-height: 20px; 
   border-bottom: solid 1px #eeeeee;
-  color: #59BDE8;
+  /*color: #59BDE8;*/
+  color: #56c2ce;
 }
 div.jqi .jqimessage{ 
   padding: 10px; 
@@ -66,7 +67,8 @@ div.jqi .jqibuttons button{
 }
 div.jqi .jqibuttons button.jqidefaultbutton{
   /*color: #489afe;*/
-  color: #59BDE8;
+  /*color: #59BDE8;*/
+  color: #56c2ce;
 }
 div.jqi .jqibuttons button:hover,
 div.jqi .jqibuttons button:focus{
