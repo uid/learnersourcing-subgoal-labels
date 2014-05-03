@@ -11,6 +11,12 @@ $(function() {
 	    }
 	});
 
+	//printArea code
+	$("body").on('click', '.printButton', function(e) {
+		// $("body").printArea({mode:'iframe'});
+		window.print();
+	});
+
 	$("body").on('click', '.delButton', function(e) {
 		var subgoal_id = $(this).parent().attr("data-subgoal-id");
 		Subgoal.opDelete(subgoal_id);

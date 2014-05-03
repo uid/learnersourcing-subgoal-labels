@@ -1,3 +1,5 @@
+@media screen {
+
 body {
 	/*margin: 20px;*/
 	margin:0px;
@@ -220,6 +222,19 @@ button:hover {
 	background-color: #59BDE8;
 	font-size: 12pt;
 	color: white;
+}
+
+.printButton {
+	clear: right;
+	margin-left: 150px;
+	/*background-color: #D6D6D6;*/
+	border: 1px solid #D6D6D6;
+	font-size: 12pt;
+	color: black;
+}
+
+button.printButton:hover {
+	background-color: #D6D6D6;
 }
 
 .dq_help {
@@ -1024,4 +1039,66 @@ a:hover {
 .video_new:hover {
 	background-color: #D6D6D6;
 	cursor: hand;
+}
+
+}
+
+
+
+
+@media print {
+
+#toolbar {
+	display:none;
+}
+
+.time_marker {
+	display:none;
+}
+
+.right {
+	display:none;
+}
+
+#video_title {
+	font-family:'Amaranth';
+	font-size:20pt;
+	margin-bottom:20px;
+}
+
+.wiki_head {
+	display:none;
+}
+
+#sortable { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+	zoom: 1; 
+	padding-bottom: 20px;
+	font-family:sans-serif;
+	font-size:14pt;
+}
+
+#sortable li { 
+	margin: 0 5px 5px 0px; 
+	padding: 3px; 
+	width: 95%; 	
+}
+
+
+.frozen {
+	text-indent: -25px;
+ 	padding-left: 25px !important;
+ 	font-size: 10pt;
+}
+
+button {
+	display:none;
+}
+
+.sub {
+	font-size:16pt;
+}
+
 }
