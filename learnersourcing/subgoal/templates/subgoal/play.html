@@ -25,6 +25,9 @@
 			<div id="video_title">
 
 			</div>
+			<a id="video_author">
+
+			</a>
 		</div>
 		<div class="wrapper">
 			
@@ -179,6 +182,7 @@
 
 		generate_steps(video_steps);
 		load_video_title(video["title"]);
+		getYouTubeAuthor(youtube_id)
 		// we're not currently showing all the subgoals
 		if (Experiment.isAdmin)
 			Subgoal.displayAll(step_times);

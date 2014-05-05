@@ -101,8 +101,8 @@ function briefing(source) {
 			}
 		},
 		state1: {
-			html:"<div class='help_info_sm'>Are you sure? None of your data will be saved.</div>",
-			buttons: { No: -1, Yes: 1},
+			html:"<div class='help_info_sm'>Thank you, feel free to use the site without participating.</div>",
+			buttons: { Back: -1, Okay: 1},
 			focus: 1,
 			submit:function(e,v,m,f){
 				e.preventDefault();

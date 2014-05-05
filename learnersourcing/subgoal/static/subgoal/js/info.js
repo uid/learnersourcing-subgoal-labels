@@ -1,3 +1,3 @@
 $(document).ready(function() {
-	briefCheck('info_page');
+	// briefCheck('info_page');
 });

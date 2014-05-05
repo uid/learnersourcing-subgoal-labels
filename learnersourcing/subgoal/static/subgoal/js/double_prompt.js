@@ -25,6 +25,7 @@ function double_brief() {
 			'<input type="checkbox" id="agree_box" name="agree"/><label for="agree_box">I agree with the terms and conditions.</label>',
 			buttons: { Cancel: -1, Agree: 1 },
 			focus: -1,
+			show: 'fadeIn',
 			position: {container: 'body', x: 250, y: 100, width: 500},
 			submit:function(e,v,m,f){
 				if(v==-1){
@@ -38,9 +39,10 @@ function double_brief() {
 			}
 		},
 		state_b: {
-			html:"<div class='help_info_sm'>Are you sure? None of your data will be saved.</div>",
-			buttons: { No: -1, Yes: 1},
+			html:"<div class='help_info_sm'>Thank you, feel free to use the site without participating.</div>",
+			buttons: { Back: -1, Okay: 1},
 			focus: 1,
+			show: 'fadeIn',
 			submit:function(e,v,m,f){
 				e.preventDefault();
 				if(v==1) {
@@ -57,6 +59,7 @@ function double_brief() {
 			"<div>"+$state0_img+"</div>",
 			buttons: { Cancel: false, Next: true },
 			focus: 1,
+			show: 'fadeIn',
 			submit:function(e,v,m,f){
 				if(v){
 					e.preventDefault();
@@ -74,6 +77,7 @@ function double_brief() {
 			html:"<div class='help_info'>This is an interactive panel with the steps that the tutorial video covers. <span class='bold'>Click on a step</span> to move to a specific point in the video.</div>",
 			buttons: { Cancel: 0, Back: -1, Next: 1},
 			focus: 1,
+			show: 'fadeIn',
 			position: { container: '.wiki_wrap', x: 200, y: 0, width: 500, arrow: 'lt' },
 			submit:function(e,v,m,f){
 				e.preventDefault();
@@ -93,6 +97,7 @@ function double_brief() {
 			"<div>"+$state1_img+"</div>",
 			buttons: { Cancel: 0, Back: -1, Next: 1},
 			focus: 1,
+			show: 'fadeIn',
 			submit:function(e,v,m,f){
 				e.preventDefault();
 				if(v==1)
@@ -111,6 +116,7 @@ function double_brief() {
 			"<div>"+$state2_img+"</div>",
 			buttons: { Cancel: 0, Back: -1, Next: 1},
 			focus: 1,
+			show: 'fadeIn',
 			submit:function(e,v,m,f){
 				e.preventDefault();
 				if(v==1)
@@ -128,6 +134,7 @@ function double_brief() {
 			html:"<div class='help_info'>This is also an experiment to see if answering these questions will help you <span class='bold'>learn better</span>. We think that it might.</div>",
 			buttons: { Back: -1, Finish: 1},
 			focus: 1,
+			show: 'fadeIn',
 			submit:function(e,v,m,f){
 				e.preventDefault();
 				if(v==1) {

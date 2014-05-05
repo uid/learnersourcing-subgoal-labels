@@ -127,4 +127,17 @@ function add_subgoals(subgoals, step_times) {
 	}
 }
 
+function getYouTubeAuthor(id) {
+    $.ajax({
+        url: "http://gdata.youtube.com/feeds/api/videos/"+id+"?v=2&alt=json",
+        dataType: "jsonp",
+        success: function (data) { 
+        	var author = data.entry.author[0].name.$t;
+        	console.log(author);
+		    $("#video_author").append("By: "+author);
+		    $("#video_author").attr("href","https://www.youtube.com/user/"+author);
+        }
+    });
+}
+
 

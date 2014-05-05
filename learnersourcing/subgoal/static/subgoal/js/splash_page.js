@@ -75,8 +75,54 @@ function convert_sec_to_time(sec) {
 	return result
 }
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+//NEW -- for second iteration of splash page-- generates info for each video on page 
+function populate_video_divs_new() {
+	console.log("POPULATNG VIDEO DIVS?")
+	$(".video_new").each(function(index, el) {
+		video_id = $(el).attr('id');
+		getYouTubeInfoNew(video_id)
+	})
+}
+
+//NEW -- for second iteration of splash page-- generates author, duration, views
+function getYouTubeInfoNew(id) {
+	// $('#'+id+'>img.video_thumb').attr('src', 'http://img.youtube.com/vi/'+id+'/0.jpg')
+	// $('#'+id+'>.actual_link').attr('href', 'http://www.youtube.com/watch?v='+id)
+	console.log("GETTING YOUTUBE INFO")
+	pre_id = $('#'+id).attr('class')
+	int_id = pre_id.replace('video_link video_id_', '')
+	// $('#'+id+'>.actual_link').attr('href', '/play/'+int_id)
+    $.ajax({
+        url: "http://gdata.youtube.com/feeds/api/videos/"+id+"?v=2&alt=json",
+        dataType: "jsonp",
+        success: function (data) { 
+        	console.log(data.entry)
+        	var author = data.entry.author[0].name.$t;
+        	var title = data.entry.title.$t;
+		    var long_description = data.entry.media$group.media$description.$t;
+		    var description = long_description.substring(0,100);
+		    var duration = data.entry.media$group.yt$duration.seconds;
+		    var views = data.entry.yt$statistics.viewCount;
+		    var comma_views = numberWithCommas(views);
+		    time = convert_sec_to_time(duration);
+		    // $("#"+id+">.video_link_title").text(title)
+		    // $("#"+id+">.video_link_description").text(description)
+		    $("#"+id+">.video_link_length").empty();
+		    $("#"+id+">.video_link_length").text("Duration: "+time)
+		    $("#"+id+">.video_link_author").text("By: "+author)
+		    $("#"+id+">.video_link_author").attr("href", "https://www.youtube.com/user/"+author)
+		    $("#"+id+">.video_link_views").text("YouTube views: "+comma_views)
+        }
+    });
+}
+
 $(document).ready(function () {
+	console.log("READY")
 	// create_video_divs()
-    // populate_video_divs();
-    briefCheck('splash');
+    populate_video_divs_new();
+    // briefCheck('splash');
 });
