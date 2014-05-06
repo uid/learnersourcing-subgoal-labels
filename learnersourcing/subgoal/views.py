@@ -6,6 +6,8 @@ from subgoal.models import Video, Step, Subgoal, Learner, Action, ExpSession, Qu
 from django.db import IntegrityError
 from django.utils import simplejson
 from random import randint, random
+import datetime
+from django.utils.timezone import utc
 
 
 # request.session.session_key is not available for first-time users.
@@ -35,7 +37,12 @@ def index(request):
 
 def play(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
-	subgoals = Subgoal.objects.filter(video=video_id).exclude(state="deleted")
+
+	# set for deployment!
+	date_thresh = datetime.datetime(2014,5,5,0,0,0,0,tzinfo=utc)
+
+	subgoals = Subgoal.objects.filter(added_at__gt=date_thresh, video=video_id).exclude(state="deleted")
+	print subgoals
 	steps = Step.objects.filter(video=video_id)
 	# print unicode(len(subgoals)) + " subgoals: "
 	# print subgoals
