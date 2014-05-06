@@ -93,7 +93,7 @@ function double_brief() {
 		},
 		state2: {
 			title: "Test yourself",
-			html:"<div class='help_info'>Periodically, the video will stop and <span class='bold'>ask you a simple question</span> to summarize what you've just watched.</div>"+
+			html:"<div class='help_info'>Periodically, the video will stop and <span class='bold'>ask you a simple question</span> to summarize what you've just watched. The answer to the question will show up in the panel to the left.</div>"+
 			"<div>"+$state1_img+"</div>",
 			buttons: { Cancel: 0, Back: -1, Next: 1},
 			focus: 1,

@@ -111,11 +111,11 @@ function getYouTubeInfoNew(id) {
 		    time = convert_sec_to_time(duration);
 		    // $("#"+id+">.video_link_title").text(title)
 		    // $("#"+id+">.video_link_description").text(description)
-		    $("#"+id+">.video_link_length").empty();
-		    $("#"+id+">.video_link_length").text("Duration: "+time)
+		    $("#"+id+">.video_right>.video_link_length").empty();
+		    $("#"+id+">.video_right>.video_link_length").text("Duration: "+time)
 		    $("#"+id+">.video_link_author").text("By: "+author)
 		    $("#"+id+">.video_link_author").attr("href", "https://www.youtube.com/user/"+author)
-		    $("#"+id+">.video_link_views").text("YouTube views: "+comma_views)
+		    $("#"+id+">.video_right>.video_link_views").text("YouTube views: "+comma_views)
         }
     });
 }
