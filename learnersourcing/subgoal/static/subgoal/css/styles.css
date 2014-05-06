@@ -1007,6 +1007,19 @@ a:hover {
   	/*opacity: 0.7;*/
 }
 
+.instr_bar_top_info {
+	text-align: center;
+	font-family: 'Amaranth';
+	font-size: 40pt;
+	padding: 40px;
+	padding-top: 70px;
+	padding-bottom:0px;
+	padding-bottom: 70px;
+	background-image: url('../img/blue_bg_3.png');
+  	background-repeat:repeat;
+  	/*opacity: 0.7;*/
+}
+
 .instr_bar_top_sub {
 	text-align: center;
 	font-family: 'Amaranth';
@@ -1020,7 +1033,7 @@ a:hover {
 }
 
 .sub_intro_second {
-	font-size: 20pt;
+	font-size: 16pt;
 	padding: 20px;
 	padding-left: 150px;
 	padding-right: 150px;
