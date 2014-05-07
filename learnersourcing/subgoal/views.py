@@ -42,7 +42,7 @@ def play(request, video_id):
 	date_thresh = datetime.datetime(2014,5,5,0,0,0,0,tzinfo=utc)
 
 	subgoals = Subgoal.objects.filter(added_at__gt=date_thresh, video=video_id).exclude(state="deleted")
-	print subgoals
+	# print subgoals
 	steps = Step.objects.filter(video=video_id)
 	# print unicode(len(subgoals)) + " subgoals: "
 	# print subgoals
@@ -108,6 +108,8 @@ def analytics(request):
 	subs_per_video_dict = {}
 	users_per_video_dict = {}
 
+	date_thresh = datetime.datetime(2014,5,5,0,0,0,0,tzinfo=utc)
+
 	# for calculating activity over time... right now it looks like all of the times are the same?
 	for a in actions:
 		if a.video in videos:
@@ -132,9 +134,9 @@ def analytics(request):
 		video['video'] = model_to_json([v])
 		video['steps'] = model_to_json(Step.objects.filter(video=v))
 		video['exp'] = model_to_json(ExpSession.objects.filter(video=v))
-		video['subgoals'] = model_to_json(Subgoal.objects.filter(video=v))
+		video['subgoals'] = model_to_json(Subgoal.objects.filter(added_at__gt=date_thresh, video=v))
 
-		vid_subs = Subgoal.objects.filter(video=v)
+		vid_subs = Subgoal.objects.filter(added_at__gt=date_thresh, video=v)
 
 		subs_per_video_dict[str(v.slug)] = vid_subs.count()
 
