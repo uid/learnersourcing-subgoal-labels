@@ -2,12 +2,14 @@ $(function() {
 	enableEvents();
 
 	$("body").on('blur', '.movable', function(e) {
-		$("#sortable").sortable({cancel:".frozen"})
+		//SWEIR
+		// $("#sortable").sortable({cancel:".frozen"})
 	})
 
 	$(document).keypress(function(e) {
 	    if(e.which == 13) {
-	        $("#sortable").sortable({cancel:".frozen"})
+	    	//SWEIR
+	        // $("#sortable").sortable({cancel:".frozen"})
 	    }
 	});
 
@@ -252,6 +254,7 @@ function buttonEnable(obj) {
 }
 
 function enableEvents() {
+	//SWEIR
 	$("#sortable").sortable({
 		cancel:".frozen",
 		cancel:".movable",

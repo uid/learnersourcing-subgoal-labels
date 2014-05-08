@@ -4,7 +4,7 @@ body {
 	/*margin: 20px;*/
 	margin:0px;
 	/*margin-right: 30px;*/
-	font-family: tahoma;
+	font-family: tahoma, sans-serif;
   	background-image: url('../img/light_wool.png');
   	background-repeat:repeat;
 }
@@ -1111,7 +1111,7 @@ a:hover {
 
 
 #video_author {
-	font-family:tahoma;
+	font-family:tahoma, sans-serif;
 	font-size:15pt;
 	color:black;
 }
@@ -1174,7 +1174,7 @@ a:hover {
 }
 
 #video_author {
-	font-family:tahoma;
+	font-family:tahoma, sans-serif;
 	font-size:15pt;
 }
 
