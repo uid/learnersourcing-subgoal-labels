@@ -42,7 +42,20 @@ def play(request, video_id):
 	date_thresh = datetime.datetime(2014,5,5,0,0,0,0,tzinfo=utc)
 
 	subgoals = Subgoal.objects.filter(added_at__gt=date_thresh, video=video_id).exclude(state="deleted")
-	# print subgoals
+	subs_to_filter = []
+
+	for sub in subgoals:
+		actions = Action.objects.filter(action_type='subgoal_create', added_at__gt=date_thresh, subgoal=sub)
+		for a in actions:
+			sesh = a.session_id
+			agree = Action.objects.filter(session_id=sesh, action_type='agree').count()
+			no_agree = Action.objects.filter(session_id=sesh, action_type='no_agree').count()
+			if (no_agree > 0):
+				subs_to_filter.append(sub.id)
+
+	subgoals = Subgoal.objects.filter(added_at__gt=date_thresh, video=video_id).exclude(id__in=subs_to_filter)
+
+	print subgoals
 	steps = Step.objects.filter(video=video_id)
 	# print unicode(len(subgoals)) + " subgoals: "
 	# print subgoals
@@ -101,6 +114,14 @@ def analytics(request):
 	actions = Action.objects.all()
 	exp = ExpSession.objects.all()
 
+	date_thresh = datetime.datetime(2014,5,5,0,0,0,0,tzinfo=utc)
+
+	num_agree = Action.objects.filter(action_type='agree', added_at__gt=date_thresh).count()
+	num_disagree = Action.objects.filter(action_type='no_agree', added_at__gt=date_thresh).count()
+
+	# print "number of agree: "+str(num_agree)
+	# print "number of disagree: "+str(num_disagree)
+
 	videos_dict = {}
 	subgoals_dict = {}
 	activity_dict = {}
@@ -108,7 +129,7 @@ def analytics(request):
 	subs_per_video_dict = {}
 	users_per_video_dict = {}
 
-	date_thresh = datetime.datetime(2014,5,5,0,0,0,0,tzinfo=utc)
+	
 
 	# for calculating activity over time... right now it looks like all of the times are the same?
 	for a in actions:
@@ -289,15 +310,27 @@ def subgoal_create(request):
 				subgoal.upvotes_s2 = 1
 			elif request.POST['stage'] == 3:
 				subgoal.upvotes_s3 = 1
-		subgoal.save()
 
-		action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_create", stage=request.POST['stage'])
 		try:
-			action.session_id = get_session_key(request.session.session_key)
+			sesh = get_session_key(request.session.session_key)
 		except (NameError, AttributeError):
 			pass
-		action.save()
-		results = {'success': True, 'subgoal_id': subgoal.id, 'subgoal': model_to_json([subgoal])}
+
+		agree = Action.objects.filter(session_id=sesh, action_type='agree').count()
+		no_agree = Action.objects.filter(session_id=sesh, action_type='no_agree').count()
+		if (agree > 0):
+			print 'SAVED!!!!'
+			subgoal.save()
+			action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_create", stage=request.POST['stage'])
+			try:
+				action.session_id = get_session_key(request.session.session_key)
+			except (NameError, AttributeError):
+				pass
+			action.save()
+			results = {'success': True, 'subgoal_id': subgoal.id, 'subgoal': model_to_json([subgoal])}
+		else:
+			print 'NOT SAVED!!!!!'
+			results = {'success': True, 'subgoal_id': subgoal.id, 'subgoal': model_to_json([subgoal])}
 	else:
 		raise Http404
 	json = simplejson.dumps(results)
