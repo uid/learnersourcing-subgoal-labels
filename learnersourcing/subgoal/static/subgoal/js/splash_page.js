@@ -120,9 +120,17 @@ function getYouTubeInfoNew(id) {
     });
 }
 
+function populate_video_feats() {
+	$(".video_new_feat").each(function(index, el) {
+		video_id = $(el).attr('id');
+		$('#'+video_id+'>img.video_thumb').attr('src', 'http://img.youtube.com/vi/'+video_id+'/0.jpg')
+	})
+}
+
 $(document).ready(function () {
 	console.log("READY")
 	// create_video_divs()
     populate_video_divs_new();
+    populate_video_feats();
     // briefCheck('splash');
 });
