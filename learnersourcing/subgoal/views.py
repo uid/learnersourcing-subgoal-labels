@@ -110,11 +110,12 @@ def play(request, video_id):
 	)
 
 def analytics(request):
+	date_thresh = datetime.datetime(2014,5,5,0,0,0,0,tzinfo=utc)
 	videos = Video.objects.filter(is_used=True)
-	actions = Action.objects.all()
+	actions = Action.objects.filter(added_at__gt=date_thresh)
 	exp = ExpSession.objects.all()
 
-	date_thresh = datetime.datetime(2014,5,5,0,0,0,0,tzinfo=utc)
+	
 
 	num_agree = Action.objects.filter(action_type='agree', added_at__gt=date_thresh).count()
 	num_disagree = Action.objects.filter(action_type='no_agree', added_at__gt=date_thresh).count()
@@ -158,6 +159,18 @@ def analytics(request):
 		video['subgoals'] = model_to_json(Subgoal.objects.filter(added_at__gt=date_thresh, video=v))
 
 		vid_subs = Subgoal.objects.filter(added_at__gt=date_thresh, video=v)
+		subs_to_filter = []
+		for sub in vid_subs:
+			actions = Action.objects.filter(action_type='subgoal_create', added_at__gt=date_thresh, subgoal=sub)
+			for a in actions:
+				sesh = a.session_id
+				agree = Action.objects.filter(session_id=sesh, action_type='agree').count()
+				no_agree = Action.objects.filter(session_id=sesh, action_type='no_agree').count()
+				if (no_agree > 0):
+					subs_to_filter.append(sub.id)
+
+		vid_subs = Subgoal.objects.filter(added_at__gt=date_thresh, video=v).exclude(id__in=subs_to_filter)
+
 
 		subs_per_video_dict[str(v.slug)] = vid_subs.count()
 
@@ -173,7 +186,7 @@ def analytics(request):
 						subgoals_dict[s.id] = [str(stage_step), str(stage_ask)]
 		videos_dict[v.id] = video
 
-		vid_exp = ExpSession.objects.filter(video=v)
+		vid_exp = ExpSession.objects.filter(video=v, added_at__gt=date_thresh)
 
 		temp_exp = []
 		for e in vid_exp:
