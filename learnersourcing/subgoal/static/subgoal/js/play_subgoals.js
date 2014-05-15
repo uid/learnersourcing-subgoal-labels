@@ -178,8 +178,8 @@ function routeStage(t) {
 	if (subgoalGroup.length >= 3) {
 		var sorted_group = subgoalGroup.sort(compare_votes_s3);
 
-		var diff_threshold = 5;
-		var upvote_threshold = 8;
+		var diff_threshold = 4;
+		var upvote_threshold = 7;
 
 		var vote_diff = sorted_group[0].upvotes_s2-sorted_group[1].upvotes_s2
 
