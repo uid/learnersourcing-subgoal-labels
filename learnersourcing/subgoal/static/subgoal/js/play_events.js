@@ -255,10 +255,10 @@ function buttonEnable(obj) {
 
 function enableEvents() {
 	//SWEIR
-	$("#sortable").sortable({
-		cancel:".frozen",
-		cancel:".movable",
-	});
+	// $("#sortable").sortable({
+	// 	cancel:".frozen",
+	// 	cancel:".movable",
+	// });
 
 	$(".submitbutton").attr('disabled', 'disabled');
 
