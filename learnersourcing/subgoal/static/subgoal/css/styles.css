@@ -1263,6 +1263,13 @@ img#splash_image {
 	border: 1px solid black;
 }
 
+img.splash_image {
+	width:400px;
+	margin: 20px;
+	text-align: center;
+	border: 1px solid black;
+}
+
 .social_sidebar {
 	position:fixed;
 	top: 150;

@@ -5,6 +5,7 @@
 <head>
 	<link href='http://fonts.googleapis.com/css?family=Amaranth:400,700,400italic' rel='stylesheet' type='text/css'>
     <meta charset="utf-8" />
+    <meta property="og:image" content="http://crowdy.csail.mit.edu/static/subgoal/img/flow_1.png" />
     <title>Learn web programming</title>    
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/jquery-impromptu.css' %}" />
@@ -25,6 +26,10 @@
 				<a class="toolbar_text" href="{% url 'about' %}">About</a>
 			</span>
 		</div>
+		<div class='social_sidebar'>
+			<div class="fb-share-button" data-href="http://crowdy.csail.mit.edu" data-type="button"></div><br>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-related="jasoncosta" data-lang="en" data-count="none">Tweet</a>
+		</div>
 		<div class="instr_bar_top">
 			Welcome to Crowdy!
 			<div class="sub_intro">
@@ -32,17 +37,13 @@
 			</div>
 			<div class="instr_bar_top_sub">
 				Crowd-powered learning
-				<div><img id="splash_image" src='/static/subgoal/img/flow_1.png'></img></div>
+				<div><img id="campaign-icon" class="splash_image" src='/static/subgoal/img/flow_1.png'></img></div>
 				<div class="sub_intro_second">
 					Collaborate with others to generate interactive content for each video you watch.
 				</div>
 			</div>
 		</div>
-		<div class='social_sidebar'>
-			<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-type="button"></div>
-			<br>
-			<a href="https://twitter.com/share" class="twitter-share-button" data-related="jasoncosta" data-lang="en" data-count="none">Tweet</a>
-		</div>
+		
 		<div id="instr_bar_bottom">
 			{ Choose from the YouTube videos below }
 			<div class="sub_intro_bottom">
@@ -347,14 +348,13 @@
 
 	</script>
 
-	<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	</script>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 	</script>
 	
