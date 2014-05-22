@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/jquery-impromptu.css' %}" />
 </head>
 	<body>
+		<div id="fb-root"></div>
 <!-- 		<div id="logo">
 			crowdy
 		</div> -->
@@ -30,13 +31,18 @@
 				Learn web programming through YouTube tutorial videos.
 			</div>
 			<div class="instr_bar_top_sub">
-			Crowd-powered learning
-			<div class="sub_intro_second">
-				Collaborate with others to generate interactive content for each video you watch.
+				Crowd-powered learning
+				<div><img id="splash_image" src='/static/subgoal/img/flow_1.png'></img></div>
+				<div class="sub_intro_second">
+					Collaborate with others to generate interactive content for each video you watch.
+				</div>
 			</div>
 		</div>
+		<div class='social_sidebar'>
+			<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-type="button"></div>
+			<br>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-related="jasoncosta" data-lang="en" data-count="none">Tweet</a>
 		</div>
-		
 		<div id="instr_bar_bottom">
 			{ Choose from the YouTube videos below }
 			<div class="sub_intro_bottom">
@@ -339,6 +345,17 @@
 	  ga('create', 'UA-50588756-1', 'mit.edu');
 	  ga('send', 'pageview');
 
+	</script>
+
+	<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 	</script>
 	
 </html>

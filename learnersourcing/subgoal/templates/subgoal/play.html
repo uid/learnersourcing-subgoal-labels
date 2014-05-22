@@ -21,6 +21,11 @@
 				<a class="toolbar_text" href="{% url 'about' %}">About</a>
 			</span>
 		</div>
+		<div class='social_sidebar'>
+			<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-type="button"></div>
+			<br>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-related="jasoncosta" data-lang="en" data-count="none">Tweet</a>
+		</div>
 		<div id="instr_bar_top_play">
 			<div id="video_title">
 
@@ -30,7 +35,6 @@
 			</a>
 		</div>
 		<div class="wrapper">
-			
 			<div class="content_wrapper">
 				<div class="left">
 					<div class="wiki_wrap">
@@ -127,6 +131,13 @@
 						</div>
 					</div>
 					<div id="player"></div>
+					<div id='feedback_button'>
+						Give us feedback!
+					</div>
+					<div id='feedback_box'>
+						<textarea name='comments' id="feedback_area"></textarea><br>
+						<input type='submit' value='Submit' id='comment_submit'></input>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -217,4 +228,13 @@
 	  ga('send', 'pageview');
 
 	</script>
+	<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </html>
