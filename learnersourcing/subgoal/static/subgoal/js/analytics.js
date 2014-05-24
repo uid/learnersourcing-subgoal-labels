@@ -118,12 +118,14 @@ function place_an_subgoal(sub, classes, dir) {
 			sub.upvotes_s2+"</span><span class='downvotes'>"+
 			sub.downvotes_s2+"</span><span class='sublabel'>"+
 			escapeHTML(sub.label)+"</span></div>"+
-			"<div class='small_details'><span class='steps_votes'>Steps votes: </span><span class='upvotes'>"+
-			sub.upvotes_s2+"</span><span class='downvotes'>"+
-			sub.downvotes_s2+"</span><span class='sublabel'>"+
-			"<span class='no_steps_votes'>No steps votes: </span><span class='upvotes'>"+
-			sub.upvotes_s2+"</span><span class='downvotes'>"+
-			sub.downvotes_s2+"</span><span class='sublabel'></div></div>");
+			"<div class='small_details'><span class='steps_votes'>Stage added: "+sub.stage_added+"</span>"+
+			"<br><span class='steps_votes'>Time: "+sub.added_at+"</span></div></div>");
+			// "<div class='small_details'><span class='steps_votes'>Steps votes: </span><span class='upvotes'>"+
+			// sub.upvotes_s2+"</span><span class='downvotes'>"+
+			// sub.downvotes_s2+"</span><span class='sublabel'>"+
+			// "<span class='no_steps_votes'>No steps votes: </span><span class='upvotes'>"+
+			// sub.upvotes_s2+"</span><span class='downvotes'>"+
+			// sub.downvotes_s2+"</span><span class='sublabel'></div></div>");
 		$("#"+id+"> .video_content").append($sub_html)
 }
 
