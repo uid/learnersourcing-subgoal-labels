@@ -78,6 +78,7 @@
  			temp_dict['steps'] = (JSON.parse(videos_list_first[i].steps));
  			temp_dict['subgoals'] = (JSON.parse(videos_list_first[i].subgoals));
  			temp_dict['exp'] = (JSON.parse(videos_list_first[i].exp));
+ 			temp_dict['question_stage'] = (JSON.parse(videos_list_first[i].question_stage));
  			temp_dict['activity'] = actions_per_vid_list[String(temp_dict['video'][0].slug)];
  			temp_dict['subcount'] = subs_per_vid_list[String(temp_dict['video'][0].slug)];
  			temp_dict['users'] = users_per_vid_list[String(temp_dict['video'][0].slug)];
@@ -86,7 +87,7 @@
  			videos_list.push(temp_dict)
  		}
 
- 		// console.log(videos_list)
+ 		console.log(videos_list)
  		// console.log(subgoals_list)
  	</script>
 
