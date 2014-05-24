@@ -6,7 +6,8 @@ $("body").on('click', '.video_bar', function(e) {
 	$($(this).children()[1]).toggle()
 
 	//toggle video content
-	$($(this).siblings()[0]).toggle()
+	$($(this).siblings()[1]).toggle()
+	console.log($($(this).children()))
 });
 
 $("body").on('click', '#expand_all', function(e) {
@@ -34,7 +35,7 @@ $("body").on('click', '.show_s2_votes', function(e) {
 
 for (i in videos_list) {
 	var video_html = "<div class='each_video' id='"+videos_list[i]['video'][0].id+"'>" +
-				"<div class='video_bar'>" +
+				"<div class='stage_label'>Stage: "+videos_list[i]['question_stage']+"</div><div class='video_bar'>" +
 				"<span class='up_caret'>^</span>" +
 				"<span class='down_caret'>v</span>" +
 				"<span class='video_name'>"+videos_list[i]['video'][0].title+"</span>" +

@@ -8,6 +8,7 @@ from django.utils import simplejson
 from random import randint, random
 import datetime
 from django.utils.timezone import utc
+from django.core.mail import send_mail
 
 
 # request.session.session_key is not available for first-time users.
@@ -39,7 +40,7 @@ def play(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
 
 	# set for deployment!
-	date_thresh = datetime.datetime(2014,5,5,0,0,0,0,tzinfo=utc)
+	date_thresh = datetime.datetime(2014,1,5,0,0,0,0,tzinfo=utc)
 
 	subgoals = Subgoal.objects.filter(added_at__gt=date_thresh, video=video_id).exclude(state="deleted")
 	subs_to_filter = []
@@ -157,6 +158,18 @@ def analytics(request):
 		video['steps'] = model_to_json(Step.objects.filter(video=v))
 		video['exp'] = model_to_json(ExpSession.objects.filter(video=v))
 		video['subgoals'] = model_to_json(Subgoal.objects.filter(added_at__gt=date_thresh, video=v))
+
+		vid_acts = Action.objects.filter(added_at__gt=date_thresh, video=v)
+		vid_questions = []
+		for a in vid_acts:
+			if (a.action_type == 'ask_q_1' or a.action_type == 'ask_q_2' or a.action_type == 'ask_q_3'):
+				# print a.action_type
+				if (a.action_type not in vid_questions):
+					vid_questions.append(a.action_type)
+
+		video['question_stage'] = len(vid_questions)
+		
+		# print video
 
 		vid_subs = Subgoal.objects.filter(added_at__gt=date_thresh, video=v)
 		subs_to_filter = []
@@ -645,27 +658,12 @@ def subgoal_brief_click(request):
 	json = simplejson.dumps(results)
 	return HttpResponse(json, mimetype='application/json')
 
-# Protocol for routing to correct stage
-# Not used: now dynamically added within the page
-
-# Route to stage 1:
-#	If low number of subgoals (< 10) total for one video
-# Route to stage 2:
-#	If high number of subgoals (> 10) total for one video and the case for 
-#	case 3 does not exist
-# Route to stage 3:
-#	If one subgoal has been deleted >= 3 times
-#		In that case, for each subgoal group-- take majority rule or pick one randomly
-#		if no majority rule. For lone subgoals, take majority rule (keep if tie)
-
-# If < 10 subgoals for one video
-#	Route to stage 1 for the video (and show steps sans subgoals)
-# If > 10 subgoals for one video
-#	For every subgoal in video... if one has been deleted >= 3 times:
-#		Route to stage 3
-#		Take majority for each subgoal group or random
-# 	Else
-#		Route to stage 2 (and show original ones)
+def email_feedback(request):
+	print 'sending message'
+	message = request.POST['message']
+	video = request.POST['video_id']
+	send_mail('Crowdy Feedback', message, 'crowdy@csail.mit.edu', ['crowdy@csail.mit.edu'], fail_silently=False)
+	return HttpResponse('Message sent')
 
 def video_router(request, video_id):
 	video = get_object_or_404(Video, pk=video_id)
