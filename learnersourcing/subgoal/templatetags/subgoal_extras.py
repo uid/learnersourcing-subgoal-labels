@@ -1,6 +1,7 @@
 from django.core.serializers import serialize
 from django.db.models.query import QuerySet
-from django.utils import simplejson
+#from django.utils import simplejson
+import simplejson
 from django.template import Library
 
 register = Library()

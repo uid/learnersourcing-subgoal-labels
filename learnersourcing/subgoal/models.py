@@ -1,6 +1,6 @@
 from django.db import models
-from django.utils import simplejson
-
+#from django.utils import simplejson
+import simplejson
 
 # learner who's annotating the video
 class Learner(models.Model):

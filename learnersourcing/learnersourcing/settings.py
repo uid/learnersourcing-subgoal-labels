@@ -3,7 +3,7 @@
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -27,7 +27,8 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['localhost', 'crowdy.csail.mit.edu']
+ALLOWED_HOSTS = ['localhost']
+#ALLOWED_HOSTS = ['localhost', 'crowdy.csail.mit.edu']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -54,7 +55,8 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+#MEDIA_ROOT = ''
+MEDIA_ROOT = '/srv/www/juhokim.com/public_html/crowdy/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -65,7 +67,8 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '/var/www/learnersourcing/static/'
+#STATIC_ROOT = '/var/www/learnersourcing/static/'
+STATIC_ROOT = '/srv/www/juhokim.com/public_html/crowdy/static/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -135,7 +138,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'south',
+    #'south',
     'subgoal',
 )
 

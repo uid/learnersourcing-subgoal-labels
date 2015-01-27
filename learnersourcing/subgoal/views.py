@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
 from subgoal.models import Video, Step, Subgoal, Learner, Action, ExpSession, Question
 from django.db import IntegrityError
-from django.utils import simplejson
+#from django.utils import simplejson
+import simplejson
 from random import randint, random
 import datetime
 from django.utils.timezone import utc
@@ -309,7 +310,7 @@ def record_question(request):
 	else:
 		raise Http404
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')
+	return HttpResponse(json, content_type='application/json')
 
 
 # Ajax
@@ -360,7 +361,7 @@ def subgoal_create(request):
 	else:
 		raise Http404
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')
+	return HttpResponse(json, content_type='application/json')
 
 
 # Ajax
@@ -386,7 +387,7 @@ def subgoal_update(request):
 	else:
 		raise Http404	
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')	
+	return HttpResponse(json, content_type='application/json')	
 
 
 # Ajax
@@ -412,7 +413,7 @@ def subgoal_move(request):
 	else:
 		raise Http404	
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')		
+	return HttpResponse(json, content_type='application/json')		
 
 
 # Ajax
@@ -438,7 +439,7 @@ def subgoal_delete(request):
 	else:
 		raise Http404	
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')	
+	return HttpResponse(json, content_type='application/json')	
 
 
 # Ajax
@@ -478,7 +479,7 @@ def subgoal_vote(request):
 	else:
 		raise Http404	
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')
+	return HttpResponse(json, content_type='application/json')
 
 def subgoal_undelete(request):
 	video_id = request.POST['video_id']
@@ -502,7 +503,7 @@ def subgoal_undelete(request):
 	else:
 		raise Http404	
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')	
+	return HttpResponse(json, content_type='application/json')	
 
 def site_action(request):
 	print 'in site action'
@@ -526,7 +527,7 @@ def site_action(request):
 		raise Http404	
 	json = simplejson.dumps(results)
 	print results
-	return HttpResponse(json, mimetype='application/json')
+	return HttpResponse(json, content_type='application/json')
 
 def vid_action(request):
 	print 'in vid action'
@@ -551,7 +552,7 @@ def vid_action(request):
 		raise Http404	
 	json = simplejson.dumps(results)
 	print results
-	return HttpResponse(json, mimetype='application/json')
+	return HttpResponse(json, content_type='application/json')
 
 def subgoal_instr(request):
 	watched = False
@@ -569,7 +570,7 @@ def subgoal_instr(request):
 		pass
 	
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')
+	return HttpResponse(json, content_type='application/json')
 
 def subgoal_instr_click(request):
 	#create action named "instr_clicked"
@@ -590,7 +591,7 @@ def subgoal_instr_click(request):
 	
 	results = {'success': True}
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')
+	return HttpResponse(json, content_type='application/json')
 
 def subgoal_brief_check(request):
 	watched_brief = False
@@ -624,7 +625,7 @@ def subgoal_brief_check(request):
 		pass
 	
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')
+	return HttpResponse(json, content_type='application/json')
 
 def subgoal_brief_click(request):
 #create action named "brief_clicked"
@@ -656,7 +657,7 @@ def subgoal_brief_click(request):
 	
 	results = {'success': True}
 	json = simplejson.dumps(results)
-	return HttpResponse(json, mimetype='application/json')
+	return HttpResponse(json, content_type='application/json')
 
 def email_feedback(request):
 	print 'sending message'
