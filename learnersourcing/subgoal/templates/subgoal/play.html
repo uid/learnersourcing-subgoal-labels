@@ -3,10 +3,11 @@
 
 <html>
 <head>
-	<meta property="og:image" content="http://crowdy.csail.mit.edu/static/subgoal/img/flow_1.png" />
-	<link href='http://fonts.googleapis.com/css?family=Amaranth:400,700,400italic' rel='stylesheet' type='text/css'>
+	<meta property="og:image" content="http://crowdy.juhokim.com/static/subgoal/img/flow_1.png" />
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <meta charset="utf-8" />
-    <title></title>    
+    <title></title>
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/jquery-impromptu.css' %}" />
 </head>
@@ -23,7 +24,7 @@
 			</span>
 		</div>
 		<div class='social_sidebar'>
-			<div class="fb-share-button" data-href="http://crowdy.csail.mit.edu" data-type="button"></div><br>
+			<div class="fb-share-button" data-href="http://crowdy.juhokim.com/" data-type="button"></div><br>
 			<br>
 			<a href="https://twitter.com/share" class="twitter-share-button" data-related="jasoncosta" data-lang="en" data-count="none">Tweet</a>
 		</div>
@@ -115,7 +116,7 @@
 								<label><input type='radio' name='step1' class='q_choice' value='none'>There should be nothing here</input></label><br>
 								<label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new'>I have a better answer: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>
 							</div>
-							
+
 							<button type="button" class="submitButton" tabindex=2>Submit</button>
 							<button type="button" class="cancelButton" tabindex=2>Cancel</button>
 							<div id="test"></div>
@@ -143,7 +144,7 @@
 			</div>
 		</div>
 
-		
+
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -153,7 +154,7 @@
  	<script src="{% static 'subgoal/js/subgoal.js' %}"></script>
  	<script>
 
- 		var stage = 1; 
+ 		var stage = 1;
 
 		var video_json = JSON.stringify({{video|safe}});
 		var video = JSON.parse(video_json)[0];
@@ -173,7 +174,7 @@
 		for (var i in steps_unsorted)
       		steps.push([steps_unsorted[i], steps_unsorted[i]["time"]]);
 		steps.sort(function(a, b) {return a[1] - b[1]});
-		console.log(steps);		
+		console.log(steps);
 
 		// read subgoals and sort by time
 		var subgoals_json = JSON.stringify({{subgoals|safe}});
@@ -210,7 +211,7 @@
 
 		// apply different experimental conditions
 		if (!(Experiment.isStepShown))
-			$(".frozen").hide();				
+			$(".frozen").hide();
  	</script>
 
 	<script src="{% static 'subgoal/js/play_subgoals.js' %}"></script>

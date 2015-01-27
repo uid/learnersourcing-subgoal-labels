@@ -1,6 +1,6 @@
 //go through each video on the home splash page and generate metadata for each one
 
-console.log(videos)
+// console.log(videos);
 
 //generates basic video divs from objects in backend
 function create_video_divs() {
@@ -50,7 +50,7 @@ function getYouTubeInfo(id) {
     $.ajax({
         url: "http://gdata.youtube.com/feeds/api/videos/"+id+"?v=2&alt=json",
         dataType: "jsonp",
-        success: function (data) { 
+        success: function (data) {
         	var title = data.entry.title.$t;
 		    var long_description = data.entry.media$group.media$description.$t;
 		    var description = long_description.substring(0,100);
@@ -79,12 +79,12 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-//NEW -- for second iteration of splash page-- generates info for each video on page 
+//NEW -- for second iteration of splash page-- generates info for each video on page
 function populate_video_divs_new() {
-	console.log("POPULATNG VIDEO DIVS?")
+	// console.log("POPULATNG VIDEO DIVS?")
 	$(".video_new").each(function(index, el) {
 		video_id = $(el).attr('id');
-		getYouTubeInfoNew(video_id)
+		getYouTubeInfoNew(video_id);
 	})
 }
 
@@ -92,15 +92,15 @@ function populate_video_divs_new() {
 function getYouTubeInfoNew(id) {
 	// $('#'+id+'>img.video_thumb').attr('src', 'http://img.youtube.com/vi/'+id+'/0.jpg')
 	// $('#'+id+'>.actual_link').attr('href', 'http://www.youtube.com/watch?v='+id)
-	console.log("GETTING YOUTUBE INFO")
-	pre_id = $('#'+id).attr('class')
-	int_id = pre_id.replace('video_link video_id_', '')
+	console.log("GETTING YOUTUBE INFO");
+	pre_id = $('#'+id).attr('class');
+	int_id = pre_id.replace('video_link video_id_', '');
 	// $('#'+id+'>.actual_link').attr('href', '/play/'+int_id)
     $.ajax({
         url: "http://gdata.youtube.com/feeds/api/videos/"+id+"?v=2&alt=json",
         dataType: "jsonp",
-        success: function (data) { 
-        	console.log(data.entry)
+        success: function (data) {
+        	// console.log(data.entry);
         	var author = data.entry.author[0].name.$t;
         	var title = data.entry.title.$t;
 		    var long_description = data.entry.media$group.media$description.$t;
@@ -112,10 +112,10 @@ function getYouTubeInfoNew(id) {
 		    // $("#"+id+">.video_link_title").text(title)
 		    // $("#"+id+">.video_link_description").text(description)
 		    $("#"+id+">.video_right>.video_link_length").empty();
-		    $("#"+id+">.video_right>.video_link_length").text("Duration: "+time)
-		    $("#"+id+">.video_link_author").text("By: "+author)
-		    $("#"+id+">.video_link_author").attr("href", "https://www.youtube.com/user/"+author)
-		    $("#"+id+">.video_right>.video_link_views").text("YouTube views: "+comma_views)
+		    $("#"+id+">.video_right>.video_link_length").text("Duration: "+time);
+		    $("#"+id+">.video_link_author").text("By: "+author);
+		    $("#"+id+">.video_link_author").attr("href", "https://www.youtube.com/user/"+author);
+		    $("#"+id+">.video_right>.video_link_views").text("YouTube views: "+comma_views);
         }
     });
 }
@@ -127,10 +127,18 @@ function populate_video_feats() {
 	})
 }
 
+function bindEvents() {
+    $(".subject-button").click(function(){
+        var subject = $(this).attr("data-subject")
+        location.hash = "#subject-" + subject;
+    });
+}
+
 $(document).ready(function () {
-	console.log("READY")
+	// console.log("READY")
 	// create_video_divs()
     populate_video_divs_new();
     populate_video_feats();
+    bindEvents();
     // briefCheck('splash');
 });

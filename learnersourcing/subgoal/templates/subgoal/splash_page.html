@@ -3,10 +3,11 @@
 
 <html>
 <head>
-	<link href='http://fonts.googleapis.com/css?family=Amaranth:400,700,400italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <meta charset="utf-8" />
-    <meta property="og:image" content="http://crowdy.csail.mit.edu/static/subgoal/img/flow_1.png" />
-    <title>Learn web programming</title>    
+    <meta property="og:image" content="http://crowdy.juhokim.com/static/subgoal/img/flow_1.png" />
+    <title>Learn web programming</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/styles.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'subgoal/css/jquery-impromptu.css' %}" />
 </head>
@@ -27,25 +28,36 @@
 			</span>
 		</div>
 		<div class='social_sidebar'>
-			<div class="fb-share-button" data-href="http://crowdy.csail.mit.edu" data-type="button"></div><br>
+			<div class="fb-share-button" data-href="http://crowdy.juhokim.com/" data-type="button"></div><br>
 			<a href="https://twitter.com/share" class="twitter-share-button" data-related="jasoncosta" data-lang="en" data-count="none">Tweet</a>
 		</div>
 		<div class="instr_bar_top">
-			Welcome to Crowdy!
-			<div class="sub_intro">
+			Interactive, Collaborative, Crowd-powered Video Learning
+<!-- 			<div class="sub_intro">
 				Learn web programming through YouTube tutorial videos.
-			</div>
+			</div> -->
 			<div class="instr_bar_top_sub">
-				Crowd-powered learning
-				<div><img id="campaign-icon" class="splash_image" src='/static/subgoal/img/flow_1.png'></img></div>
-				<div class="sub_intro_second">
-					Collaborate with others to generate interactive content for each video you watch.
+
+				<div>
+					<!-- <img id="campaign-icon" class="splash_image" src='/static/subgoal/img/flow_1.png' /> -->
+					<div>
+					Which subject are you interested in learning?
+					</div>
+					<div class="subject-button" data-subject="statistics">
+						<img class="subject-icon" src='static/subgoal/img/icon-stat.png' /><br/>Statistics
+					</div>
+					<div class="subject-button" data-subject="web-programming">
+						<img class="subject-icon" src='static/subgoal/img/icon-html.png' /><br/>Web Programming
+					</div>
 				</div>
+<!--				<div class="sub_intro_second">
+					Collaborate with others to generate interactive content for each video you watch.
+				</div> -->
 			</div>
 		</div>
-		
+
 		<div id="instr_bar_bottom">
-			{ Choose from the YouTube videos below }
+			{ Choose from the how-to videos below }
 			<div class="sub_intro_bottom">
 				As you watch the videos, we'll periodically check in and ask what you're learning. It's an experiment to help you learn better from videos.
 			</div>
@@ -79,9 +91,17 @@
 		</div>
 		<div class="wrapper">
 			<div class="content_wrapper_splash">
-<!-- 				<div id="splash_page_title">
-					Basic web programming tutorials
-				</div> -->
+
+				<a name="subject-statistics"></a>
+ 				<!-- <div id="splash_page_title"> -->
+					<h1>Basic statistics tutorials</h1>
+				<!-- </div> -->
+
+
+				<a name="subject-web-programming"></a>
+ 				<!-- <div id="splash_page_title"> -->
+					<h1>Basic web programming tutorials</h1>
+				<!-- </div> -->
 				<div class="videos_wrapper">
 					<div class='splash_page_subtitle'>
 						1. Introduction to HTML
@@ -318,7 +338,14 @@
 
 			</div>
 		</div>
-		
+
+		<div style="clear:both"></div>
+
+		<footer>
+			Please email <a id='crowdy_email' href='mailto:crowdy@csail.mit.edu'>crowdy@csail.mit.edu</a> with any concerns or questions.<br/>
+			Created by Sarah Weir and <a href="http://juhokim.com/">Juho Kim</a>, as part of a research project in the <a href="http://uid.csail.mit.edu">UID Group</a> at <a href="http://csail.mit.edu/">MIT CSAIL</a>. <br/>
+			Icons by Darren Barone and Fernando Vasconcelos from the Noun Project (CC BY 3.0)
+		</footer>
 	</body>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -327,7 +354,7 @@
 		var videos_json = JSON.stringify({{videos|safe}});
 		var videos = JSON.parse(videos_json);
 		// console.log(videos);
- 	</script> 
+ 	</script>
 
  	<script src="{% static 'subgoal/js/splash_page.js' %}"></script>
  	<script src="{% static 'subgoal/js/experiment.js' %}"></script>
@@ -336,7 +363,7 @@
 	<script src="{% static 'subgoal/js/play_events.js' %}"></script>
 	<script src="{% static 'subgoal/js/instructions.js' %}"></script>
  	<script src="{% static 'subgoal/js/briefing.js' %}"></script>
-	
+
  	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -357,5 +384,5 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 	</script>
-	
+
 </html>
