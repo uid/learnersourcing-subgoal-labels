@@ -24,11 +24,12 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
 	//check whether briefing should be shown, and include source
-	event.target.playVideo();
-	checkVideo();
-	briefCheck('play');
-	// tutCheck();
-	
+	if (!Experiment.isStudy) {
+		event.target.playVideo();
+		checkVideo();
+		briefCheck('play');
+		// tutCheck();
+	}
 }
 
 // var stop_time = false;
@@ -105,8 +106,8 @@ function checkVideo() {
 		} else {
 			console.log(t, "no coin, question asked");
 			player.pauseVideo();
-			askQuestion(t);		
-			isAsked = true;	
+			askQuestion(t);
+			isAsked = true;
 		}
 		// update the next stopping point
 		time_to_stop = t + Experiment.questionInterval;
@@ -119,15 +120,20 @@ function checkVideo() {
 		// temp_time = t;
 		routeStage(t);
 		player.pauseVideo();
-		
+
 		// ask the question only when it has been some time after the last asking
 		if (t - Experiment.getLastRecordingTime() > Experiment.questionInterval / 2){
 			askQuestion(t);
 			isAsked = true;
-			Experiment.recordQuestion({"time": t, "isAsked": isAsked, "stage": Experiment.questionStage});			
+			Experiment.recordQuestion({"time": t, "isAsked": isAsked, "stage": Experiment.questionStage});
+		} else {
+			// display posttest
+			if (Experiment.isStudy) {
+				askPosttest();
+			}
 		}
 	} else {
-		// update every time, because users might be skipping. 
+		// update every time, because users might be skipping.
 		// retrieve the next possible interval.
 		time_to_stop = t + Experiment.questionInterval - (t % Experiment.questionInterval);
 	}
@@ -173,7 +179,7 @@ function routeStage(t) {
 	Experiment.questionStage = 1;
 	var subgoalGroup = Subgoal.getCurrentGroup(t);
 	console.log(subgoalGroup)
-	
+
 	//routes it to stage 2 or 3 (enough subgoals generated)
 	if (subgoalGroup.length >= 3) {
 		var sorted_group = subgoalGroup.sort(compare_votes_s3);
@@ -190,7 +196,7 @@ function routeStage(t) {
 		// } else {
 		// 	vote_val = vote_diff/sorted_group[0].upvotes_s2;
 		// }
-		
+
 		//checks if the difference between number of votes is high
 		if ((vote_diff > diff_threshold) || sorted_group[0].upvotes_s2 > upvote_threshold) {
 			Experiment.questionStage = 3;
@@ -257,11 +263,11 @@ function displayStage2Question(t){
 		var subgoal_id = subgoal_list[i].t.id;
 		var subgoal_text = subgoal_list[i].k;
 		if (subgoal_text != '') {
-			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>")
+			$(".mult_choice_options").append("<label><input type='radio' name='step1' class='q_choice' value='" + subgoal_id + "'>"+ escapeHTML(subgoal_text)+"</input></label><br>");
 		}
 	}
 
-	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new_2'>I have a better answer: <input type='text' class='q_input_2' id='new_answer'></input></label><br>")
+	$(".mult_choice_options").append("<br><label class='new_subgoal_option'><input type='radio' name='step1' value='new' class='q_choice q_new_2'>I have a better answer: <input type='text' class='q_input_2' id='new_answer'></input></label><br>");
 }
 
 function displayStage3Question(t){
@@ -291,11 +297,11 @@ function displayStage3Question(t){
 	$(".sub_label").empty('')
 	$(".steps_list").empty('')
 	$(".mult_choice_options_stage3").empty('')
-	
+
 	$(".steps_list").append("<p class='step_label'>Steps:</p>")
 	$(".sub_label").append("<p class='step_label'>Statement:</p>")
 	$(".sub_label").append(escapeHTML(subgoal_text));
-	
+
 	var floor = computePreviousTime(t);
 	var numSteps = 0;
 	for (var i in steps){
@@ -327,7 +333,7 @@ function displayStage3Question(t){
 // Create the question
 function askQuestion(t) {
 	console.log("current time ask: "+t)
-	$("#player").hide();	
+	$("#player").hide();
 	if (Experiment.questionStage == 1){
 		displayStage1Question(t);
 		// $('.dq_input').fadeIn(500);
@@ -343,7 +349,7 @@ function askQuestion(t) {
 	}
 
 	var vid = video.id;
-	var question_act = 'ask_q_'+Experiment.questionStage
+	var question_act = 'ask_q_'+Experiment.questionStage;
 	Subgoal.opVidAction(question_act, vid, 'none');
 
 	$(".submitbutton").attr('disabled','disabled');
@@ -352,6 +358,65 @@ function askQuestion(t) {
 	$('.dq_instr').hide();
 }
 
+
+function askPretest() {
+	console.log("displaying pretest");
+	if (!Experiment.isStudy)
+		return;
+	$("#player").hide();
+	displayPretest();
+	$('.dq_pretest').show();
+
+	var vid = video.id;
+	Subgoal.opVidAction("pretest", vid, 'none');
+
+	$(".submitbutton").attr('disabled','disabled');
+	$(".submitbutton").addClass('disabledButton');
+	$('.dq_help').hide();
+	$('.dq_instr').hide();
+}
+
+function askPosttest() {
+	console.log("displaying posttest");
+	if (!Experiment.isStudy)
+		return;
+	$("#player").hide();
+	displayPosttest();
+	$('.dq_posttest').show();
+
+	var vid = video.id;
+	Subgoal.opVidAction("posttest", vid, 'none');
+
+	$(".submitbutton").attr('disabled','disabled');
+	$(".submitbutton").addClass('disabledButton');
+	$('.dq_help').hide();
+	$('.dq_instr').hide();
+}
+
+
+function createMultipleChoiceQuestion() {
+
+}
+
+function createFreeformQuestion() {
+
+}
+
+
+// TODO: read from problem bank and dynamically create & insert problem HTML
+// For each video, accept a JSON file with problem description
+	// type: "mc", "ff"
+	// question: question text
+	// options: ["A", "B", "C", "D"]
+	// answer: "A"
+function displayPretest() {
+
+}
+
+// TODO: read from problem bank and dynamically create & insert problem HTML
+function displayPosttest() {
+
+}
 
 // Add the subgoal to the proper location in the Wiki view
 function placeSubtitle(subtitle, time) {
@@ -386,13 +451,13 @@ function submitStage1Subgoal(){
 	} else {
 
 		var currentTime = Math.floor(player.getCurrentTime());
-		var time = computePreviousTime(currentTime);	
+		var time = computePreviousTime(currentTime);
 
 		// frontend update
 		var $li = Subgoal.getNewSubgoalHTML(inp_text);
-		// $("<li class='movable subgoal'><span class='sub'>"+inp_text+"</span>" + 
-		// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
-		// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+		// $("<li class='movable subgoal'><span class='sub'>"+inp_text+"</span>" +
+		// 	"<button type='button' class='delButton permButton'>Delete</button>" +
+		// 	"<button type='button' class='editButton permButton'>Edit</button>" +
 		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
 		$li.fadeIn(1000)
 		placeSubtitle($li, time)
@@ -410,7 +475,7 @@ function submitStage1Subgoal(){
 	// 		csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 	// 		stage: stage,
 	// 		// note: this is Django object ID, not Youtube ID.
-	// 		video_id: video["id"], 
+	// 		video_id: video["id"],
 	// 		time: time,
 	// 		label: inp_text,
 	// 		// hard-coded for now since there's no login
@@ -424,7 +489,7 @@ function submitStage1Subgoal(){
 	// }).fail(function(){
 	// 	console.log("/subgoal/create/ failure");
 	// }).always(function(){
-	// });	
+	// });
 }
 
 function submitStage2Subgoal(){
@@ -449,7 +514,7 @@ function submitStage2Subgoal(){
 			// console.log($target);
 			if (typeof $target !== "undefined")
 				$target.remove();
-		}		
+		}
 		if (!(subgoal_id in votes)){
 			votes[subgoal_id] = "downvotes_s2";
 		}
@@ -477,9 +542,9 @@ function submitStage2Subgoal(){
 		} else {
 
 			$li = Subgoal.getNewSubgoalHTML(inp_text);
-			// $li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" + 
-			// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
-			// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+			// $li = $("<li class='movable subgoal'><span class='sub'>" + inp_text + "</span>" +
+			// 	"<button type='button' class='delButton permButton'>Delete</button>" +
+			// 	"<button type='button' class='editButton permButton'>Edit</button>" +
 			// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
 			$li.fadeIn(1000);
 			placeSubtitle($li, time);
@@ -493,7 +558,7 @@ function submitStage2Subgoal(){
 		// 	data: {
 		// 		csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 		// 		stage: stage,
-		// 		video_id: video["id"], 
+		// 		video_id: video["id"],
 		// 		time: time,
 		// 		label: inp_text,
 		// 		learner_id: 1,
@@ -506,7 +571,7 @@ function submitStage2Subgoal(){
 		// }).fail(function(){
 		// 	console.log("/subgoal/create/ failure");
 		// }).always(function(){
-		// });		
+		// });
 
 	} else if (answer != "new" && answer != "none"){
 		if (typeof $('input[name=step1]:radio:checked').val() == "undefined") {
@@ -517,13 +582,13 @@ function submitStage2Subgoal(){
 					inp_text = Subgoal.data[i]["label"];
 			}
 			$li = Subgoal.getSubgoalHTML(answer, inp_text);
-			// $li = $("<li class='movable subgoal' data-subgoal-id='" + answer + "'><span class='sub'>" + inp_text + "</span>" + 
-			// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
-			// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
+			// $li = $("<li class='movable subgoal' data-subgoal-id='" + answer + "'><span class='sub'>" + inp_text + "</span>" +
+			// 	"<button type='button' class='delButton permButton'>Delete</button>" +
+			// 	"<button type='button' class='editButton permButton'>Edit</button>" +
 			// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
-			$li.fadeIn(1000)	
+			$li.fadeIn(1000)
 			placeSubtitle($li, time)
-		}		
+		}
 	}
 
 	Subgoal.opVote(votes);
@@ -544,7 +609,7 @@ function submitStage3Subgoal(){
 
 	var subgoalGroup = Subgoal.getCurrentGroup(currentTime);
 	for (var i in subgoalGroup) {
-		var subgoal_id = subgoalGroup[i]["id"];	
+		var subgoal_id = subgoalGroup[i]["id"];
 		if (!(subgoal_id in votes)){
 			votes[subgoal_id] = "downvotes_s2";
 		}
@@ -565,7 +630,7 @@ function submitStage3Subgoal(){
 			placeSubtitle($li, time);
 
 			Subgoal.opCreate($li, time, inp_text, true);
-		}	
+		}
 
 	} else if (answer != "new" && answer != "none"){
 		console.log("SECOND BLOCK")
@@ -577,9 +642,9 @@ function submitStage3Subgoal(){
 					inp_text = Subgoal.data[i]["label"];
 			}
 			$li = Subgoal.getSubgoalHTML(answer, inp_text);
-			$li.fadeIn(1000)	
+			$li.fadeIn(1000)
 			placeSubtitle($li, time)
-		}		
+		}
 	} else if (answer == "none") {
 		console.log("THIRD BLOCK")
 		//TODO-- DO SOMETHING HERE! This gives us some information...
@@ -602,19 +667,84 @@ function submitSubgoal() {
 
 	if (player.getPlayerState()!=0){
 		resumeVideo();
+		// $('.dq_input').fadeOut(250);
+		// $('.dq_input_2').fadeOut(250);
+		// $('.dq_help').fadeIn(500);
+
+		$('.dq_input').hide();
+		$('.dq_input_2').hide();
+		$('.dq_input_3').hide();
+		$('.dq_help').show();
+
+		$("#player").show();
+		// setTimeout(checkVideo, 1000);
+	} else {
+		// if the video ended and the last prompt has been answered,
+		// ask post test.
+		if (Experiment.isStudy)
+			askPosttest();
 	}
+}
 
-	// $('.dq_input').fadeOut(250);
-	// $('.dq_input_2').fadeOut(250);
-	// $('.dq_help').fadeIn(500);
+// Submit pretest results
+function submitPretest() {
+	console.log("submit pretest");
 
+	var userResponse = {};
+    //Gathering the Data and removing undefined keys (buttons)
+    $.each($("#pretest-form")[0].elements, function(i, v){
+        var input = $(v);
+        userResponse[input.attr("name")] = input.val();
+        delete userResponse["undefined"];
+    });
+    console.log(userResponse);
+    Subgoal.opSubmitPretest(userResponse);
+
+
+    // video initialization here
+	// event.target.playVideo();
+	checkVideo();
+	briefCheck('play');
+
+	if (player.getPlayerState()!=0){
+		resumeVideo();
+	}
+	$('.dq_pretest').hide();
+	$('.dq_posttest').hide();
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_input_3').hide();
 	$('.dq_help').show();
-
 	$("#player").show();
-	// setTimeout(checkVideo, 1000);
+}
+
+// Submit posttest results
+function submitPosttest() {
+	console.log("submit posttest");
+
+	var userResponse = {};
+    //Gathering the Data and removing undefined keys (buttons)
+    $.each($("#posttest-form")[0].elements, function(i, v){
+        var input = $(v);
+        userResponse[input.attr("name")] = input.val();
+        delete userResponse["undefined"];
+    });
+    console.log(userResponse);
+    Subgoal.opSubmitPosttest(userResponse);
+
+	checkVideo();
+	briefCheck('play');
+
+	$('.dq_pretest').hide();
+	$('.dq_posttest').hide();
+	$('.dq_input').hide();
+	$('.dq_input_2').hide();
+	$('.dq_input_3').hide();
+	$('.dq_help').show();
+	$("#player").show();
+
+	// TODO: video recommendation?
+    // some final thing to do
 }
 
 function noSubgoal() {
@@ -628,7 +758,12 @@ function noSubgoal() {
 
 	if (player.getPlayerState()!=0){
 		resumeVideo();
-	}	
+	} else {
+		// display posttest
+		if (Experiment.isStudy) {
+			askPosttest();
+		}
+	}
 
 	var vid = video.id;
 	Subgoal.opVidAction('no_subgoal', vid, 'none');
@@ -679,7 +814,7 @@ $("body").on('keypress', '.q_choice', function(e) {
 	if (e.which == 13) {
 		submitSubgoal();
 	}
-});	
+});
 
 $("body").on('click', '.submitButton', function(e) {
 	submitSubgoal();
@@ -689,7 +824,12 @@ $("body").on('click', '.ppButton', function(e) {
 	$('.q_input').val('');
 	if (player.getPlayerState()!=0){
 		resumeVideo();
-	}	
+	} else {
+		// display posttest
+		if (Experiment.isStudy) {
+			askPosttest();
+		}
+	}
 
 	var vid = video.id;
 	Subgoal.opVidAction('no_subgoal', vid, 'none');
@@ -705,6 +845,14 @@ $("body").on('click', '.ppButton', function(e) {
 $("body").on('click', '.cancelButton', function(e) {
 	console.log("CANCEL BUTTON");
 	noSubgoal();
+});
+
+$("body").on('click', '.submitPretestButton', function(e) {
+	submitPretest();
+});
+
+$("body").on('click', '.submitPosttestButton', function(e) {
+	submitPosttest();
 });
 
 // individual step clicked
@@ -763,4 +911,5 @@ $(document).ready(function() {
 	$('.dq_input_2').hide();
 	$('.dq_input_3').hide();
 	$('.dq_help').hide();
+	askPretest();
 });

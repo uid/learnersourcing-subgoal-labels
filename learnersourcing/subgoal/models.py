@@ -62,8 +62,8 @@ class Subgoal(models.Model):
 	learner = models.ForeignKey(Learner)
 	time = models.FloatField()
 	label = models.CharField(max_length=200)
-	# many-to-many relation. 
-	step = models.ManyToManyField(Step, null=True, blank=True)	
+	# many-to-many relation.
+	step = models.ManyToManyField(Step, null=True, blank=True)
 	# thumbnail_before
 	# thumbnail_after
 	added_at = models.DateTimeField(auto_now_add=True)
@@ -86,9 +86,9 @@ class Subgoal(models.Model):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 
 
-# keeping track of user actions
+# keep track of user actions
 class Action(models.Model):
-	session_id = models.CharField(max_length=200)	
+	session_id = models.CharField(max_length=200)
 	video = models.ForeignKey(Video)
 	learner = models.ForeignKey(Learner)
 	subgoal = models.ForeignKey(Subgoal, blank=True, null=True)
@@ -104,9 +104,9 @@ class Action(models.Model):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 
 
-# keeping track of user sessions and their experimental conditions
+# keep track of user sessions and their experimental conditions
 class ExpSession(models.Model):
-	session_id = models.CharField(max_length=200)	
+	session_id = models.CharField(max_length=200)
 	video = models.ForeignKey(Video)
 	learner = models.ForeignKey(Learner)
 	cond_interval = models.IntegerField(default=0)
@@ -115,20 +115,50 @@ class ExpSession(models.Model):
 	cond_admin = models.BooleanField(default=False)
 	added_at = models.DateTimeField(auto_now_add=True)
 
+	# is the pedagogical benefits study mode on?
+	cond_study = models.BooleanField(default=False)
+	# which experimental group is the participant in?
+	cond_group = models.IntegerField(default=0, null=True)
+	# experimental participant ID? Doesn't exist when cond_study == False
+	participant_id = models.CharField(max_length=16, null=True, blank=True)
+
 	def __unicode__(self):
 		return str(self.added_at) + \
 			" | video=" + self.video.slug + \
 			" | interval=" + str(self.cond_interval) + \
 			" | random=" + str(self.cond_random) + \
 			" | step=" + str(self.cond_step) + \
-			" | admin=" + str(self.cond_admin) 
+			" | admin=" + str(self.cond_admin) + \
+			" | study=" + str(self.cond_study) + \
+			" | group=" + str(self.cond_group) + \
+			" | participant_id=" + str(self.participant_id)
 	def toJSON(self):
 		return simplejson.dumps(self, default=dthandler, sort_keys=True)
 
 
-# keeping track of questions asked to the learner
+# keep track of user's pretest and posttest answers when ExpSession.cond_study == True
+class ExpResult(models.Model):
+	exp_session = models.ForeignKey(ExpSession)
+	# pre-test? post-test? any other?
+	test_type = models.CharField(max_length=16)
+	# result dump in JSON
+	result = models.CharField(max_length=1024)
+	added_at = models.DateTimeField(auto_now_add=True)
+
+	def __unicode__(self):
+		return str(self.added_at) + \
+			" | exp_session_id=" + str(self.exp_session_id) + \
+			" | group=" + str(self.exp_session.cond_group) + \
+			" | participant_id=" + str(self.exp_session.participant_id) + \
+			" | test_type=" + str(self.test_type) + \
+			" | result=" + str(self.result)
+	def toJSON(self):
+		return simplejson.dumps(self, default=dthandler, sort_keys=True)
+
+
+# keep track of questions asked to the learner
 class Question(models.Model):
-	session_id = models.CharField(max_length=200)	
+	session_id = models.CharField(max_length=200)
 	video = models.ForeignKey(Video)
 	learner = models.ForeignKey(Learner)
 	video_time = models.IntegerField(default=0)

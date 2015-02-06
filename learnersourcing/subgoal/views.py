@@ -2,7 +2,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
-from subgoal.models import Video, Step, Subgoal, Learner, Action, ExpSession, Question
+from subgoal.models import Video, Step, Subgoal, Learner, Action, ExpSession, ExpResult, Question
 from django.db import IntegrityError
 #from django.utils import simplejson
 import simplejson
@@ -13,7 +13,7 @@ from django.core.mail import send_mail
 
 
 # request.session.session_key is not available for first-time users.
-# manually creating one doesn't really work, so simply 
+# manually creating one doesn't really work, so simply
 def get_session_key(key):
 	return "" if key is None else key
 
@@ -29,7 +29,7 @@ def model_to_json(instances):
 def index(request):
 	videos = Video.objects.all()
 	return render(
-    	request, 
+    	request,
     	"subgoal/splash_page.html",
     	{
     		'videos': model_to_json(videos)
@@ -66,7 +66,7 @@ def play(request, video_id):
 
 	# if not request.session.exists(request.session.session_key):
 	# 	print "creating new session"
-    	# request.session.create() 
+    	# request.session.create()
 	# if not request.session.get('has_session'):
 	# 	print "no session"
 	# 	request.session['has_session'] = True
@@ -80,7 +80,10 @@ def play(request, video_id):
 	# else:
 	# 	session_key = request.session.session_key
 	print request.session.session_key
-	
+
+
+	# Set default experimental conditions
+	# These can be overwritten by URL parameters. Javascript handles the overwriting.
 	learner = get_object_or_404(Learner, pk=1)
 	cond_interval = 60
 	cond_random = False
@@ -89,6 +92,9 @@ def play(request, video_id):
 	# cond_step = False if randint(0,1) == 0 else True
 	cond_step = True
 	cond_admin = False
+	cond_study = False
+	cond_group = 0
+	participant_id = ""
 
 	exp_session = ExpSession(
 					session_id = get_session_key(request.session.session_key),
@@ -97,12 +103,15 @@ def play(request, video_id):
 					cond_interval = cond_interval,
 					cond_random = cond_random,
 					cond_step = cond_step,
-					cond_admin = cond_admin
+					cond_admin = cond_admin,
+					cond_study = cond_study,
+					cond_group = cond_group,
+					participant_id = participant_id
 				)
 	exp_session.save()
 	return render(
-		request, 
-		'subgoal/play.html', 
+		request,
+		'subgoal/play.html',
 		{
 			'video': model_to_json([video]),
 			'subgoals': model_to_json(subgoals),
@@ -117,7 +126,7 @@ def analytics(request):
 	actions = Action.objects.filter(added_at__gt=date_thresh)
 	exp = ExpSession.objects.all()
 
-	
+
 
 	num_agree = Action.objects.filter(action_type='agree', added_at__gt=date_thresh).count()
 	num_disagree = Action.objects.filter(action_type='no_agree', added_at__gt=date_thresh).count()
@@ -132,7 +141,7 @@ def analytics(request):
 	subs_per_video_dict = {}
 	users_per_video_dict = {}
 
-	
+
 
 	# for calculating activity over time... right now it looks like all of the times are the same?
 	for a in actions:
@@ -169,7 +178,7 @@ def analytics(request):
 					vid_questions.append(a.action_type)
 
 		video['question_stage'] = len(vid_questions)
-		
+
 		# print video
 
 		vid_subs = Subgoal.objects.filter(added_at__gt=date_thresh, video=v)
@@ -211,7 +220,7 @@ def analytics(request):
 
 	# print users_per_video_dict
 
-	return render(request, 'subgoal/analytics.html', 
+	return render(request, 'subgoal/analytics.html',
 		{
 			'content':videos_dict,
 			'subgoals':subgoals_dict,
@@ -223,13 +232,13 @@ def analytics(request):
 
 def help(request):
 	return render(
-		request, 
+		request,
 		'subgoal/help.html'
 	)
 
 def about(request):
 	return render(
-		request, 
+		request,
 		'subgoal/about.html'
 	)
 
@@ -239,8 +248,8 @@ def stage1(request, video_id):
 	# print unicode(len(steps)) + " steps: "
 	# print steps
 	return render(
-		request, 
-		'subgoal/stage1.html', 
+		request,
+		'subgoal/stage1.html',
 		{
 			'video': model_to_json([video]),
 			'steps': model_to_json(steps)
@@ -257,8 +266,8 @@ def stage2(request, video_id):
 	# print unicode(len(steps)) + " steps: "
 	# print steps
 	return render(
-		request, 
-		'subgoal/stage2.html', 
+		request,
+		'subgoal/stage2.html',
 		{
 			'video': model_to_json([video]),
 			'subgoals': model_to_json(subgoals),
@@ -276,8 +285,8 @@ def stage3(request, video_id):
 	# print unicode(len(steps)) + " steps: "
 	# print steps
 	return render(
-		request, 
-		'subgoal/stage3.html', 
+		request,
+		'subgoal/stage3.html',
 		{
 			'video': model_to_json([video]),
 			'subgoals': model_to_json(subgoals),
@@ -285,6 +294,52 @@ def stage3(request, video_id):
 		}
 	)
 
+
+
+# Ajax
+# recording pretest response
+def pretest_submit(request):
+	video_id = request.POST['video_id']
+	exp_session_id = request.POST['exp_session_id']
+	video = get_object_or_404(Video, pk=video_id)
+	exp_session = get_object_or_404(ExpSession, pk=exp_session_id)
+
+	if request.is_ajax():
+		exp_result = ExpResult(
+					exp_session = exp_session,
+					test_type = "pretest",
+					result = request.POST['user_response']
+				)
+		print exp_result
+		exp_result.save()
+		results = {'success': True}
+	else:
+		raise Http404
+	json = simplejson.dumps(results)
+	return HttpResponse(json, content_type='application/json')
+
+
+# Ajax
+# recording posttest response
+def posttest_submit(request):
+	video_id = request.POST['video_id']
+	exp_session_id = request.POST['exp_session_id']
+	video = get_object_or_404(Video, pk=video_id)
+	exp_session = get_object_or_404(ExpSession, pk=exp_session_id)
+
+	if request.is_ajax():
+		exp_result = ExpResult(
+					exp_session = exp_session,
+					test_type = "posttest",
+					result = request.POST['user_response']
+				)
+		print exp_result
+		exp_result.save()
+		results = {'success': True}
+	else:
+		raise Http404
+	json = simplejson.dumps(results)
+	return HttpResponse(json, content_type='application/json')
 
 
 # Ajax
@@ -321,8 +376,8 @@ def subgoal_create(request):
 	learner = get_object_or_404(Learner, pk=learner_id)
 	if request.is_ajax():
 		subgoal = Subgoal(
-					video=video, 
-					time=int(request.POST['time']), 
+					video=video,
+					time=int(request.POST['time']),
 					label=request.POST['label'],
 					learner=learner,
 					state="created",
@@ -385,9 +440,9 @@ def subgoal_update(request):
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
-		raise Http404	
+		raise Http404
 	json = simplejson.dumps(results)
-	return HttpResponse(json, content_type='application/json')	
+	return HttpResponse(json, content_type='application/json')
 
 
 # Ajax
@@ -411,9 +466,9 @@ def subgoal_move(request):
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
-		raise Http404	
+		raise Http404
 	json = simplejson.dumps(results)
-	return HttpResponse(json, content_type='application/json')		
+	return HttpResponse(json, content_type='application/json')
 
 
 # Ajax
@@ -437,18 +492,18 @@ def subgoal_delete(request):
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
-		raise Http404	
+		raise Http404
 	json = simplejson.dumps(results)
-	return HttpResponse(json, content_type='application/json')	
+	return HttpResponse(json, content_type='application/json')
 
 
 # Ajax
 def subgoal_vote(request):
 	video_id = request.POST['video_id']
-	
+
 	learner_id = request.POST['learner_id']
 	video = get_object_or_404(Video, pk=video_id)
-	
+
 	learner = get_object_or_404(Learner, pk=learner_id)
 	if request.is_ajax():
 		# print request.POST['votes']
@@ -458,7 +513,7 @@ def subgoal_vote(request):
 		# for (subgoal_id, vote_type) in enumerate(votes):
 		for subgoal_id in votes:
 			vote_type = votes[subgoal_id]
-			print subgoal_id, vote_type	
+			print subgoal_id, vote_type
 			subgoal = get_object_or_404(Subgoal, pk=subgoal_id)
 			new_vote_val = getattr(subgoal, vote_type) + 1
 			setattr(subgoal, vote_type, new_vote_val)
@@ -466,7 +521,7 @@ def subgoal_vote(request):
 			# subgoal.votes = subgoal.votes + 1
 			subgoal.state = "voted"
 			subgoal.save()
-			
+
 			action_type = "subgoal_" + vote_type
 			#action = Action(video=video, learner=learner, subgoal=subgoal, action_type="subgoal_vote", stage=request.POST['stage'])
 			action = Action(video=video, learner=learner, subgoal=subgoal, action_type=action_type, stage=request.POST['stage'])
@@ -477,10 +532,11 @@ def subgoal_vote(request):
 			action.save()
 			results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
-		raise Http404	
+		raise Http404
 	json = simplejson.dumps(results)
 	return HttpResponse(json, content_type='application/json')
 
+# Ajax
 def subgoal_undelete(request):
 	video_id = request.POST['video_id']
 	subgoal_id = request.POST['subgoal_id']
@@ -501,10 +557,11 @@ def subgoal_undelete(request):
 		action.save()
 		results = {'success': True, 'subgoal_id': subgoal.id}
 	else:
-		raise Http404	
+		raise Http404
 	json = simplejson.dumps(results)
-	return HttpResponse(json, content_type='application/json')	
+	return HttpResponse(json, content_type='application/json')
 
+# Ajax
 def site_action(request):
 	print 'in site action'
 	action_type = request.POST['action']
@@ -524,18 +581,19 @@ def site_action(request):
 		action.save()
 		results = {'success': True, 'action': action_type}
 	else:
-		raise Http404	
+		raise Http404
 	json = simplejson.dumps(results)
 	print results
 	return HttpResponse(json, content_type='application/json')
 
+# Ajax
 def vid_action(request):
 	print 'in vid action'
 	action_type = request.POST['action']
 	learner_id = request.POST['learner_id']
 	learner = get_object_or_404(Learner, pk=learner_id)
 	video = get_object_or_404(Video, pk=request.POST['video_id'])
-	
+
 	#TODO: DUMMY VIDEO
 	learner = get_object_or_404(Learner, pk=1)
 	subgoal = get_object_or_404(Subgoal, pk=1)
@@ -549,7 +607,7 @@ def vid_action(request):
 		action.save()
 		results = {'success': True, 'action': action_type}
 	else:
-		raise Http404	
+		raise Http404
 	json = simplejson.dumps(results)
 	print results
 	return HttpResponse(json, content_type='application/json')
@@ -568,7 +626,7 @@ def subgoal_instr(request):
 		results = {'success':True, 'watched':watched}
 	except (NameError, AttributeError):
 		pass
-	
+
 	json = simplejson.dumps(results)
 	return HttpResponse(json, content_type='application/json')
 
@@ -588,7 +646,7 @@ def subgoal_instr_click(request):
 	except (NameError, AttributeError):
 		pass
 	action.save()
-	
+
 	results = {'success': True}
 	json = simplejson.dumps(results)
 	return HttpResponse(json, content_type='application/json')
@@ -623,7 +681,7 @@ def subgoal_brief_check(request):
 		results['success'] = True
 	except (NameError, AttributeError):
 		pass
-	
+
 	json = simplejson.dumps(results)
 	return HttpResponse(json, content_type='application/json')
 
@@ -638,7 +696,7 @@ def subgoal_brief_click(request):
 	subgoal = get_object_or_404(Subgoal, pk=1)
 	action_type = 'brief_clicked'
 	stage = 1
-	
+
 	#action for clicking the briefing
 	action = Action(video=video, learner=learner, subgoal=subgoal, action_type=action_type, stage=stage)
 	try:
@@ -654,7 +712,7 @@ def subgoal_brief_click(request):
 	except (NameError, AttributeError):
 		pass
 	action_agree.save()
-	
+
 	results = {'success': True}
 	json = simplejson.dumps(results)
 	return HttpResponse(json, content_type='application/json')
@@ -675,6 +733,31 @@ def video_router(request, video_id):
 	if len(subgoals) < 10:
 		return stage1(request, video_id)
 
+# Ajax
+def exp_session_update(request):
+	# update the experiment session information.
 
+	exp_session_id = request.POST['exp_session_id']
+	exp_session = get_object_or_404(ExpSession, pk=exp_session_id)
+	if request.is_ajax():
+		# the following three cannot be updated once a session is created.
+		#session_id = get_session_key(request.session.session_key),
+		#video = video,
+		#learner = learner,
+		exp_session.cond_interval = request.POST['cond_interval']
+		exp_session.cond_random = True if request.POST['cond_random'] == "true" else False
+		exp_session.cond_step = True if request.POST['cond_step'] == "true" else False
+		exp_session.cond_admin = True if request.POST['cond_admin'] == "true" else False
+		exp_session.cond_study = True if request.POST['cond_study'] == "true" else False
+		exp_session.cond_group = request.POST['cond_group']
+		exp_session.participant_id = request.POST['participant_id']
+		exp_session.save()
+		# print exp_session
+		results = {'success': True, 'exp_session_id': exp_session.id}
+	else:
+		raise Http404
+	json = simplejson.dumps(results)
+	print results
+	return HttpResponse(json, content_type='application/json')
 
 

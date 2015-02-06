@@ -10,16 +10,17 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     # url(r'^learnersourcing/', include('learnersourcing.foo.urls')),
 
-	url(r'^play/(?P<video_id>\d+)/$', views.play, name='play'), 
+	url(r'^play/(?P<video_id>\d+)/$', views.play, name='play'),
 	url(r'^analytics/$', views.analytics, name='analytics'),
-	url(r'^help/$', views.help, name='help'), 
-	url(r'^about/$', views.about, name='about'),    
+	url(r'^help/$', views.help, name='help'),
+	url(r'^about/$', views.about, name='about'),
 
 	url(r'^stage1/(?P<video_id>\d+)/$', views.stage1, name='stage1'),
 	url(r'^stage2/(?P<video_id>\d+)/$', views.stage2, name='stage2'),
 	url(r'^stage3/(?P<video_id>\d+)/$', views.stage3, name='stage3'),
 	url(r'^router/(?P<video_id>\d+)/$', views.video_router, name='video_router'),
 
+    # Ajax calls
 	url(r'^subgoal/create/$', views.subgoal_create, name='subgoal_create'),
 	url(r'^subgoal/update/$', views.subgoal_update, name='subgoal_update'),
 	url(r'^subgoal/move/$', views.subgoal_move, name='subgoal_move'),
@@ -32,7 +33,10 @@ urlpatterns = patterns('',
 	url(r'^subgoal/instr_click/$', views.subgoal_instr_click, name='subgoal_instr_click'),
 	url(r'^subgoal/brief_check/$', views.subgoal_brief_check, name='subgoal_brief_check'),
 	url(r'^subgoal/brief_click/$', views.subgoal_brief_click, name='subgoal_brief_click'),
-	
+
+    url(r'^exp_session/update/$', views.exp_session_update, name='exp_session_update'),
+    url(r'^pretest/submit/$', views.pretest_submit, name='pretest_submit'),
+    url(r'^posttest/submit/$', views.posttest_submit, name='posttest_submit'),
 
 	url(r'^subgoal/record_question/$', views.record_question, name='record_question'),
 

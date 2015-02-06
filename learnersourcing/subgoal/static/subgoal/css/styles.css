@@ -150,12 +150,12 @@ button {
   /*padding-left: 0px;*/
 }
 
-.submitButton {
+.submitButton, .submitPretestButton, .submitPosttestButton {
   /*float: none;*/
   margin-right: 0px;
 }
 
-.dq_input, .dq_input_2, .dq_input_3 {
+.dq_input, .dq_input_2, .dq_input_3, .dq_pretest, .dq_posttest {
 	display: none;
 }
 
@@ -435,12 +435,16 @@ img.video_thumb {
 	color: #56c2ce;
 }
 
-.mult_choice_options {
+.test-question {
+	margin: 20px 0;
+}
+
+.mult_choice_options, .mult_choice_options_pretest, .mult_choice_options_posttest {
 	margin:15px;
 	margin-top: 25px;
 }
 
-.mult_choice_options label:hover {
+.mult_choice_options label:hover, .mult_choice_options_pretest label:hover, .mult_choice_options_posttest label:hover {
 	cursor: pointer;
 }
 

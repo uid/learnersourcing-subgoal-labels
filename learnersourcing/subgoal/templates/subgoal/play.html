@@ -126,6 +126,72 @@
 								<!-- Feel free to edit or move around the labels if they don't look right. -->
 							</div>
 						</div>
+						<div class="dq_pretest">
+							<h3>
+								Please answer the following questions to the best of your knowledge before watching the video.
+							</h3>
+							<form id="pretest-form" enctype="application/json">
+								<div class="test-content">
+									<div class="test-question">
+										<strong>1. Calculate the standard deviation (SD) of the following set of marks on a statistics test: 30, 60, 50, 40, 70</strong>
+										<div class="mult_choice_options_pretest">
+											<label><input type='radio' name='pretest_1' class='q_choice' value='A'>10</input></label><br>
+											<label><input type='radio' name='pretest_1' class='q_choice' value='B'>10√2</input></label><br>
+											<label><input type='radio' name='pretest_1' class='q_choice' value='C'>20</input></label><br>
+											<label><input type='radio' name='pretest_1' class='q_choice' value='D'>20√2</input></label><br>
+											<!-- I have a better answer: <input type='text' class='q_input' id='new_answer_s3'></input></label><br> -->
+										</div>
+									</div>
+
+									<div class="test-question">
+										<strong>2. Sony is testing a new laser to measure distances between driving cars. Sony tested the same distance four times and got the data points 3, 5, 6 und 10 feet (with one laser). What is the SD?</strong>
+										<span><input type="text" class="q_input" name="pretest_2" tabindex=1></span>
+									</div>
+
+									<div class="test-question">
+										<strong>3. The lasers’ measure does not have to be accurate. In fact, they are willing to accept mistakes of 1 foot or less. If mistakes of 1 foot or less are okay, what is the updated SD of the laser?</strong>
+										<span><input type="text" class="q_input" name="pretest_3" tabindex=1></span>
+									</div>
+
+								</div>
+
+								<button type="button" class="submitPretestButton" tabindex=2>Submit</button><span>
+								<!-- <button type="button" class="cancelPretestButton" tabindex=3>Cancel</button></span> -->
+							</form>
+						</div>
+						<div class="dq_posttest">
+							<h3>
+								Please answer the following questions to the best of your knowledge.
+							</h3>
+							<form id="posttest-form" enctype="application/json">
+								<div class="test-content">
+									<div class="test-question">
+										<strong>1. Calculate the standard deviation (SD) of the following set of marks on a statistics test: 30, 60, 50, 40, 70</strong>
+										<div class="mult_choice_options_posttest">
+											<label><input type='radio' name='posttest_1' class='q_choice' value='A'>10</input></label><br>
+											<label><input type='radio' name='posttest_1' class='q_choice' value='B'>10√2</input></label><br>
+											<label><input type='radio' name='posttest_1' class='q_choice' value='C'>20</input></label><br>
+											<label><input type='radio' name='posttest_1' class='q_choice' value='D'>20√2</input></label><br>
+											<!-- I have a better answer: <input type='text' class='q_input' id='new_answer_s3'></input></label><br> -->
+										</div>
+									</div>
+
+									<div class="test-question">
+										<strong>2. Sony is testing a new laser to measure distances between driving cars. Sony tested the same distance four times and got the data points 3, 5, 6 und 10 feet (with one laser). What is the SD?</strong>
+										<span><input type="text" class="q_input" name="posttest_2" tabindex=1></span>
+									</div>
+
+									<div class="test-question">
+										<strong>3. The lasers’ measure does not have to be accurate. In fact, they are willing to accept mistakes of 1 foot or less. If mistakes of 1 foot or less are okay, what is the updated SD of the laser?</strong>
+										<span><input type="text" class="q_input" name="posttest_3" tabindex=1></span>
+									</div>
+
+								</div>
+
+								<button type="button" class="submitPosttestButton" tabindex=2>Submit</button><span>
+								<!-- <button type="button" class="cancelPosttestButton" tabindex=3>Cancel</button></span> -->
+							</form>
+						</div>
 						<div class="dq_instr">
 							<div class="dq_help_text">
 								Periodically throughout this video, you'll be asked to summarize what you just watched.
@@ -219,7 +285,16 @@
 	<script src="{% static 'subgoal/js/instructions.js' %}"></script>
 	<script src="{% static 'subgoal/js/briefing.js' %}"></script>
 	<script src="{% static 'subgoal/js/double_prompt.js' %}"></script>
-
+	<script>
+	    (function(f,b){
+	        var c;
+	        f.hj=f.hj||function(){(f.hj.q=f.hj.q||[]).push(arguments)};
+	        f._hjSettings={hjid:12988, hjsv:3};
+	        c=b.createElement("script");c.async=1;
+	        c.src="//static.hotjar.com/c/hotjar-12988.js?sv=3";
+	        b.getElementsByTagName("head")[0].appendChild(c);
+	    })(window,document);
+	</script>
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -228,7 +303,6 @@
 
 	  ga('create', 'UA-50588756-1', 'mit.edu');
 	  ga('send', 'pageview');
-
 	</script>
 	<script>(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];

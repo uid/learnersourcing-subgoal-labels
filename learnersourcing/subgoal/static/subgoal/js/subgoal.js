@@ -5,20 +5,20 @@ var Subgoal = function() {
 
 
 	function getNewSubgoalHTML(label){
-		return $("<li class='movable subgoal'>" + 
-			"<span class='sub'>" + escapeHTML(label) + "</span>" + 
-			"<button type='button' class='delButton permButton'>Delete</button>" + 
+		return $("<li class='movable subgoal'>" +
+			"<span class='sub'>" + escapeHTML(label) + "</span>" +
+			"<button type='button' class='delButton permButton'>Delete</button>" +
 			"<button type='button' class='undelButton permButton'>Undelete</button>" +
-			"<button type='button' class='editButton permButton'>Edit</button>" + 
+			"<button type='button' class='editButton permButton'>Edit</button>" +
 			"<button type='button' class='saveButton permButton'>Save</button></li>");
 	}
 
 	function getSubgoalHTML(id, label){
-		return $li = $("<li class='movable subgoal' data-subgoal-id='" + id + "'>" + 
-			"<span class='sub'>" + escapeHTML(label) + "</span>" + 
-			"<button type='button' class='delButton permButton'>Delete</button>" + 
+		return $li = $("<li class='movable subgoal' data-subgoal-id='" + id + "'>" +
+			"<span class='sub'>" + escapeHTML(label) + "</span>" +
+			"<button type='button' class='delButton permButton'>Delete</button>" +
 			"<button type='button' class='undelButton permButton'>Undelete</button>" +
-			"<button type='button' class='editButton permButton'>Edit</button>" + 
+			"<button type='button' class='editButton permButton'>Edit</button>" +
 			"<button type='button' class='saveButton permButton'>Save</button></li>");
 	}
 
@@ -28,7 +28,7 @@ var Subgoal = function() {
 		var data = {
 			csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 			stage: stage,
-			video_id: video["id"], 
+			video_id: video["id"],
 			time: t,
 			label: label,
 			// hard-coded for now since there's no login
@@ -49,13 +49,13 @@ var Subgoal = function() {
 			if (typeof new_subgoal !== "undefined" && "id" in new_subgoal && "time" in new_subgoal && "label" in new_subgoal){
 				// console.log(new_subgoal);
 				Subgoal.data.push(new_subgoal);
-				Subgoal.data.sort(function(a, b) {return a["time"] - b["time"]});							
+				Subgoal.data.sort(function(a, b) {return a["time"] - b["time"]});
 			}
 			// TODO: do something for failure
 		}).fail(function(){
 			console.log("/subgoal/create/ failure");
 		}).always(function(){
-		});		
+		});
 	}
 
 	function opUpdate(subgoal_id, text){
@@ -65,8 +65,8 @@ var Subgoal = function() {
 			data: {
 				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 				stage: stage,
-				video_id: video["id"], 
-				subgoal_id: subgoal_id, 
+				video_id: video["id"],
+				subgoal_id: subgoal_id,
 				label: text,
 				// TODO: add the current user's info
 				learner_id: 1
@@ -81,7 +81,7 @@ var Subgoal = function() {
 		}).fail(function(){
 			console.log("/subgoal/update/ failure");
 		}).always(function(){
-		});	
+		});
 	}
 
 	function opDelete(subgoal_id){
@@ -91,8 +91,8 @@ var Subgoal = function() {
 			data: {
 				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 				stage: stage,
-				video_id: video["id"], 
-				subgoal_id: subgoal_id, 
+				video_id: video["id"],
+				subgoal_id: subgoal_id,
 				// TODO: add the current user's info
 				learner_id: 1
 			},
@@ -107,7 +107,7 @@ var Subgoal = function() {
 		}).fail(function(){
 			console.log("/subgoal/delete/ failure");
 		}).always(function(){
-		});	
+		});
 
 	}
 
@@ -118,8 +118,8 @@ var Subgoal = function() {
 			data: {
 				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 				stage: stage,
-				video_id: video["id"], 
-				subgoal_id: subgoal_id, 
+				video_id: video["id"],
+				subgoal_id: subgoal_id,
 				// TODO: add the current user's info
 				learner_id: 1
 			},
@@ -134,7 +134,7 @@ var Subgoal = function() {
 		}).fail(function(){
 			console.log("/subgoal/undelete/ failure");
 		}).always(function(){
-		});	
+		});
 
 	}
 
@@ -145,8 +145,8 @@ var Subgoal = function() {
 			data: {
 				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 				stage: stage,
-				video_id: video["id"], 
-				subgoal_id: subgoal_id, 
+				video_id: video["id"],
+				subgoal_id: subgoal_id,
 				time: t,
 				// TODO: add the current user's info
 				learner_id: 1
@@ -155,14 +155,14 @@ var Subgoal = function() {
 			console.log("/subgoal/move/ success:", data["success"]);
 			var subgoal = Subgoal.getSubgoalByID(subgoal_id);
 			if (typeof subgoal !== "undefined"){
-				subgoal["time"] = t;			
-				Subgoal.data.sort(function(a, b) {return a["time"] - b["time"]});			
+				subgoal["time"] = t;
+				Subgoal.data.sort(function(a, b) {return a["time"] - b["time"]});
 			}
 			// TODO: do something for failure
 		}).fail(function(){
 			console.log("/subgoal/move/ failure");
 		}).always(function(){
-		});		
+		});
 	}
 
 	function opVote(votes){
@@ -173,7 +173,7 @@ var Subgoal = function() {
 			data: {
 				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 				stage: stage,
-				video_id: video["id"], 
+				video_id: video["id"],
 				votes: JSON.stringify(votes),
 				// answer: $('input[name=step1]:radio:checked').val(),
 				learner_id: 1
@@ -193,8 +193,46 @@ var Subgoal = function() {
 		}).fail(function(){
 			console.log("/subgoal/vote/ failure");
 		}).always(function(){
-		});		
+		});
 
+	}
+
+	function opSubmitPretest(userResponse){
+		// backend update
+		$.ajax({
+			type: "POST",
+			url: "/pretest/submit/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				video_id: video["id"],
+				user_response: JSON.stringify(userResponse),
+				exp_session_id: Experiment.id
+			},
+		}).done(function(data){
+			console.log("/pretest/submit/ success:", data["success"]);
+		}).fail(function(){
+			console.log("/pretest/submit/ failure");
+		}).always(function(){
+		});
+	}
+
+	function opSubmitPosttest(userResponse){
+		// backend update
+		$.ajax({
+			type: "POST",
+			url: "/posttest/submit/",
+			data: {
+				csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+				video_id: video["id"],
+				user_response: JSON.stringify(userResponse),
+				exp_session_id: Experiment.id
+			},
+		}).done(function(data){
+			console.log("/posttest/submit/ success:", data["success"]);
+		}).fail(function(){
+			console.log("/posttest/submit/ failure");
+		}).always(function(){
+		});
 	}
 
 	function opSiteAction(site_action, url) {
@@ -216,7 +254,7 @@ var Subgoal = function() {
 		}).fail(function(){
 			console.log("/subgoal/action/ failure");
 		}).always(function(){
-		});	
+		});
 	}
 
 	function opVidAction(action_type, vid, url) {
@@ -239,7 +277,7 @@ var Subgoal = function() {
 		}).fail(function(){
 			console.log("/subgoal/vidaction/ failure");
 		}).always(function(){
-		});	
+		});
 	}
 
 	/* newer versions of group_subgoals and add_subgoals that do not rely on formatted_subgoals */
@@ -283,9 +321,9 @@ var Subgoal = function() {
 			// $li.attr("data-subgoal-id", data[sub]["id"]);
 
 			var $li = Subgoal.getSubgoalHTML(Subgoal.data[i]["id"], Subgoal.data[i]["label"]);
-			// var new_subgoal = "<li class='movable subgoal' data-subgoal-id='" + Subgoal.data[i]["id"] + "'>" + 
+			// var new_subgoal = "<li class='movable subgoal' data-subgoal-id='" + Subgoal.data[i]["id"] + "'>" +
 			// 	// "<span class='sub sub" + (parseInt(i)+1) + "'>" +
-			// 	"<span class='sub'>" + Subgoal.data[i]["label"] + "</span>" + 
+			// 	"<span class='sub'>" + Subgoal.data[i]["label"] + "</span>" +
 			// 	"<button type='button' class='delButton permButton'>Delete</button>" +
 			// 	"<button type='button' class='editButton permButton'>Edit</button>" +
 			// 	"<button type='button' class='saveButton permButton'>Save</button>" +
@@ -311,7 +349,7 @@ var Subgoal = function() {
 			if (floor <= Subgoal.data[i]["time"] && Subgoal.data[i]["time"] < t){
 				group.push(Subgoal.data[i]);
 			}
-		}	
+		}
 		return group;
 	}
 
@@ -356,6 +394,8 @@ var Subgoal = function() {
 		opVote: opVote,
 		opSiteAction: opSiteAction,
 		opVidAction: opVidAction,
+		opSubmitPretest: opSubmitPretest,
+		opSubmitPosttest: opSubmitPosttest,
 		group: group,
 		displayAll: displayAll,
 		getCurrentGroup: getCurrentGroup,
