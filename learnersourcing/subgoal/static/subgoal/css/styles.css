@@ -103,6 +103,11 @@ h2 {
 	font-family: 'Ubuntu';
 }
 
+.wiki_footer {
+	font-size: 14px;
+	color: #666;
+}
+
 #sortable {
 	list-style-type: none;
 	margin: 0;
@@ -1333,11 +1338,6 @@ img.splash_image {
 
 .wiki_head {
 	display:none;
-}
-
-.wiki_footer {
-	font-size: 14px;
-	color: #666;
 }
 
 #sortable {
