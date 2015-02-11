@@ -420,6 +420,12 @@ function displayPosttest() {
 
 // Add the subgoal to the proper location in the Wiki view
 function placeSubtitle(subtitle, time) {
+	// special case: when there's no steps displayed.
+	if (Object.keys(step_times).length == 1) {
+		$('#sortable').append($(subtitle));
+		return;
+	}
+	// normal case: when there's steps displayed.
 	for (var i = 0; i < Object.keys(step_times).length; i++) {
 		if (i == Object.keys(step_times).length - 1){
 			if (time >= step_times[Object.keys(step_times)[i]])
@@ -459,8 +465,8 @@ function submitStage1Subgoal(){
 		// 	"<button type='button' class='delButton permButton'>Delete</button>" +
 		// 	"<button type='button' class='editButton permButton'>Edit</button>" +
 		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
-		$li.fadeIn(1000)
-		placeSubtitle($li, time)
+		$li.fadeIn(1000);
+		placeSubtitle($li, time);
 		$('.q_input').val('');
 
 		Subgoal.opCreate($li, time, inp_text);
