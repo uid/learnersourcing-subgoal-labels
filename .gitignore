@@ -1,3 +1,9 @@
+
+.DS_Store
+
+# Local settings with confidential information
+settings_local.py
+
 learnersourcing.sublime-project
 learnersourcing.sublime-workspace
 
