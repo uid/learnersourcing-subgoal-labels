@@ -206,8 +206,8 @@ def analytics(request):
 					if len(ExpSession.objects.filter(video=v).filter(session_id=sesh)) > 0:
 						stage_step = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_step
 						stage_ask = ExpSession.objects.filter(video=v).filter(session_id=sesh)[0].cond_random
-						subgoals_dict[s.id] = [str(stage_step), str(stage_ask)]
-		videos_dict[v.id] = video
+						subgoals_dict[str(s.id)] = [str(stage_step), str(stage_ask)]
+		videos_dict[str(v.id)] = video
 
 		vid_exp = ExpSession.objects.filter(video=v, added_at__gt=date_thresh)
 
