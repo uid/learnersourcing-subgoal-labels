@@ -12,7 +12,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
+''' sqlite3 setting
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -24,6 +24,7 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default.
     }
 }
+'''
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -170,3 +171,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from settings_local import *
+except ImportError:
+    pass
