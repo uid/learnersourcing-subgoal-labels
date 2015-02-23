@@ -29,8 +29,8 @@ $(function() {
 		// 	data: {
 		// 		csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 		// 		stage: stage,
-		// 		video_id: video["id"],
-		// 		subgoal_id: $(this).parent().attr("data-subgoal-id"),
+		// 		video_id: video["id"], 
+		// 		subgoal_id: $(this).parent().attr("data-subgoal-id"), 
 		// 		// TODO: add the current user's info
 		// 		learner_id: 1
 		// 	},
@@ -40,7 +40,7 @@ $(function() {
 		// }).fail(function(){
 		// 	console.log("/subgoal/delete/ failure");
 		// }).always(function(){
-		// });
+		// });	
 
 		// frontend update
 		$($(this).siblings()[0]).addClass('strikeout');
@@ -94,8 +94,8 @@ $(function() {
 		// 	data: {
 		// 		csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 		// 		stage: stage,
-		// 		video_id: video["id"],
-		// 		subgoal_id: $(this).parent().attr("data-subgoal-id"),
+		// 		video_id: video["id"], 
+		// 		subgoal_id: $(this).parent().attr("data-subgoal-id"), 
 		// 		label: text,
 		// 		// TODO: add the current user's info
 		// 		learner_id: 1
@@ -106,9 +106,9 @@ $(function() {
 		// }).fail(function(){
 		// 	console.log("/subgoal/update/ failure");
 		// }).always(function(){
-		// });
+		// });	
 
-		// frontend update
+		// frontend update		
 		var uneditable = $("<span class='sub'></span>")
 		uneditable.text(text)
 		$($(this).siblings()[0]).replaceWith(uneditable);
@@ -124,9 +124,9 @@ $(function() {
 		e.preventDefault();
 		var label = "New label";
 		var $li = Subgoal.getNewSubgoalHTML(label);
-		// var $li = $("<li class='movable subgoal'><span class='sub'>" + label + "</span>" +
-		// 	"<button type='button' class='delButton permButton'>Delete</button>" +
-		// 	"<button type='button' class='editButton permButton'>Edit</button>" +
+		// var $li = $("<li class='movable subgoal'><span class='sub'>" + label + "</span>" + 
+		// 	"<button type='button' class='delButton permButton'>Delete</button>" + 
+		// 	"<button type='button' class='editButton permButton'>Edit</button>" + 
 		// 	"<button type='button' class='saveButton permButton'>Save</button></li>");
 		$("#sortable").prepend($li);
 		enableEvents();
@@ -139,7 +139,7 @@ $(function() {
 		// 	data: {
 		// 		csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 		// 		stage: stage,
-		// 		video_id: video["id"],
+		// 		video_id: video["id"], 
 		// 		time: 0,
 		// 		label: "New label",
 		// 		// hard-coded for now since there's no login
@@ -153,8 +153,8 @@ $(function() {
 		// }).fail(function(){
 		// 	console.log("/subgoal/create/ failure");
 		// }).always(function(){
-		// });
-	});
+		// });			
+	});	
 
 });
 
@@ -174,8 +174,8 @@ $(function() {
 		// 	data: {
 		// 		csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
 		// 		stage: stage,
-		// 		video_id: video["id"],
-		// 		subgoal_id: ui.item.attr("data-subgoal-id"),
+		// 		video_id: video["id"], 
+		// 		subgoal_id: ui.item.attr("data-subgoal-id"), 
 		// 		time: time,
 		// 		// TODO: add the current user's info
 		// 		learner_id: 1
@@ -186,7 +186,7 @@ $(function() {
 		// }).fail(function(){
 		// 	console.log("/subgoal/move/ failure");
 		// }).always(function(){
-		// });
+		// });			
 	});
 
 	$("body").on('click', '.q_choice', function(e) {
@@ -200,14 +200,14 @@ $(function() {
 	});
 
 	$("body").on('click', '.q_input', function(e) {
-		// console.log("INPUT CLICKED")
+		console.log("INPUT CLICKED")
 		$(".q_new").prop('checked', 'true')
 		$(".submitbutton").removeAttr('disabled')
 		$(".submitbutton").removeClass('disabledButton');
 	});
 
 	$("body").on('click', '.q_input_2', function(e) {
-		// console.log("INPUT CLICKED")
+		console.log("INPUT CLICKED")
 		$(".q_new_2").prop('checked', 'true')
 		$(".submitbutton").removeAttr('disabled')
 		$(".submitbutton").removeClass('disabledButton');

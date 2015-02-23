@@ -95,6 +95,7 @@ function checkVideo() {
 		if (Experiment.isQuestionRandom){
 			if (Experiment.coinFlip()){
 				console.log(t, "coin true, question asked");
+				player.pauseVideo();
 				askQuestion(t);
 				isAsked = true;
 			} else {
@@ -104,6 +105,7 @@ function checkVideo() {
 			}
 		} else {
 			console.log(t, "no coin, question asked");
+			player.pauseVideo();
 			askQuestion(t);
 			isAsked = true;
 		}
@@ -117,6 +119,7 @@ function checkVideo() {
 		console.log(t, "video ended");
 		// temp_time = t;
 		routeStage(t);
+		player.pauseVideo();
 
 		// ask the question only when it has been some time after the last asking
 		if (t - Experiment.getLastRecordingTime() > Experiment.questionInterval / 2){
@@ -135,9 +138,7 @@ function checkVideo() {
 		time_to_stop = t + Experiment.questionInterval - (t % Experiment.questionInterval);
 	}
 	// keep looping
-	if (!Experiment.isStudy || !PrePostTest.reachedPosttest) {
-		setTimeout(checkVideo, 1000);
-	}
+	setTimeout(checkVideo, 1000);
 }
 
 
@@ -177,14 +178,17 @@ function verticalTimeline(t) {
 function routeStage(t) {
 	Experiment.questionStage = 1;
 	var subgoalGroup = Subgoal.getCurrentGroup(t);
-	// console.log(subgoalGroup);
+	console.log(subgoalGroup)
 
 	//routes it to stage 2 or 3 (enough subgoals generated)
 	if (subgoalGroup.length >= 3) {
 		var sorted_group = subgoalGroup.sort(compare_votes_s3);
+
 		var diff_threshold = 3;
 		var upvote_threshold = 5;
+
 		var vote_diff = sorted_group[0].upvotes_s2-sorted_group[1].upvotes_s2
+
 
 		// var vote_val;
 		// if (sorted_group[0].upvotes_s2 == 0) {
@@ -328,11 +332,7 @@ function displayStage3Question(t){
 
 // Create the question
 function askQuestion(t) {
-	if (Experiment.group == 1)
-		return;
-	console.log("Question at: " + t);
-
-	player.pauseVideo();
+	console.log("current time ask: "+t)
 	$("#player").hide();
 	if (Experiment.questionStage == 1){
 		displayStage1Question(t);
@@ -360,6 +360,7 @@ function askQuestion(t) {
 
 
 function askPretest() {
+	console.log("displaying pretest");
 	if (!Experiment.isStudy)
 		return;
 	$(".wiki_wrap").hide();
@@ -367,12 +368,8 @@ function askPretest() {
 	displayPretest();
 	$('.dq_pretest').show();
 
-	if (!PrePostTest.reachedPretest) {
-		console.log("displaying pretest");
-		var vid = video.id;
-		Subgoal.opVidAction("pretest", vid, 'none');
-		PrePostTest.reachedPretest = true;
-	}
+	var vid = video.id;
+	Subgoal.opVidAction("pretest", vid, 'none');
 
 	// $(".submitPretestButton").attr('disabled','disabled');
 	// $(".submitPretestButton").addClass('disabledButton');
@@ -381,6 +378,7 @@ function askPretest() {
 }
 
 function askPosttest() {
+	console.log("displaying posttest");
 	if (!Experiment.isStudy)
 		return;
 	// TODO: hide outline?
@@ -389,12 +387,8 @@ function askPosttest() {
 	displayPosttest();
 	$('.dq_posttest').show();
 
-	if (!PrePostTest.reachedPosttest) {
-		console.log("displaying posttest");
-		var vid = video.id;
-		Subgoal.opVidAction("posttest", vid, 'none');
-		PrePostTest.reachedPosttest = true;
-	}
+	var vid = video.id;
+	Subgoal.opVidAction("posttest", vid, 'none');
 
 	// $(".submitPosttestButton").attr('disabled','disabled');
 	// $(".submitPosttestButton").addClass('disabledButton');
@@ -753,21 +747,16 @@ function submitPosttest() {
     console.log(userResponse);
     Subgoal.opSubmitPosttest(userResponse);
 
-	// checkVideo();
-	// briefCheck('play');
+	checkVideo();
+	briefCheck('play');
 
 	$('.dq_pretest').hide();
 	$('.dq_posttest').hide();
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_input_3').hide();
-
-	if (Experiment.isStudy) {
-		$(".dq_posttest_after").show();
-	} else {
-		$('.dq_help').show();
-		$("#player").show();
-	}
+	$('.dq_help').show();
+	$("#player").show();
 
 	// TODO: video recommendation?
     // some final thing to do
@@ -817,21 +806,21 @@ function compare_dates_s3(a,b) {
 }
 
 $("body").on('keypress', '.q_input', function(e) {
-	// console.log("enter pressed")
+	console.log("enter pressed")
 	if (e.which == 13) {
 		submitSubgoal();
 	}
 });
 
 $("body").on('keypress', '#new_answer', function(e) {
-	// console.log("enter pressed");
+	console.log("enter pressed");
 	if (e.which==13) {
 		submitSubgoal();
 	}
 });
 
 $("body").on('keypress', '#new_answer_s3', function(e) {
-	// console.log("enter pressed");
+	console.log("enter pressed");
 	if (e.which==13) {
 		submitSubgoal();
 	}
@@ -871,7 +860,7 @@ $("body").on('click', '.ppButton', function(e) {
 });
 
 $("body").on('click', '.cancelButton', function(e) {
-	// console.log("CANCEL BUTTON");
+	console.log("CANCEL BUTTON");
 	noSubgoal();
 });
 
@@ -931,7 +920,7 @@ $("body").on('click', 'span.sub', function(e) {
 		player.seekTo(subgoal["time"] - 1);
 	}
 
-	// console.log("subgoal clicked");
+	console.log("subgoal clicked");
 });
 
 $(document).ready(function() {

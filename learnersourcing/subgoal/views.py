@@ -109,6 +109,7 @@ def play(request, video_id):
 					participant_id = participant_id
 				)
 	exp_session.save()
+
 	return render(
 		request,
 		'subgoal/play.html',

@@ -161,7 +161,7 @@ button {
   margin-right: 0px;
 }
 
-.dq_input, .dq_input_2, .dq_input_3, .dq_pretest, .dq_posttest {
+.dq_input, .dq_input_2, .dq_input_3, .dq_pretest, .dq_posttest, .dq_posttest_after {
 	display: none;
 }
 
@@ -1078,10 +1078,10 @@ a:hover {
 #instr_bar_bottom {
 	text-align: center;
 	font-family: 'Ubuntu';
-	font-size: 30pt;
-	padding: 40px;
-	padding-top: 50px;
-	padding-bottom: 50px;
+	font-size: 24px;
+	padding: 30px;
+	/*padding-top: 50px;*/
+	/*padding-bottom: 50px;*/
 	/*background-color: #646B73;*/
 	background-image: url('../img/black_thread.png');
   	background-repeat:repeat;
@@ -1096,7 +1096,7 @@ a:hover {
 }
 
 .sub_intro_bottom {
-	font-size: 18pt;
+	font-size: 20px;
 	padding: 20px;
 	padding-left: 150px;
 	padding-right: 150px;
@@ -1285,6 +1285,7 @@ img.splash_image {
 	/*float: left;*/
 	margin: 10px 10px 0 10px;
 	display: inline-block;
+	width: 210px;
 	border: 3px solid #56c2ce;
 	padding: 10px 30px;
 	text-align: center;
@@ -1300,7 +1301,7 @@ img.splash_image {
 }
 
 .subject-icon {
-	width: 200px;
+	width: 150px;
 	margin-left: 0;
 }
 
