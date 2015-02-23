@@ -371,8 +371,8 @@ function askPretest() {
 	var vid = video.id;
 	Subgoal.opVidAction("pretest", vid, 'none');
 
-	$(".submitbutton").attr('disabled','disabled');
-	$(".submitbutton").addClass('disabledButton');
+	$(".submitPretestButton").attr('disabled','disabled');
+	$(".submitPretestButton").addClass('disabledButton');
 	$('.dq_help').hide();
 	$('.dq_instr').hide();
 }
@@ -390,8 +390,8 @@ function askPosttest() {
 	var vid = video.id;
 	Subgoal.opVidAction("posttest", vid, 'none');
 
-	$(".submitbutton").attr('disabled','disabled');
-	$(".submitbutton").addClass('disabledButton');
+	$(".submitPosttestButton").attr('disabled','disabled');
+	$(".submitPosttestButton").addClass('disabledButton');
 	$('.dq_help').hide();
 	$('.dq_instr').hide();
 }
@@ -690,8 +690,11 @@ function submitSubgoal() {
 	} else {
 		// if the video ended and the last prompt has been answered,
 		// ask post test.
-		if (Experiment.isStudy)
+		if (Experiment.isStudy) {
 			askPosttest();
+		} else {
+			$("#player").show();
+		}
 	}
 }
 
@@ -765,14 +768,16 @@ function noSubgoal() {
 	$('.dq_input_3').hide();
 	$('.dq_help').show();
 
-	$("#player").show()
-
 	if (player.getPlayerState()!=0){
+		$("#player").show();
 		resumeVideo();
 	} else {
 		// display posttest
 		if (Experiment.isStudy) {
 			askPosttest();
+			$("#player").hide();
+		} else {
+			$("#player").show();
 		}
 	}
 
