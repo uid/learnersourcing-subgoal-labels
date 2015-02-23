@@ -363,6 +363,7 @@ function askPretest() {
 	console.log("displaying pretest");
 	if (!Experiment.isStudy)
 		return;
+	$(".wiki_wrap").hide();
 	$("#player").hide();
 	displayPretest();
 	$('.dq_pretest').show();
@@ -380,6 +381,8 @@ function askPosttest() {
 	console.log("displaying posttest");
 	if (!Experiment.isStudy)
 		return;
+	// TODO: hide outline?
+	// $(".wiki_wrap").hide();
 	$("#player").hide();
 	displayPosttest();
 	$('.dq_posttest').show();
@@ -722,6 +725,8 @@ function submitPretest() {
 	$('.dq_input_3').hide();
 	$('.dq_help').show();
 	$("#player").show();
+
+	$(".wiki_wrap").show();
 }
 
 // Submit posttest results

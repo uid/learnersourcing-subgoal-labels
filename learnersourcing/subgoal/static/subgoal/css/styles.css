@@ -140,14 +140,15 @@ h2 {
 }
 
 button {
-	/*background-color: #646B73;*/
+	/*background-color: #ddd;*/
 	background: none;
 	/*color: #59BDE8;*/
 	color: #646B73;
-	border: none;
-	font-size: 10pt;
+	font-size: 12pt;
   	padding: 8px;
-  	border: 1px solid white;
+  	border: 1px solid #646B73;
+	/*border: none;*/
+	/*border: 1px solid white;*/
 }
 
 .ppButton {
@@ -188,6 +189,7 @@ button {
 button:hover {
 	cursor: hand;
 	border: 1px solid #646B73;
+	background-color: #ddd;
 }
 
 
