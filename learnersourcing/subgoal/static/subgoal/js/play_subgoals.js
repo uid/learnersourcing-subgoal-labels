@@ -715,9 +715,9 @@ function submitPretest() {
 	checkVideo();
 	briefCheck('play');
 
-	if (player.getPlayerState()!=0){
-		resumeVideo();
-	}
+	// if (player.getPlayerState()!=0){
+	// 	resumeVideo();
+	// }
 	$('.dq_pretest').hide();
 	$('.dq_posttest').hide();
 	$('.dq_input').hide();
