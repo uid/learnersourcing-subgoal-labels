@@ -69,11 +69,11 @@ for (i in videos_list) {
 			$time_line = $("<div class='green_line'>"+(parseInt(time_group[t])-30).toString()+"</div>")
 			$("#"+id+"> .video_content").append($time_line)
 		}
-		
+
 
 		var subgoalTestGroup = getCurrentAnaGroup(time_group[t], subgoals);
 		var stepGroup = getCurrentStepGroup(time_group[t], steps);
-		for (sub in subgoalTestGroup) {	
+		for (sub in subgoalTestGroup) {
 			sub_time = subgoalTestGroup[sub].time
 			sub_id = subgoalTestGroup[sub].id
 			if (typeof(subgoals_list[sub_id])!= 'undefined') {
@@ -117,7 +117,9 @@ function getCurrentStepGroup(time, steps) {
 function place_an_subgoal(sub, classes, dir) {
 	var $sub_html = $("<div class='sub_wrap_"+dir+"'><div class='sub "+classes+"'><span class='upvotes'>"+
 			sub.upvotes_s2+"</span><span class='downvotes'>"+
-			sub.downvotes_s2+"</span><span class='sublabel'>"+
+			sub.downvotes_s2+"</span><span class='upvotes'>"+
+			sub.upvotes_s3+"</span><span class='downvotes'>"+
+			sub.downvotes_s3+"</span><span class='sublabel'>"+
 			escapeHTML(sub.label)+"</span></div>"+
 			"<div class='small_details'><span class='steps_votes'>Stage added: "+sub.stage_added+"</span>"+
 			"<br><span class='steps_votes'>Time: "+sub.added_at+"</span></div></div>");
@@ -183,7 +185,7 @@ function getCurrentAnaGroup(t, subs){
 		if (floor <= subgoals[i].time && subgoals[i].time < t){
 			group.push(subgoals[i]);
 		}
-	}	
+	}
 	// console.log(group)
 	return group;
 }

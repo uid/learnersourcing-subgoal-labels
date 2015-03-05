@@ -181,10 +181,10 @@ function routeStage(t) {
 
 	//routes it to stage 2 or 3 (enough subgoals generated)
 	if (subgoalGroup.length >= 3) {
-		var sorted_group = subgoalGroup.sort(compare_votes_s3);
+		var sorted_group = subgoalGroup.sort(compare_votes_s2);
 		var diff_threshold = 3;
 		var upvote_threshold = 5;
-		var vote_diff = sorted_group[0].upvotes_s2-sorted_group[1].upvotes_s2
+		var vote_diff = sorted_group[0].upvotes_s2 - sorted_group[1].upvotes_s2;
 
 		// var vote_val;
 		// if (sorted_group[0].upvotes_s2 == 0) {
@@ -196,6 +196,13 @@ function routeStage(t) {
 		//checks if the difference between number of votes is high
 		if ((vote_diff > diff_threshold) || sorted_group[0].upvotes_s2 > upvote_threshold) {
 			Experiment.questionStage = 3;
+			// Do graduation routing
+			var sorted_group_s3 = subgoalGroup.sort(compare_votes_s3);
+			var diff_threshold_s3 = 3;
+			var upvote_threshold_s3 = 5;
+			var vote_diff_s3 = sorted_group_s3[0].upvotes_s3 - sorted_group_s3[1].upvotes_s3;
+			if ((vote_diff_s3 > diff_threshold_s3) || sorted_group_s3[0].upvotes_s3 > upvote_threshold_s3) {
+				Experiment.questionStage = 4;
 		} else {
 			Experiment.questionStage = 2;
 		}
@@ -285,7 +292,7 @@ function displayStage3Question(t){
 			var subgoal_id = sortedSubgoalDate[0].id
 		}
 	} else {
-		var sortedSubgoalGroup = subgoalTestGroup.sort(compare_votes_s3);
+		var sortedSubgoalGroup = subgoalTestGroup.sort(compare_votes_s2);
 		var subgoal_text = sortedSubgoalGroup[0].label
 		var subgoal_id = sortedSubgoalGroup[0].id
 	}
@@ -325,7 +332,6 @@ function displayStage3Question(t){
 	}
 }
 
-
 // Create the question
 function askQuestion(t) {
 	if (Experiment.group == 1)
@@ -336,15 +342,16 @@ function askQuestion(t) {
 	$("#player").hide();
 	if (Experiment.questionStage == 1){
 		displayStage1Question(t);
-		// $('.dq_input').fadeIn(500);
 		$('.dq_input').show();
 	} else if (Experiment.questionStage == 2){
 		displayStage2Question(t);
-		// $('.dq_input_2').fadeIn(500);
 		$('.dq_input_2').show();
 	} else if (Experiment.questionStage == 3) {
 		displayStage3Question(t);
-		// $('.dq_input_2').fadeIn(500);
+		$('.dq_input_3').show();
+	} else if (Experiment.questionStage == 4) {
+		// TODO: add a customized interaction for stage4.
+		displayStage3Question(t);
 		$('.dq_input_3').show();
 	}
 
@@ -634,7 +641,7 @@ function submitStage3Subgoal(){
 	var $li;
 	// when another label was inserted.
 	if (typeof $('input[name=step3]:radio:checked + input').val() !== "undefined") {
-		console.log("FIRST BLOCK")
+		// console.log("FIRST BLOCK")
 		inp_text = $('input[name=step3]:radio:checked + input').val();
 		if (inp_text == "") {
 			noSubgoal()
@@ -648,7 +655,7 @@ function submitStage3Subgoal(){
 		}
 
 	} else if (answer != "new" && answer != "none"){
-		console.log("SECOND BLOCK")
+		// console.log("SECOND BLOCK")
 		if (typeof $('input[name=step3]:radio:checked').val() == "undefined") {
 			noSubgoal();
 		} else {
@@ -661,7 +668,7 @@ function submitStage3Subgoal(){
 			placeSubtitle($li, time)
 		}
 	} else if (answer == "none") {
-		console.log("THIRD BLOCK")
+		// console.log("THIRD BLOCK")
 		//TODO-- DO SOMETHING HERE! This gives us some information...
 		noSubgoal();
 	}
@@ -689,6 +696,7 @@ function submitSubgoal() {
 		$('.dq_input').hide();
 		$('.dq_input_2').hide();
 		$('.dq_input_3').hide();
+		$('.dq_input_4').hide();
 		$('.dq_help').show();
 
 		$("#player").show();
@@ -706,7 +714,7 @@ function submitSubgoal() {
 
 // Submit pretest results
 function submitPretest() {
-	console.log("submit pretest");
+	// console.log("submit pretest");
 
 	var userResponse = {};
     //Gathering the Data and removing undefined keys (buttons)
@@ -732,6 +740,7 @@ function submitPretest() {
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_input_3').hide();
+	$('.dq_input_4').hide();
 	$('.dq_help').show();
 	$("#player").show();
 
@@ -741,7 +750,7 @@ function submitPretest() {
 
 // Submit posttest results
 function submitPosttest() {
-	console.log("submit posttest");
+	// console.log("submit posttest");
 
 	var userResponse = {};
     //Gathering the Data and removing undefined keys (buttons)
@@ -761,6 +770,7 @@ function submitPosttest() {
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_input_3').hide();
+	$('.dq_input_4').hide();
 
 	if (Experiment.isStudy) {
 		$(".dq_posttest_after").show();
@@ -778,6 +788,7 @@ function noSubgoal() {
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_input_3').hide();
+	$('.dq_input_4').hide();
 	$('.dq_help').show();
 
 	if (player.getPlayerState()!=0){
@@ -800,10 +811,18 @@ function noSubgoal() {
 	// setTimeout(checkVideo, 1000);
 }
 
-function compare_votes_s3(a,b) {
+function compare_votes_s2(a,b) {
   if (a.upvotes_s2 < b.upvotes_s2)
      return 1;
   if (a.upvotes_s2 > b.upvotes_s2)
+    return -1;
+  return 0;
+}
+
+function compare_votes_s3(a,b) {
+  if (a.upvotes_s3 < b.upvotes_s3)
+     return 1;
+  if (a.upvotes_s3 > b.upvotes_s3)
     return -1;
   return 0;
 }
@@ -938,6 +957,7 @@ $(document).ready(function() {
 	$('.dq_input').hide();
 	$('.dq_input_2').hide();
 	$('.dq_input_3').hide();
+	$('.dq_input_4').hide();
 	$('.dq_help').hide();
 	askPretest();
 });
