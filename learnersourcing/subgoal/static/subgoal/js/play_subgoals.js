@@ -201,7 +201,7 @@ function routeStage(t) {
 			var diff_threshold_s3 = 3;
 			var upvote_threshold_s3 = 5;
 			var vote_diff_s3 = sorted_group_s3[0].upvotes_s3 - sorted_group_s3[1].upvotes_s3;
-			if ((vote_diff_s3 > diff_threshold_s3) || sorted_group_s3[0].upvotes_s3 > upvote_threshold_s3) {
+			if ((vote_diff_s3 > diff_threshold_s3) || sorted_group_s3[0].upvotes_s3 > upvote_threshold_s3)
 				Experiment.questionStage = 4;
 		} else {
 			Experiment.questionStage = 2;
