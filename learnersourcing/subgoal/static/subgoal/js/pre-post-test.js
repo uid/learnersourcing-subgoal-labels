@@ -16,7 +16,7 @@ var PrePostTest = function() {
         $.getJSON( "/static/subgoal/data/pre-post.json", function( data ) {
             $.each( data, function(index, entry) {
                 // console.log(entry["video_id"], video["id"]);
-                if (entry["video_id"] == video["id"]) {
+                if (entry["video_id"] == 0 || entry["video_id"] == video["id"]) {
                     if(entry["is_pretest"]) {
                         pretest_content.push(entry);
                     }

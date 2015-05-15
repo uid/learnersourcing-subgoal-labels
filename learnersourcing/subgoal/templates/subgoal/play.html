@@ -185,7 +185,7 @@
 	<script src="{% static 'subgoal/js/pre-post-test.js' %}"></script>
 
  	<script>
- 		var stage = 1;
+		var stage = 1;
 
 		var video_json = JSON.stringify({{video|safe}});
 		var video = JSON.parse(video_json)[0];
@@ -228,7 +228,7 @@
 
 		generate_steps(video_steps);
 		load_video_title(video["title"]);
-		getYouTubeAuthor(youtube_id)
+		getYouTubeAuthor(youtube_id);
 		// we're not currently showing all the subgoals
 		if (Experiment.isAdmin)
 			Subgoal.displayAll(step_times);

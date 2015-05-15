@@ -1,5 +1,65 @@
 [
 {
+    "video_id": 0,
+    "question": "How confident are you with solving stats problems?",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "not at all", "correct": false},
+        {"value": "B", "label": "slightly", "correct": false},
+        {"value": "C", "label": "moderately", "correct": false},
+        {"value": "D", "label": "very", "correct": false},
+        {"value": "E", "label": "extremely", "correct": false}
+    ],
+    "answer": ""
+},
+{
+    "video_id": 0,
+    "question": "How confident are you at understanding stats problems?",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "not at all", "correct": false},
+        {"value": "B", "label": "slightly", "correct": false},
+        {"value": "C", "label": "moderately", "correct": false},
+        {"value": "D", "label": "very", "correct": false},
+        {"value": "E", "label": "extremely", "correct": false}
+    ],
+    "answer": ""
+},
+{
+    "video_id": 0,
+    "question": "How confident are you with applying stats skills in practice?",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "not at all", "correct": false},
+        {"value": "B", "label": "slightly", "correct": false},
+        {"value": "C", "label": "moderately", "correct": false},
+        {"value": "D", "label": "very", "correct": false},
+        {"value": "E", "label": "extremely", "correct": false}
+    ],
+    "answer": ""
+},
+{
+    "video_id": 0,
+    "question": "How confident are you with incorporating skills from educational videos in a stats problem?",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "not at all", "correct": false},
+        {"value": "B", "label": "slightly", "correct": false},
+        {"value": "C", "label": "moderately", "correct": false},
+        {"value": "D", "label": "very", "correct": false},
+        {"value": "E", "label": "extremely", "correct": false}
+    ],
+    "answer": ""
+},
+{
     "video_id": 43,
     "question": "Calculate the standard deviation (SD) of the following set of marks on a statistics test: 30, 60, 50, 40, 70",
     "question_type": "multiple_choice",
