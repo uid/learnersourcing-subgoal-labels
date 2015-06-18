@@ -46,7 +46,7 @@
 },
 {
     "video_id": 0,
-    "question": "How confident are you with incorporating skills from educational videos in a stats problem?",
+    "question": "How confident are you with incorporating skills from video tutorials in your stats problem?",
     "question_type": "multiple_choice",
     "is_pretest": true,
     "is_posttest": true,
@@ -75,6 +75,21 @@
 },
 {
     "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "not at all", "correct": false},
+        {"value": "B", "label": "slightly", "correct": false},
+        {"value": "C", "label": "moderately", "correct": false},
+        {"value": "D", "label": "very", "correct": false},
+        {"value": "E", "label": "extremely", "correct": false}
+    ],
+    "answer": ""
+},
+{
+    "video_id": 43,
     "question": "Sony is testing a new laser to measure distances between driving cars. Sony tested the same distance four times and got the data points 3, 5, 6 and 10 feet (with one laser). What is the SD?",
     "question_type": "short_answer",
     "is_pretest": true,
@@ -84,11 +99,41 @@
 },
 {
     "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "not at all", "correct": false},
+        {"value": "B", "label": "slightly", "correct": false},
+        {"value": "C", "label": "moderately", "correct": false},
+        {"value": "D", "label": "very", "correct": false},
+        {"value": "E", "label": "extremely", "correct": false}
+    ],
+    "answer": ""
+},
+{
+    "video_id": 43,
     "question": "The lasers’ measure does not have to be accurate. In fact, they are willing to accept mistakes of 1 foot or less. If mistakes of 1 foot or less are okay, what is the updated SD of the laser?",
     "question_type": "short_answer",
     "is_pretest": true,
     "is_posttest": true,
     "choices": [],
     "answer": "2.9"
+},
+{
+    "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "not at all", "correct": false},
+        {"value": "B", "label": "slightly", "correct": false},
+        {"value": "C", "label": "moderately", "correct": false},
+        {"value": "D", "label": "very", "correct": false},
+        {"value": "E", "label": "extremely", "correct": false}
+    ],
+    "answer": ""
 }
 ]
