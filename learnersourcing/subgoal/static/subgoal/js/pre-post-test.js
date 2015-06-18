@@ -42,6 +42,8 @@ var PrePostTest = function() {
             choice_class = "mult_choice_options_" + testtype;
         } else if (question_type == "short_answer") {
             choice_class = "short_answer_field_" + testtype;
+        } else if (question_type == "likert") {
+            choice_class = "mult_choice_options_" + testtype;
         }
 
         var $choices = $("<div/>").addClass(choice_class);
@@ -58,6 +60,16 @@ var PrePostTest = function() {
             var $c = $("<span/>");
             var input_html = "<input type='text' class='q_input' name='" + testtype + "_" + q_index + "' tabindex=1>";
             $c.append(input_html);
+            $choices.append($c);
+        } else if (question_type == "likert") {
+            var levels = content["levels"];
+            var $c = $("<label/>");
+            $c.append("<span>" + content["left_label"] + "</span>");
+            for (var i=1; i<=levels; i++) {
+                var input_html = "<input type='radio' name='" + testtype + "_" + q_index + "' class='q_choice' value='" + i + "'></input>";
+                $c.append(input_html);
+            }
+            $c.append("<span>" + content["right_label"] + "</span>");
             $choices.append($c);
         }
         $q.append($choices);

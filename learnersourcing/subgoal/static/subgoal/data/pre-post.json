@@ -135,5 +135,71 @@
         {"value": "E", "label": "extremely", "correct": false}
     ],
     "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "Workload Assessment: The following assessment is used to measure your personal opinion on how much workload was required of you during the task you just completed. <br/>Mental Demand: How mentally demanding was the task?",
+    "question_type": "likert",
+    "is_pretest": false,
+    "is_posttest": true,
+    "levels": 7,
+    "left_label": "Very low",
+    "left_label": "Very high",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "Physical Demand: How physically demanding was the task?",
+    "question_type": "likert",
+    "is_pretest": false,
+    "is_posttest": true,
+    "levels": 7,
+    "left_label": "Very low",
+    "left_label": "Very high",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "Temporal Demand: How hurried or rushed was the pace of the task?",
+    "question_type": "likert",
+    "is_pretest": false,
+    "is_posttest": true,
+    "levels": 7,
+    "left_label": "Very low",
+    "left_label": "Very high",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "Performance: How successful were you in accomplishing what you were asked to do?",
+    "question_type": "likert",
+    "is_pretest": false,
+    "is_posttest": true,
+    "levels": 7,
+    "left_label": "Perfect",
+    "left_label": "Failure",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "Effort: How hard did you have to work to accomplish your level of performance?",
+    "question_type": "likert",
+    "is_pretest": false,
+    "is_posttest": true,
+    "levels": 7,
+    "left_label": "Very low",
+    "left_label": "Very high",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "Frustration: How insecure, discouraged, irritated, stressed, and annoyed were you?",
+    "question_type": "likert",
+    "is_pretest": false,
+    "is_posttest": true,
+    "levels": 7,
+    "left_label": "Very low",
+    "left_label": "Very high",
+    "answer": ""
 }
 ]
