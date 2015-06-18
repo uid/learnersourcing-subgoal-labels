@@ -2,61 +2,45 @@
 {
     "video_id": 0,
     "question": "How confident are you with solving stats problems?",
-    "question_type": "multiple_choice",
+    "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,
-    "choices": [
-        {"value": "A", "label": "not at all", "correct": false},
-        {"value": "B", "label": "slightly", "correct": false},
-        {"value": "C", "label": "moderately", "correct": false},
-        {"value": "D", "label": "very", "correct": false},
-        {"value": "E", "label": "extremely", "correct": false}
-    ],
+    "levels": 5,
+    "left_label": "not at all",
+    "left_label": "extremely",
     "answer": ""
 },
 {
     "video_id": 0,
     "question": "How confident are you at understanding stats problems?",
-    "question_type": "multiple_choice",
+    "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,
-    "choices": [
-        {"value": "A", "label": "not at all", "correct": false},
-        {"value": "B", "label": "slightly", "correct": false},
-        {"value": "C", "label": "moderately", "correct": false},
-        {"value": "D", "label": "very", "correct": false},
-        {"value": "E", "label": "extremely", "correct": false}
-    ],
+    "levels": 5,
+    "left_label": "not at all",
+    "left_label": "extremely",
     "answer": ""
 },
 {
     "video_id": 0,
     "question": "How confident are you with applying stats skills in practice?",
-    "question_type": "multiple_choice",
+    "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,
-    "choices": [
-        {"value": "A", "label": "not at all", "correct": false},
-        {"value": "B", "label": "slightly", "correct": false},
-        {"value": "C", "label": "moderately", "correct": false},
-        {"value": "D", "label": "very", "correct": false},
-        {"value": "E", "label": "extremely", "correct": false}
-    ],
+    "levels": 5,
+    "left_label": "not at all",
+    "left_label": "extremely",
     "answer": ""
 },
 {
     "video_id": 0,
     "question": "How confident are you with incorporating skills from video tutorials in your stats problem?",
-    "question_type": "multiple_choice",
+    "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,
-    "choices": [
-        {"value": "A", "label": "not at all", "correct": false},
-        {"value": "B", "label": "slightly", "correct": false},
-        {"value": "C", "label": "moderately", "correct": false},
-        {"value": "D", "label": "very", "correct": false},
-        {"value": "E", "label": "extremely", "correct": false}
-    ],
+    "levels": 5,
+    "left_label": "not at all",
+    "left_label": "extremely",
     "answer": ""
 },
 {
@@ -76,16 +60,12 @@
 {
     "video_id": 43,
     "question": "How confident are you in your answer above?",
-    "question_type": "multiple_choice",
+    "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,
-    "choices": [
-        {"value": "A", "label": "not at all", "correct": false},
-        {"value": "B", "label": "slightly", "correct": false},
-        {"value": "C", "label": "moderately", "correct": false},
-        {"value": "D", "label": "very", "correct": false},
-        {"value": "E", "label": "extremely", "correct": false}
-    ],
+    "levels": 5,
+    "left_label": "not at all",
+    "left_label": "extremely",
     "answer": ""
 },
 {
@@ -100,16 +80,12 @@
 {
     "video_id": 43,
     "question": "How confident are you in your answer above?",
-    "question_type": "multiple_choice",
+    "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,
-    "choices": [
-        {"value": "A", "label": "not at all", "correct": false},
-        {"value": "B", "label": "slightly", "correct": false},
-        {"value": "C", "label": "moderately", "correct": false},
-        {"value": "D", "label": "very", "correct": false},
-        {"value": "E", "label": "extremely", "correct": false}
-    ],
+    "levels": 5,
+    "left_label": "not at all",
+    "left_label": "extremely",
     "answer": ""
 },
 {
@@ -124,20 +100,16 @@
 {
     "video_id": 43,
     "question": "How confident are you in your answer above?",
-    "question_type": "multiple_choice",
+    "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,
-    "choices": [
-        {"value": "A", "label": "not at all", "correct": false},
-        {"value": "B", "label": "slightly", "correct": false},
-        {"value": "C", "label": "moderately", "correct": false},
-        {"value": "D", "label": "very", "correct": false},
-        {"value": "E", "label": "extremely", "correct": false}
-    ],
+    "levels": 5,
+    "left_label": "not at all",
+    "left_label": "extremely",
     "answer": ""
 },
 {
-    "video_id": 43,
+    "video_id": 0,
     "question": "Workload Assessment: The following assessment is used to measure your personal opinion on how much workload was required of you during the task you just completed. <br/>Mental Demand: How mentally demanding was the task?",
     "question_type": "likert",
     "is_pretest": false,
@@ -148,7 +120,7 @@
     "answer": ""
 },
 {
-    "video_id": 43,
+    "video_id": 0,
     "question": "Physical Demand: How physically demanding was the task?",
     "question_type": "likert",
     "is_pretest": false,
@@ -159,7 +131,7 @@
     "answer": ""
 },
 {
-    "video_id": 43,
+    "video_id": 0,
     "question": "Temporal Demand: How hurried or rushed was the pace of the task?",
     "question_type": "likert",
     "is_pretest": false,
@@ -170,7 +142,7 @@
     "answer": ""
 },
 {
-    "video_id": 43,
+    "video_id": 0,
     "question": "Performance: How successful were you in accomplishing what you were asked to do?",
     "question_type": "likert",
     "is_pretest": false,
@@ -181,7 +153,7 @@
     "answer": ""
 },
 {
-    "video_id": 43,
+    "video_id": 0,
     "question": "Effort: How hard did you have to work to accomplish your level of performance?",
     "question_type": "likert",
     "is_pretest": false,
@@ -192,7 +164,7 @@
     "answer": ""
 },
 {
-    "video_id": 43,
+    "video_id": 0,
     "question": "Frustration: How insecure, discouraged, irritated, stressed, and annoyed were you?",
     "question_type": "likert",
     "is_pretest": false,
