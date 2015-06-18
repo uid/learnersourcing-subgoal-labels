@@ -7,7 +7,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "left_label": "extremely",
+    "right_label": "extremely",
     "answer": ""
 },
 {
@@ -18,7 +18,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "left_label": "extremely",
+    "right_label": "extremely",
     "answer": ""
 },
 {
@@ -29,7 +29,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "left_label": "extremely",
+    "right_label": "extremely",
     "answer": ""
 },
 {
@@ -40,7 +40,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "left_label": "extremely",
+    "right_label": "extremely",
     "answer": ""
 },
 {
@@ -65,7 +65,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "left_label": "extremely",
+    "right_label": "extremely",
     "answer": ""
 },
 {
@@ -85,7 +85,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "left_label": "extremely",
+    "right_label": "extremely",
     "answer": ""
 },
 {
@@ -105,7 +105,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "left_label": "extremely",
+    "right_label": "extremely",
     "answer": ""
 },
 {
@@ -115,8 +115,8 @@
     "is_pretest": false,
     "is_posttest": true,
     "levels": 7,
-    "left_label": "Very low",
-    "left_label": "Very high",
+    "left_label": "very low",
+    "right_label": "very high",
     "answer": ""
 },
 {
@@ -126,8 +126,8 @@
     "is_pretest": false,
     "is_posttest": true,
     "levels": 7,
-    "left_label": "Very low",
-    "left_label": "Very high",
+    "left_label": "very low",
+    "right_label": "very high",
     "answer": ""
 },
 {
@@ -137,8 +137,8 @@
     "is_pretest": false,
     "is_posttest": true,
     "levels": 7,
-    "left_label": "Very low",
-    "left_label": "Very high",
+    "left_label": "very low",
+    "right_label": "very high",
     "answer": ""
 },
 {
@@ -148,8 +148,8 @@
     "is_pretest": false,
     "is_posttest": true,
     "levels": 7,
-    "left_label": "Perfect",
-    "left_label": "Failure",
+    "left_label": "perfect",
+    "right_label": "failure",
     "answer": ""
 },
 {
@@ -159,8 +159,8 @@
     "is_pretest": false,
     "is_posttest": true,
     "levels": 7,
-    "left_label": "Very low",
-    "left_label": "Very high",
+    "left_label": "very low",
+    "right_label": "very high",
     "answer": ""
 },
 {
@@ -170,8 +170,8 @@
     "is_pretest": false,
     "is_posttest": true,
     "levels": 7,
-    "left_label": "Very low",
-    "left_label": "Very high",
+    "left_label": "very low",
+    "right_label": "very high",
     "answer": ""
 }
 ]
