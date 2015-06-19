@@ -7,7 +7,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "right_label": "extremely",
+    "right_label": "very much",
     "answer": ""
 },
 {
@@ -18,7 +18,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "right_label": "extremely",
+    "right_label": "very much",
     "answer": ""
 },
 {
@@ -29,7 +29,7 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "right_label": "extremely",
+    "right_label": "very much",
     "answer": ""
 },
 {
@@ -40,42 +40,17 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "right_label": "extremely",
+    "right_label": "very much",
     "answer": ""
 },
 {
     "video_id": 43,
-    "question": "Calculate the standard deviation (SD) of the following set of marks on a statistics test: 30, 60, 50, 40, 70",
-    "question_type": "multiple_choice",
-    "is_pretest": true,
-    "is_posttest": true,
-    "choices": [
-        {"value": "A", "label": "10", "correct": false},
-        {"value": "B", "label": "10√2", "correct": true},
-        {"value": "C", "label": "20", "correct": false},
-        {"value": "D", "label": "20√2", "correct": false}
-    ],
-    "answer": ""
-},
-{
-    "video_id": 43,
-    "question": "How confident are you in your answer above?",
-    "question_type": "likert",
-    "is_pretest": true,
-    "is_posttest": true,
-    "levels": 5,
-    "left_label": "not at all",
-    "right_label": "extremely",
-    "answer": ""
-},
-{
-    "video_id": 43,
-    "question": "Sony is testing a new laser to measure distances between driving cars. Sony tested the same distance four times and got the data points 3, 5, 6 and 10 feet (with one laser). What is the SD?",
+    "question": "You have found the following ages (in years) of all 6 lions at your local zoo: 11, 5, 12, 5, 7, 2<br/><br/>What is the average age of the lions at your zoo? You may round your answers to the nearest tenth.",
     "question_type": "short_answer",
     "is_pretest": true,
     "is_posttest": true,
     "choices": [],
-    "answer": "2.9"
+    "answer": "7"
 },
 {
     "video_id": 43,
@@ -85,17 +60,17 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "right_label": "extremely",
+    "right_label": "very much",
     "answer": ""
 },
 {
     "video_id": 43,
-    "question": "The lasers’ measure does not have to be accurate. In fact, they are willing to accept mistakes of 1 foot or less. If mistakes of 1 foot or less are okay, what is the updated SD of the laser?",
+    "question": "What is the standard deviation? You may round your answers to the nearest tenth.",
     "question_type": "short_answer",
     "is_pretest": true,
     "is_posttest": true,
     "choices": [],
-    "answer": "2.9"
+    "answer": "3.5"
 },
 {
     "video_id": 43,
@@ -105,7 +80,107 @@
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
-    "right_label": "extremely",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "What is the unit of variance in this zoo example?",
+    "question_type": "short_answer",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [],
+    "answer": "7"
+},
+{
+    "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "What is the unit of standard deviation in this zoo example?",
+    "question_type": "short_answer",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [],
+    "answer": "7"
+},
+{
+    "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "What is a population standard deviation?",
+    "question_type": "short_answer",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [],
+    "answer": "7"
+},
+{
+    "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "What is the relationship between variance and standard deviation?",
+    "question_type": "short_answer",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [],
+    "answer": "7"
+},
+{
+    "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "Explain the process of calculating a population standard deviation, step by step.",
+    "question_type": "long_answer",
+    "is_pretest": false,
+    "is_posttest": true,
+    "choices": [],
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
     "answer": ""
 },
 {

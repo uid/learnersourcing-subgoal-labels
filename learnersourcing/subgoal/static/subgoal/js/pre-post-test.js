@@ -44,6 +44,8 @@ var PrePostTest = function() {
             choice_class = "short_answer_field_" + testtype;
         } else if (question_type == "likert") {
             choice_class = "mult_choice_options_" + testtype;
+        } else if (question_type == "long_answer") {
+            choice_class = "long_answer_field_" + testtype;
         }
 
         var $choices = $("<div/>").addClass(choice_class);
@@ -70,6 +72,11 @@ var PrePostTest = function() {
                 $c.append(input_html);
             }
             $c.append("<span>" + content["right_label"] + "</span>");
+            $choices.append($c);
+        } else if (question_type == "long_answer") {
+            var $c = $("<span/>");
+            var input_html = "<textarea rows='6' cols='50' class='q_input' name='" + testtype + "_" + q_index + "'></textarea>";
+            $c.append(input_html);
             $choices.append($c);
         }
         $q.append($choices);
