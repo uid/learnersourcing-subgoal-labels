@@ -75,7 +75,7 @@ var PrePostTest = function() {
             $choices.append($c);
         } else if (question_type == "long_answer") {
             var $c = $("<span/>");
-            var input_html = "<textarea rows='6' cols='50' class='q_input' name='" + testtype + "_" + q_index + "'></textarea>";
+            var input_html = "<textarea rows='6' cols='50' name='" + testtype + "_" + q_index + "'></textarea>";
             $c.append(input_html);
             $choices.append($c);
         }
