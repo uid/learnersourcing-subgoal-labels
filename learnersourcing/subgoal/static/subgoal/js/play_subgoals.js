@@ -123,6 +123,12 @@ function checkVideo() {
 			askQuestion(t);
 			isAsked = true;
 			Experiment.recordQuestion({"time": t, "isAsked": isAsked, "stage": Experiment.questionStage});
+
+			// if group == 1, it doesn't automatically route to posttest.
+			if (Experiment.isStudy && Experiment.group == 1) {
+				askPosttest();
+			}
+
 		} else {
 			// display posttest
 			if (Experiment.isStudy) {
