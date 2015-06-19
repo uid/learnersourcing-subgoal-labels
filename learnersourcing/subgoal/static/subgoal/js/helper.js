@@ -16,7 +16,7 @@ function isInt(n) {
 
 function generate_steps(steps) {
     for (step in steps) {
-        new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span>" + 
+        new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span>" +
         	escapeHTML(steps[step]) + "</li>"
         $(".video_steps").append(new_step);
     }
@@ -28,6 +28,12 @@ function load_video_title(title) {
 
 // given a subgoal time, find the closest step
 function find_closest_step(time, step_times){
+	// if length == 1, it means there's only the default step0 at 0.0 second.
+	// in that case, simply display all subgoals linearly.
+	if (Object.keys(step_times).length == 1) {
+		return Object.keys(step_times)[0];
+	}
+
 	var result = "";
 	for (var i = 0; i < Object.keys(step_times).length - 1; i++) {
 		// console.log(time, step_times[Object.keys(step_times)[i]]);
@@ -50,7 +56,7 @@ function group_steps(subgoals, steps, step_times){
 			var time_next = 1000000; // arbitrarily large
 		else
 			var time_next = subgoals[i + 1][0]["time"];
-		
+
 		if (time_now == time_next)
 			continue;
 		for (var step in step_times){
@@ -108,9 +114,9 @@ function group_subgoals(subgoals, steps, step_times) {
 function add_subgoals(subgoals, step_times) {
 	for (var sub in subgoals) {
 		// $li.attr("data-subgoal-id", subgoals[sub]["id"]);
-		var new_subgoal = "<li class='movable subgoal' data-subgoal-id='" + subgoals[sub]["id"] + "'>" + 
+		var new_subgoal = "<li class='movable subgoal' data-subgoal-id='" + subgoals[sub]["id"] + "'>" +
 			"<span class='sub "+sub+"'>"+
-			subgoals[sub]["label"] + "</span>" + 
+			subgoals[sub]["label"] + "</span>" +
 			"<button type='button' class='delButton permButton'>Delete</button>" +
 			"<button type='button' class='undelButton permButton'>Undelete</button>" +
 			"<button type='button' class='editButton permButton'>Edit</button>" +
@@ -131,7 +137,7 @@ function getYouTubeAuthor(id) {
     $.ajax({
         url: "http://gdata.youtube.com/feeds/api/videos/"+id+"?v=2&alt=json",
         dataType: "jsonp",
-        success: function (data) { 
+        success: function (data) {
         	var author = data.entry.author[0].name.$t;
         	console.log(author);
 		    $("#video_author").append("By: "+author);
