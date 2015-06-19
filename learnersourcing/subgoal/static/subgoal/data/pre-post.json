@@ -110,7 +110,7 @@
 },
 {
     "video_id": 0,
-    "question": "Workload Assessment: The following assessment is used to measure your personal opinion on how much workload was required of you during the task you just completed. <br/>Mental Demand: How mentally demanding was the task?",
+    "question": "Workload Assessment: The following assessment is used to measure your personal opinion on how much workload was required of you during the task you just completed. <br/><br/>Mental Demand: How mentally demanding was the task?",
     "question_type": "likert",
     "is_pretest": false,
     "is_posttest": true,

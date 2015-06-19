@@ -134,8 +134,17 @@ var Experiment = function() {
 			Experiment.isStudy = getParameterByName("study")==1 ? true : false;
 		if (getParameterByName("group") != "")
 			Experiment.group = getParameterByName("group");
-		if (getParameterByName("pid") != "")
+		if (getParameterByName("pid") != "") {
 			Experiment.participantId = getParameterByName("pid");
+
+			// Assign a passcode only in an MTurk study
+			var assignmentId = getParameterByName("assignmentId");
+			if (assignmentId != "" && assignmentId != "ASSIGNMENT_ID_NOT_AVAILABLE") {
+				var passcode = Experiment.id + "_" + Experiment.group + "_" + Experiment.participantId + "_" + assignmentId;
+				console.log("MTurk passcode:", passcode);
+				$(".mturk-passcode").html("Please enter <strong>" + passcode + "</strong> as your passcode. You need to enter a correct passcode for your work to be approved.");
+			}
+		}
 
 		// TODO: overwrite the model's experiment setting when url parameters exist.
 		opUpdate(exp_session["id"]);

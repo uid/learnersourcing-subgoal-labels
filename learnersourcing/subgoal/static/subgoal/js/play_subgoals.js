@@ -760,7 +760,11 @@ function submitPosttest() {
     //Gathering the Data and removing undefined keys (buttons)
     $.each($("#posttest-form")[0].elements, function(i, v){
         var input = $(v);
-        userResponse[input.attr("name")] = input.val();
+        var name = input.attr("name");
+        if (input.attr("type") == "radio")
+			userResponse[name] = $("input[type='radio'][name=" + name + "]:checked").val();
+        else
+        	userResponse[name] = input.val();
         delete userResponse["undefined"];
     });
     console.log(userResponse);
