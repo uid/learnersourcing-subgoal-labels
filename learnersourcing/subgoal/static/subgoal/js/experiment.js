@@ -140,7 +140,7 @@ var Experiment = function() {
 			// Assign a passcode only in an MTurk study
 			// var assignmentId = getParameterByName("assignmentId");
 			// if (assignmentId != "" && assignmentId != "ASSIGNMENT_ID_NOT_AVAILABLE") {
-			if (Experiment.participantId.startsWith('M'))
+			if (Experiment.participantId.startsWith('M')) {
 				var passcode = Experiment.id + "_" + Experiment.group + "_" + Experiment.participantId;
 				console.log("MTurk passcode:", passcode);
 				$(".mturk-passcode").html("Please enter <strong>" + passcode + "</strong> as your code in the Mechanical Turk interface. You need to enter a correct code for your work to be approved.");
