@@ -319,24 +319,15 @@ var Subgoal = function() {
 	function displayAll(step_times) {
 		for (var i in Subgoal.data) {
 			// $li.attr("data-subgoal-id", data[sub]["id"]);
-
 			var $li = Subgoal.getSubgoalHTML(Subgoal.data[i]["id"], Subgoal.data[i]["label"]);
-			// var new_subgoal = "<li class='movable subgoal' data-subgoal-id='" + Subgoal.data[i]["id"] + "'>" +
-			// 	// "<span class='sub sub" + (parseInt(i)+1) + "'>" +
-			// 	"<span class='sub'>" + Subgoal.data[i]["label"] + "</span>" +
-			// 	"<button type='button' class='delButton permButton'>Delete</button>" +
-			// 	"<button type='button' class='editButton permButton'>Edit</button>" +
-			// 	"<button type='button' class='saveButton permButton'>Save</button>" +
-			// 	"</li>";
-			// old
-			// var first_step = data[sub]['steps'][0]
-			// new: traverse the steps list and find the closest one
+
+			// traverse the steps list and find the closest one
 			var time = Subgoal.data[i]["time"];
 			var first_step = find_closest_step(time, step_times);
-			// console.log(first_step);
-			// $("#"+first_step).before(new_subgoal);
-			$("#"+first_step).before($li);
-			// console.log(data[sub]['steps'][0])
+			if ($("#"+first_step).length > 0)
+				$("#"+first_step).before($li);
+			else // if no step info is available, simply append to the list
+				$(".video_steps").append($li);
 		}
 	}
 

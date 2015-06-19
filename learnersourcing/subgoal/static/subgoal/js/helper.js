@@ -28,12 +28,6 @@ function load_video_title(title) {
 
 // given a subgoal time, find the closest step
 function find_closest_step(time, step_times){
-	// if length == 1, it means there's only the default step0 at 0.0 second.
-	// in that case, simply display all subgoals linearly.
-	if (Object.keys(step_times).length == 1) {
-		return Object.keys(step_times)[0];
-	}
-
 	var result = "";
 	for (var i = 0; i < Object.keys(step_times).length - 1; i++) {
 		// console.log(time, step_times[Object.keys(step_times)[i]]);
