@@ -329,10 +329,10 @@ function displayStage3Question(t){
 		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='" + subgoal_id + "'>Yes, this statement applies</input></label><br>");
 		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='none'>No, there should be no summarizing statement here</input></label><br>");
 		// $(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and I want to revise the statement: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
-		$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and I want to revise the statement: <input type='text' class='q_input' id='new_answer_s3' value="+escapeHTML(subgoal_text)+"></input></label><br>");
+		$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and I want to revise the statement: <input type='text' class='q_input' id='new_answer_s3' value='"+escapeHTML(subgoal_text)+"'></input></label><br>");
 	} else {
 		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='" + subgoal_id + "'>Yes, this statement applies</input></label><br>");
-		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='none'>No, these steps don't require summarization</input></label><br>");
+		$(".mult_choice_options_stage3").append("<label><input type='radio' name='step3' class='q_choice' value='none'>No, there should be no summarizing statement here</input></label><br>");
 		// $(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and I want to revise the statement: <input type='text' class='q_input' id='new_answer_s3'></input></label><br>");
 		$(".mult_choice_options_stage3").append("<label class='new_subgoal_option'><input type='radio' name='step3' value='new' class='q_choice q_new'>No, and I want to revise the statement: <input type='text' class='q_input' id='new_answer_s3' value='"+escapeHTML(subgoal_text)+"'></input></label><br>");
 	}
