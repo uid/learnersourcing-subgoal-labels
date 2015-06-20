@@ -1,6 +1,5 @@
 import csv
 from django.db.models.loading import get_model
-import os
 
 def dump(qs, outfile_path):
     """
@@ -38,7 +37,11 @@ def dump(qs, outfile_path):
         writer.writerow(row)
 
 if __name__ == "__main__":
+    import os
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "learnersourcing.settings")
+    import django
+    django.setup()
+
     from subgoal.models import *
     qs = ExpResult.objects.all()
     dump(qs, './data/ExpResult.csv')
