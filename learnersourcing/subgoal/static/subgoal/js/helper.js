@@ -16,7 +16,7 @@ function isInt(n) {
 
 function generate_steps(steps) {
     for (step in steps) {
-        new_step = "<li class='frozen' id='"+step+"'><span class='time_marker'>>></span>" +
+        new_step = "<li class='frozen step' id='"+step+"'><span class='time_marker'>>></span>" +
         	escapeHTML(steps[step]) + "</li>"
         $(".video_steps").append(new_step);
     }

@@ -340,7 +340,7 @@ function displayStage3Question(t){
 
 // Create the question
 function askQuestion(t) {
-	if (Experiment.group == 1)
+	if (Experiment.group == 1 || Experiment.group == 2)
 		return;
 	console.log("Question at: " + t);
 
@@ -754,8 +754,12 @@ function submitPretest() {
 	$('.dq_help').show();
 	$("#player").show();
 
+	if (Experiment.group == 3)
+		$(".step").hide();
+
 	if (Experiment.group != 1)
 		$(".wiki_wrap").show();
+
 }
 
 // Submit posttest results
