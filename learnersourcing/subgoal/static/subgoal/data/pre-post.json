@@ -1,6 +1,27 @@
 [
 {
     "video_id": 0,
+    "question": "What is your age?",
+    "question_type": "short_answer",
+    "is_pretest": true,
+    "is_posttest": false,
+    "answer": ""
+},
+{
+    "video_id": 0,
+    "question": "What is your gender?",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": false,
+    "choices": [
+        {"value": "Female", "label": "Female", "correct": false},
+        {"value": "Male", "label": "Male", "correct": true},
+        {"value": "NA", "label": "Prefer not to specify", "correct": true}
+    ],
+    "answer": ""
+},
+{
+    "video_id": 0,
     "question": "How confident are you with solving stats problems?",
     "question_type": "likert",
     "is_pretest": true,
@@ -35,6 +56,39 @@
 {
     "video_id": 0,
     "question": "How confident are you with incorporating skills from video tutorials in your stats problem?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 0,
+    "question": "How would you rate your overall level of knowledge in statistics?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "novice",
+    "right_label": "expert",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "How familiar are you with the concept of arithmetic mean?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "How familiar are you with the concept of variance and standard deviation?",
     "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,

@@ -759,7 +759,6 @@ function submitPretest() {
 
 	if (Experiment.group != 1)
 		$(".wiki_wrap").show();
-
 }
 
 // Submit posttest results
