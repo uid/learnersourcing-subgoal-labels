@@ -179,7 +179,7 @@
 },
 {
     "video_id": 43,
-    "question": "In your own words, define a population standard deviation?",
+    "question": "In your own words, define a population standard deviation.",
     "question_type": "short_answer",
     "is_pretest": true,
     "is_posttest": true,
