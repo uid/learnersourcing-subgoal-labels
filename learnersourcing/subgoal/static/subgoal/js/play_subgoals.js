@@ -397,7 +397,7 @@ function askPosttest() {
 	if (!Experiment.isStudy)
 		return;
 	// TODO: hide outline?
-	// $(".wiki_wrap").hide();
+	$(".wiki_wrap").hide();
 	$("#player").hide();
 	displayPosttest();
 	$('.dq_posttest').show();

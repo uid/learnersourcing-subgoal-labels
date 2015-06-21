@@ -124,6 +124,7 @@ class ExpSession(models.Model):
 
 	def __unicode__(self):
 		return str(self.added_at) + \
+			" | session_id =" + str(self.id) + \
 			" | video=" + self.video.slug + \
 			" | interval=" + str(self.cond_interval) + \
 			" | random=" + str(self.cond_random) + \
