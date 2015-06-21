@@ -174,6 +174,18 @@
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
  	<script src="{% static 'subgoal/js/jquery-impromptu.js' %}"></script>
+
+ 	<script>
+ 		// video info should be loaded before play_subgoals.js is loaded
+ 		// because it might not have youtube_id before the player laods.
+		var stage = 1;
+
+		var video_json = JSON.stringify({{video|safe}});
+		var video = JSON.parse(video_json)[0];
+		var youtube_id = video["youtube_id"];
+		console.log(video, video["title"], video["id"]);
+ 	</script>
+
  	<script src="{% static 'subgoal/js/experiment.js' %}"></script>
  	<script src="{% static 'subgoal/js/helper.js' %}"></script>
  	<script src="{% static 'subgoal/js/subgoal.js' %}"></script>
@@ -186,12 +198,6 @@
 	<script src="{% static 'subgoal/js/pre-post-test.js' %}"></script>
 
  	<script>
-		var stage = 1;
-
-		var video_json = JSON.stringify({{video|safe}});
-		var video = JSON.parse(video_json)[0];
-		var youtube_id = video["youtube_id"];
-		console.log(video, video["title"], video["id"]);
 
 		$("title").html(video['title']);
 
