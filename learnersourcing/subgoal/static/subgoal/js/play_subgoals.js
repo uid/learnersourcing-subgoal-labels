@@ -213,6 +213,11 @@ function routeStage(t) {
 			Experiment.questionStage = 2;
 		}
 	}
+
+	// force stage 1 for user study -- all participants will be prompted to explain.
+	if (Experiment.isStudy && Experiment.group == 3)
+		Experiment.questionStage = 1;
+
 	stage = Experiment.questionStage;
 	// console.log(Experiment.questionStage)
 }
