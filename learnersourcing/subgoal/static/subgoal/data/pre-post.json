@@ -22,50 +22,6 @@
 },
 {
     "video_id": 0,
-    "question": "How confident are you with solving stats problems?",
-    "question_type": "likert",
-    "is_pretest": true,
-    "is_posttest": true,
-    "levels": 5,
-    "left_label": "not at all",
-    "right_label": "very much",
-    "answer": ""
-},
-{
-    "video_id": 0,
-    "question": "How confident are you at understanding stats problems?",
-    "question_type": "likert",
-    "is_pretest": true,
-    "is_posttest": true,
-    "levels": 5,
-    "left_label": "not at all",
-    "right_label": "very much",
-    "answer": ""
-},
-{
-    "video_id": 0,
-    "question": "How confident are you with applying stats skills in practice?",
-    "question_type": "likert",
-    "is_pretest": true,
-    "is_posttest": true,
-    "levels": 5,
-    "left_label": "not at all",
-    "right_label": "very much",
-    "answer": ""
-},
-{
-    "video_id": 0,
-    "question": "How confident are you with incorporating skills from video tutorials in your stats problem?",
-    "question_type": "likert",
-    "is_pretest": true,
-    "is_posttest": true,
-    "levels": 5,
-    "left_label": "not at all",
-    "right_label": "very much",
-    "answer": ""
-},
-{
-    "video_id": 0,
     "question": "How would you rate your overall level of knowledge in statistics?",
     "question_type": "likert",
     "is_pretest": true,
@@ -77,7 +33,7 @@
 },
 {
     "video_id": 43,
-    "question": "How familiar are you with the concept of arithmetic mean?",
+    "question": "How familiar are you with the concept of population standard deviation?",
     "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,
@@ -88,7 +44,51 @@
 },
 {
     "video_id": 43,
-    "question": "How familiar are you with the concept of variance and standard deviation?",
+    "question": "How familiar are you with the process of computing population standard deviation?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 0,
+    "question": "How confident are you with solving problems on population standard deviation?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 0,
+    "question": "How confident are you at understanding problems on population standard deviation?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 0,
+    "question": "How confident are you with applying knowledge about population standard deviation in practice?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 0,
+    "question": "How confident are you with incorporating skills from video tutorials into your stats problem?",
     "question_type": "likert",
     "is_pretest": true,
     "is_posttest": true,
@@ -99,18 +99,9 @@
 },
 {
     "video_id": 43,
-    "question": "You have found the following ages (in years) of all 6 lions at your local zoo: 11, 5, 12, 5, 7, 2<br/><br/>What is the average age of the lions at your zoo? You may round your answers to the nearest tenth.",
-    "question_type": "short_answer",
-    "is_pretest": true,
-    "is_posttest": true,
-    "choices": [],
-    "answer": "7"
-},
-{
-    "video_id": 43,
-    "question": "How confident are you in your answer above?",
+    "question": "Do you believe that you developed a good understanding of the concepts covered in the video?",
     "question_type": "likert",
-    "is_pretest": true,
+    "is_pretest": false,
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
@@ -119,7 +110,40 @@
 },
 {
     "video_id": 43,
-    "question": "What is the standard deviation in this zoo example? You may round your answers to the nearest tenth.",
+    "question": "Do you believe that you learned the factual materials covered in the video?",
+    "question_type": "likert",
+    "is_pretest": false,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "Do you believe that you learned to identify central issues about population standard deviation?",
+    "question_type": "likert",
+    "is_pretest": false,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "In a few days from now, how much of the information from the video do you think you will be able to recall?",
+    "question_type": "likert",
+    "is_pretest": false,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "none of it",
+    "right_label": "all of it",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "You have found the following ages (in years) of all 6 lions at your local zoo: 11, 5, 12, 5, 7, 2<br/><br/>What is the standard deviation of the ages of the lions at your zoo? You may round your answers to the nearest tenth.",
     "question_type": "short_answer",
     "is_pretest": true,
     "is_posttest": true,
@@ -139,12 +163,19 @@
 },
 {
     "video_id": 43,
-    "question": "What is the unit of variance in this zoo example?",
-    "question_type": "short_answer",
+    "question": "Listed below are two sample data sets, A and B.  Which data set has the larger standard deviation? (Hint:  you can answer this question by inspecting the two data sets.  But if you are not sure after inspection, calculate the standard deviation.)<br/>
+        Data Set A:  1, 2, 3, 4, 5, 6, 7, 8, 9<br/>
+        Data Set B:  8, 9, 9, 9, 10, 11, 11, 12",
+    "question_type": "multiple_choice",
     "is_pretest": true,
     "is_posttest": true,
-    "choices": [],
-    "answer": "7"
+    "choices": [
+        {"value": "A", "label": "A", "correct": true},
+        {"value": "B", "label": "B", "correct": false},
+        {"value": "C", "label": "They have the same standard deviation.", "correct": false},
+        {"value": "D", "label": "Cannot be answered with the given information.", "correct": false}
+    ],
+    "answer": "A"
 },
 {
     "video_id": 43,
@@ -159,12 +190,94 @@
 },
 {
     "video_id": 43,
-    "question": "What is the unit of standard deviation in this zoo example?",
-    "question_type": "short_answer",
+    "question": "What is the relationship between the variance of a set of scores and the standard deviation of those scores?",
+    "question_type": "multiple_choice",
     "is_pretest": true,
     "is_posttest": true,
-    "choices": [],
-    "answer": "7"
+    "choices": [
+        {"value": "A", "label": "standard deviation = (variance)**2", "correct": false},
+        {"value": "B", "label": "variance = (standard deviation)**2", "correct": true},
+        {"value": "C", "label": "variance = mean/standard deviation", "correct": false},
+        {"value": "D", "label": "standard deviation = mean/variance", "correct": false}
+    ],
+    "answer": "B"
+},
+{
+    "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "If the variance of a distribution is 9, the standard deviation is:",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "3", "correct": true},
+        {"value": "B", "label": "6", "correct": false},
+        {"value": "C", "label": "9", "correct": false},
+        {"value": "D", "label": "81", "correct": false},
+        {"value": "E", "label": "impossible to determine without knowing n.", "correct": false}
+    ],
+    "answer": "A"
+},
+{
+    "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "The standard deviation of a group of scores is 10.  If 5 were subtracted from each score, the standard deviation of the new scores would be",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "2", "correct": false},
+        {"value": "B", "label": "10/25", "correct": false},
+        {"value": "C", "label": "5", "correct": false},
+        {"value": "D", "label": "10", "correct": true}
+    ],
+    "answer": "D"
+},
+{
+    "video_id": 43,
+    "question": "How confident are you in your answer above?",
+    "question_type": "likert",
+    "is_pretest": true,
+    "is_posttest": true,
+    "levels": 5,
+    "left_label": "not at all",
+    "right_label": "very much",
+    "answer": ""
+},
+{
+    "video_id": 43,
+    "question": "The population standard deviation of the following five numbers 3,3,3,3,3 is:",
+    "question_type": "multiple_choice",
+    "is_pretest": true,
+    "is_posttest": true,
+    "choices": [
+        {"value": "A", "label": "0", "correct": true},
+        {"value": "B", "label": "3", "correct": false},
+        {"value": "C", "label": "9", "correct": false},
+        {"value": "D", "label": "11.25", "correct": false},
+        {"value": "E", "label": "45", "correct": false}
+    ],
+    "answer": "A"
 },
 {
     "video_id": 43,
@@ -180,37 +293,17 @@
 {
     "video_id": 43,
     "question": "In your own words, define a population standard deviation.",
-    "question_type": "short_answer",
-    "is_pretest": true,
+    "question_type": "long_answer",
+    "is_pretest": false,
     "is_posttest": true,
     "choices": [],
-    "answer": "7"
-},
-{
-    "video_id": 43,
-    "question": "How confident are you in your answer above?",
-    "question_type": "likert",
-    "is_pretest": true,
-    "is_posttest": true,
-    "levels": 5,
-    "left_label": "not at all",
-    "right_label": "very much",
     "answer": ""
 },
 {
     "video_id": 43,
-    "question": "What is the relationship between variance and standard deviation?",
-    "question_type": "short_answer",
-    "is_pretest": true,
-    "is_posttest": true,
-    "choices": [],
-    "answer": "7"
-},
-{
-    "video_id": 43,
     "question": "How confident are you in your answer above?",
     "question_type": "likert",
-    "is_pretest": true,
+    "is_pretest": false,
     "is_posttest": true,
     "levels": 5,
     "left_label": "not at all",
