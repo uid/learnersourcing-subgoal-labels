@@ -163,9 +163,7 @@
 },
 {
     "video_id": 43,
-    "question": "Listed below are two sample data sets, A and B.  Which data set has the larger standard deviation? (Hint:  you can answer this question by inspecting the two data sets.  But if you are not sure after inspection, calculate the standard deviation.)<br/>
-        Data Set A:  1, 2, 3, 4, 5, 6, 7, 8, 9<br/>
-        Data Set B:  8, 9, 9, 9, 10, 11, 11, 12",
+    "question": "Listed below are two sample data sets, A and B. Which data set has the larger standard deviation? (Hint: you can answer this question by inspecting the two data sets. But if you are not sure after inspection, calculate the standard deviation.)<br/>Data Set A: 1, 2, 3, 4, 5, 6, 7, 8, 9<br/>Data Set B: 8, 9, 9, 9, 10, 11, 11, 12",
     "question_type": "multiple_choice",
     "is_pretest": true,
     "is_posttest": true,
