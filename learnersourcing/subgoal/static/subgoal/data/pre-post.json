@@ -193,8 +193,8 @@
     "is_pretest": true,
     "is_posttest": true,
     "choices": [
-        {"value": "A", "label": "standard deviation = (variance)**2", "correct": false},
-        {"value": "B", "label": "variance = (standard deviation)**2", "correct": true},
+        {"value": "A", "label": "standard deviation = (variance)<sup>2</sup>", "correct": false},
+        {"value": "B", "label": "variance = (standard deviation)<sup>2</sup>", "correct": true},
         {"value": "C", "label": "variance = mean/standard deviation", "correct": false},
         {"value": "D", "label": "standard deviation = mean/variance", "correct": false}
     ],
