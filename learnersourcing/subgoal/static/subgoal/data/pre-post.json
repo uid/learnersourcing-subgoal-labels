@@ -289,46 +289,6 @@
     "answer": ""
 },
 {
-    "video_id": 43,
-    "question": "In your own words, define a population standard deviation.",
-    "question_type": "long_answer",
-    "is_pretest": false,
-    "is_posttest": true,
-    "choices": [],
-    "answer": ""
-},
-{
-    "video_id": 43,
-    "question": "How confident are you in your answer above?",
-    "question_type": "likert",
-    "is_pretest": false,
-    "is_posttest": true,
-    "levels": 5,
-    "left_label": "not at all",
-    "right_label": "very much",
-    "answer": ""
-},
-{
-    "video_id": 43,
-    "question": "Explain the process of calculating a population standard deviation, step by step.",
-    "question_type": "long_answer",
-    "is_pretest": false,
-    "is_posttest": true,
-    "choices": [],
-    "answer": ""
-},
-{
-    "video_id": 43,
-    "question": "How confident are you in your answer above?",
-    "question_type": "likert",
-    "is_pretest": false,
-    "is_posttest": true,
-    "levels": 5,
-    "left_label": "not at all",
-    "right_label": "very much",
-    "answer": ""
-},
-{
     "video_id": 0,
     "question": "Workload Assessment: The following assessment is used to measure your personal opinion on how much workload was required of you during the task you just completed. <br/><br/>Mental Demand: How mentally demanding was the task?",
     "question_type": "likert",
