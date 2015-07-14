@@ -143,7 +143,7 @@
 },
 {
     "video_id": 43,
-    "question": "You have found the following ages (in years) of all 6 lions at your local zoo: 11, 5, 12, 5, 7, 2<br/>What is the standard deviation of the ages of the lions at your zoo? You may round your answers to the nearest tenth.",
+    "question": "You have found the following ages (in years) of all 6 lions at your local zoo: 11, 5, 12, 5, 7, 2<br/>What is the standard deviation of the ages of the lions at your zoo? Please use the calculator. You may round your answers to the nearest tenth.",
     "question_type": "short_answer",
     "is_pretest": true,
     "is_posttest": true,
